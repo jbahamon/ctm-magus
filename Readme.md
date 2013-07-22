@@ -1,8 +1,8 @@
 --------------------------------
-Lucca by SilentProtagonist 
+Magus by SilentProtagonist 
 --------------------------------
 
-Lucca is a three-button character made for MUGEN 1.0.
+Magus is a three-button character made for MUGEN 1.0.
 
 What's missing:
 
