@@ -198,36 +198,6 @@ ownpal = 1
 removeongethit = 1
 ignorehitpause = 1
 
-[State 220, 2]
-type = Projectile
-trigger1 = Animelem = 3
-attr = S, NP
-offset = 16, -15
-projID = 220
-projanim = 7006
-projhitanim = 7002
-projremovetime = 18
-velocity = 4,0
-animtype  = Hard
-damage    = 42
-guardflag = MAF
-pausetime = 12,12
-sparkno = -1
-hitsound   = S7020,3
-guardsound = 6,0
-ground.type = High
-ground.slidetime = 14
-ground.hittime  = 17
-ground.velocity = -4
-air.velocity = -4,-2
-getpower = IfElse(Var(21) > 0, 0, ifelse(p2movetype = H, 72, 216)), IfElse(Var(21) > 0, 0, 36)
-givepower = 36, 36
-palfx.add = 128, 100, 7
-palfx.mul = 256,256,256
-palfx.time = 8
-ground.cornerpush.veloff = -2;
-air.cornerpush.veloff = -2;
-
 [State 220, 3]
 type = ChangeState
 trigger1 = AnimTime = 0
@@ -425,36 +395,6 @@ shadow = 0,0,0
 ownpal = 1
 removeongethit = 1
 ignorehitpause = 1
-
-[State 420, 2]
-type = Projectile
-trigger1 = Animelem = 3
-attr = S, NP
-offset = 10, -25
-projID = 220
-projanim = 7006
-projhitanim = 7002
-projremovetime = 10
-velocity = 2,-2.5
-animtype  = Hard
-damage    = 42
-guardflag = MAF
-pausetime = 12,12
-sparkno = -1
-hitsound   = S7020,3
-guardsound = 6,0
-ground.type = High
-ground.slidetime = 14
-ground.hittime  = 17
-ground.velocity = -4
-air.velocity = -4,-2
-getpower = IfElse(Var(21) > 0, 0, ifelse(p2movetype = H, 72, 216)), IfElse(Var(21) > 0, 0, 36)
-givepower = 36, 36
-palfx.add = 128, 100, 7
-palfx.mul = 256,256,256
-palfx.time = 8
-ground.cornerpush.veloff = -2;
-air.cornerpush.veloff = -2;
 
 [State 220, 3]
 type = ChangeState
