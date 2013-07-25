@@ -2,6 +2,443 @@
 ; Special Moves
 ;===========================================================================
 
+;Elemental Magic
+[Statedef 1000]
+type    = S
+movetype= A
+physics = S
+juggle  = 3
+ctrl = 0
+anim = 1000
+sprpriority = 1
+poweradd = IfElse(Var(21) > 0, 0, 72)
+facep2 = 1
+
+[State 1010, Strength]
+type = VarSet
+trigger1 = !Time
+var(0) = IfElse(command = "qcfc", 2, IfElse(command = "qcfb", 1, 0))
+
+[State 1100, JumpSnd]
+type = PlaySnd
+trigger1 = AnimElem = 3
+value = S7000,1
+ignorehitpause = 1
+
+[State 1000, Pawnch]
+type = Helper
+trigger1 = AnimElem = 5
+trigger1 = 0
+name = "Lightning"
+ID = 1000
+stateno = 1001
+pos = 50 + 50 * Var(0), 0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+persistent = 0
+
+[State 1000, Pawnch]
+type = Helper
+trigger1 = AnimElem = 5
+trigger1 = 0
+name = "Water Bubble"
+ID = 1000
+stateno = 1002
+pos = 20, -20
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+persistent = 0
+
+[State 1000, Pawnch]
+type = Helper
+trigger1 = AnimElem = 5
+name = "Fire"
+ID = 1000
+stateno = 1003
+pos = 20, -20
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+persistent = 0
+
+[State 1040, End]
+type = ChangeState
+trigger1 = Time > 60
+value = 0
+ctrl = 1
+
+;Lightning
+[Statedef 1001]
+type = A
+physics = N
+movetype = A
+anim = 7100
+ctrl = 0
+velset = 0,0
+sprpriority = 4
+
+[State 1002, Strength]
+type = VarSet
+trigger1 = !time
+var(0) = (root, var(0))
+
+[State 1001, NoShadow]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 1001, hitdef]
+type = HitDef
+trigger1 = !Time
+priority = 6, Hit
+attr = A,SP
+damage = Floor(Parent, FVar(39)*60), 4
+animtype = Hard
+hitflag = MAF
+guardflag = MA
+pausetime = 4,4
+sparkno = -1
+ground.type = High
+ground.slidetime = 20
+ground.hittime = 20
+ground.velocity = -1
+air.velocity  = -1,-1
+air.fall = 1
+p2facing = 1
+palfx.invertall = 1
+palfx.color = 0
+palfx.add = 120, 120, 20
+palfx.time = 12
+guard.dist = 100
+envshake.time = 8
+envshake.freq = 120
+envshake.ampl = 2
+getpower = IfElse(Parent, Var(21) > 0, 0, 20)
+
+[State 1001, Dampen]
+Type = ParentVarset
+Trigger1 = MoveHit
+fvar(39) = parent, Fvar(39)*0.86
+persistent = 0
+ignorehitpause = 1
+
+[State 1001, HB]
+type = NotHitBy
+trigger1 = 1
+time = -1
+value = , AT
+ignorehitpause = 1
+
+[State 1000, burst]
+type = Trans
+trigger1 = AnimElemTime(6) > 0
+trans = addalpha
+alpha = 256 - 8 * AnimElemTime(6), 256
+ignorehitpause = 1
+
+[State 1001, burst]
+type = DestroySelf
+trigger1 = AnimElemTime(6) > 32
+trigger2 = MoveReversed
+ignorehitpause = 1
+
+;Water Bubble
+[Statedef 1002]
+type = A
+physics = N
+movetype = A
+anim = 7101
+ctrl = 0
+velset = 0,0
+sprpriority = 4
+
+[State 1002, Strength]
+type = VarSet
+trigger1 = !time
+var(0) = (root, var(0))
+
+[State 1002, NoShadow]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 1002, Vertical Speed]
+type = VelSet
+trigger1 = 1 
+X = 0.3 * Var(0) + 0.5
+Y = IfElse(Var(0) = 3, -.84, IfElse(Var(1) = 2, -.45, -.24)) - Sin(Time * 6)
+
+[State 1010, hitdef]
+type = HitDef
+trigger1 = !Time
+priority = 6, Hit
+attr = A,SP
+damage = Floor(Parent, FVar(39)*60), 4
+animtype = Hard
+hitflag = MAF
+guardflag = MA
+pausetime = 4,4
+sparkno = -1
+ground.type = High
+ground.slidetime = 20
+ground.hittime = 20
+ground.velocity = -5
+air.velocity  = -3.5,-3.5
+air.fall = 1
+p2facing = 1
+palfx.invertall = 1
+palfx.color = 0
+palfx.add = 0, 20, 120
+palfx.time = 12
+guard.dist = 100
+envshake.time = 8
+envshake.freq = 120
+envshake.ampl = 2
+getpower = IfElse(Parent, Var(21) > 0, 0, 20)
+
+[State 200, Dampen]
+Type = ParentVarset
+Trigger1 = MoveHit
+fvar(39) = parent, Fvar(39)*0.86
+persistent = 0
+ignorehitpause = 1
+
+[State 1021, HitOverride]
+type = HitOverride
+trigger1 = 1
+time = -1
+attr = SCA, AA, AP
+stateno = 1005
+ignorehitpause = 1
+
+[State 1021, HB]
+type = NotHitBy
+trigger1 = 1
+time = -1
+value = , AT
+ignorehitpause = 1
+
+[State 1010, burst]
+type = ChangeState
+trigger1 = MoveContact
+trigger2 = Time > 120
+value = 1005
+ignorehitpause = 1
+
+; Fire
+[Statedef 1003]
+type    = A
+movetype= A
+physics = N
+juggle  = 3
+ctrl = 0
+anim = 7103
+sprpriority = 2
+
+[State 1021, Strength]
+type = VarSet
+trigger1 = !Time
+var(0) = parent, var(0)
+
+[State 1021, HB]
+type = NotHitBy
+trigger1 = 1
+time = -1
+value = , AT
+ignorehitpause = 1
+
+[State 1021, Vel]
+type = VelSet
+trigger1 = AnimElem = 4
+x =  IfElse(var(0) = 2, 3.5, IfElse(var(0) = 1, 2.5, 2)) * Cos(IfElse(var(0) = 2, 0.5 ,IfElse(var(0) = 1, 0.78, 1.4)))
+y = -IfElse(var(0) = 2, 3.5, IfElse(var(0) = 1, 2.5, 2)) * Sin(IfElse(var(0) = 2, 0.5 ,IfElse(var(0) = 1, 0.78, 1.4)))
+persistent = 0
+
+[State 1021, Gravity]
+type = VelAdd
+trigger1 = AnimElemNo(0) >= 5
+y = 0.15
+
+[State 1021, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = A,SP
+damage = Floor(Parent, FVar(39)*60), 4
+animtype = Hard
+hitflag = MAF
+guardflag = MA
+animtype = Hard
+sparkno = S7000
+damage = 5,0
+sparkxy = -10, 0 
+hitsound = S220,1
+ground.type = High
+ground.slidetime = 5
+ground.hittime = 5
+ground.velocity = 0, 0
+ground.cornerpush.veloff = 0
+givepower = 36, 36
+envshake.time = 14
+envshake.freq = 120
+envshake.ampl = 2
+air.velocity = 0, 0
+numhits = 0
+air.fall = 0
+fall.recover = 1
+fall.recovertime = 30
+yaccel = 0.5
+airguard.ctrltime = 16
+airguard.velocity = -8, -1.5
+forcestand = 1
+getpower = IfElse(Var(21) > 0, 0, ifelse(p2movetype = H, 18, 36)), IfElse(Var(21) > 0, 0, 36)
+givepower = 36, 36
+palfx.add = 128, 100, 7
+palfx.mul = 256,256,256
+palfx.time = 12
+persistent = 0
+
+[State 1022, Explod]
+type = Explod
+trigger1 = GameTime % 4 = 0
+trigger1 = AnimElemNo(0) >= 5
+trigger1 = !MoveContact
+anim = 7104
+ID = 1020
+pos = 0, 0
+postype = p1 ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = 0, 0
+accel = 0,0
+removetime = -2
+scale = 1 , 1
+sprpriority = 1
+ontop = 0
+ownpal = 1
+removeongethit = 0
+
+[State 1021, ChangeState]
+type = DestroySelf
+trigger1 = MoveHit
+trigger2 = Vel Y >= 0 && Pos Y > - Vel Y
+trigger3 = MoveReversed
+ignorehitpause = 1
+
+
+;Bubble Bursting
+[Statedef 1005]
+type = A
+physics = N
+movetype = I
+anim = 7102
+velset = 0,0
+ctrl = 0
+sprpriority = 4
+
+[State 1015, snd]
+type = PlaySnd
+trigger1 = !Time
+value = S7010,4
+channel = 1
+
+[State 1015, assert]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 1015, dieplz]
+type = DestroySelf
+trigger1 = FrontEdgeDist < -50
+trigger2 = BackEdgeDist < 0
+trigger3 = !AnimTime
+
+;Fire Uppercut Fall
+[Statedef 1011]
+movetype = I
+type = A
+physics = N
+anim = 1011
+sprpriority = 1
+
+[State 1010, Pal]
+type = PalFx
+trigger1 = Time <= 16
+time = 1
+add = 144 - 9 * Time, 64 - 4 * Time, 7 - Time/2
+mul = 256, 256, 256
+ignorehitpause = 1
+
+[State 1011, Gravity]
+type = VelAdd
+trigger1 = 1
+Y = 0.4
+ignorehitpause = 1
+
+[State 1040, End]
+type = ChangeState
+trigger1 = Vel Y > 0
+trigger1 = Pos Y > -Vel Y
+value = 50
+
+;The Fire
+[Statedef 1012]
+movetype = I
+type = A
+anim = 7013
+sprpriority = 4
+
+[State 1012, Pos]
+type = VarSet
+trigger1 = !Time
+v = 0
+value = Parent, Var(0)
+
+[State 1011, AfterImage]
+type = AfterImage
+trigger1 = !Time
+time = 30
+length = 10
+;palcolor = 256
+;palinvertall = 0
+palbright = 0,0,0
+palcontrast = 256,256,256
+;palpostbright = 0,0,0
+paladd = 0,0,0
+palmul = 1,1,1
+timegap = 2
+framegap = 4
+trans = addalpha ;"none","add1","sub"
+alpha = 256, 128
+ignorehitpause = 1
+;persistent =
+
+[State 1012, Pos]
+type = PosSet
+trigger1 = 1
+X = Parent, Pos X - Facing * Cos(pi * time/(IfElse(var(0) = 2, 12.0, IfElse(var(0) = 1, 10.0, 8.0)))) * 15
+
+[State 1012, Vel]
+type = VelSet
+trigger1 = 1
+Y = IfElse(ParentDist Y >= 30, 0, Parent, Vel Y - IfElse(var(0) = 2, 0.5, IfElse(var(0) = 1, 0.7, 0.8)) + 0.4)
+
+[State 1012, Vel]
+type = PosFreeze
+trigger1 = ParentDist Y >= 30
+
+[State 1012, Destroy]
+type = DestroySelf
+trigger1 = Parent, StateNo != 1010
+
 ;---------------------------------------------------------------------------
 ;Fire Uppercut
 [Statedef 1010]
