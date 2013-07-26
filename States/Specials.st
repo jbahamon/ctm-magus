@@ -28,7 +28,7 @@ ignorehitpause = 1
 [State 1000, Pawnch]
 type = Helper
 trigger1 = AnimElem = 5
-trigger1 = 0
+trigger1 = Var(22) = 0
 name = "Lightning"
 ID = 1000
 stateno = 1001
@@ -42,7 +42,7 @@ persistent = 0
 [State 1000, Pawnch]
 type = Helper
 trigger1 = AnimElem = 5
-trigger1 = 0
+trigger1 = Var(22) = 1
 name = "Water Bubble"
 ID = 1000
 stateno = 1002
@@ -56,10 +56,11 @@ persistent = 0
 [State 1000, Pawnch]
 type = Helper
 trigger1 = AnimElem = 5
+trigger1 = Var(22) = 2
 name = "Fire"
 ID = 1000
 stateno = 1003
-pos = 20, -20
+pos = 15, -15
 postype = p1    ;p2,front,back,left,right
 facing = 1
 keyctrl = 0
@@ -171,9 +172,20 @@ ignorehitpause = 1
 
 [State 1002, Vertical Speed]
 type = VelSet
-trigger1 = 1 
-X = 0.3 * Var(0) + 0.5
-Y = IfElse(Var(0) = 3, -.84, IfElse(Var(1) = 2, -.45, -.24)) - Sin(Time * 6)
+trigger1 = Time < 100
+X = 0.3 * (2 - Var(0)) + 0.5
+Y = IfElse(Var(0) = 2, -.84, IfElse(Var(0) = 1, -.45, -.24)) - Sin(Time * 6)
+
+[State 1002, Vertical Speed]
+type = VelAdd
+trigger1 = Time >= 100 
+X = - Vel X * 0.9
+
+[State 1002, Vertical Speed]
+type = VelSet
+trigger1 = Time >= 80 
+Y = IfElse(Var(0) = 2, -.84, IfElse(Var(0) = 1, -.45, -.24)) * 30 /(30.0 + Time - 80) - Sin(Time * 6)
+
 
 [State 1010, hitdef]
 type = HitDef
@@ -228,7 +240,7 @@ ignorehitpause = 1
 [State 1010, burst]
 type = ChangeState
 trigger1 = MoveContact
-trigger2 = Time > 120
+trigger2 = Time > 200
 value = 1005
 ignorehitpause = 1
 
@@ -257,52 +269,43 @@ ignorehitpause = 1
 [State 1021, Vel]
 type = VelSet
 trigger1 = AnimElem = 4
-x =  IfElse(var(0) = 2, 3.5, IfElse(var(0) = 1, 2.5, 2)) * Cos(IfElse(var(0) = 2, 0.5 ,IfElse(var(0) = 1, 0.78, 1.4)))
-y = -IfElse(var(0) = 2, 3.5, IfElse(var(0) = 1, 2.5, 2)) * Sin(IfElse(var(0) = 2, 0.5 ,IfElse(var(0) = 1, 0.78, 1.4)))
+x =  IfElse(var(0) = 2, 4.2, IfElse(var(0) = 1, 2.7, 2)) * Cos(IfElse(var(0) = 2, 0.5 ,IfElse(var(0) = 1, 0.78, 1.4)))
+y = -IfElse(var(0) = 2, 3.5, IfElse(var(0) = 1, 2.7, 4)) * Sin(IfElse(var(0) = 2, 0.5 ,IfElse(var(0) = 1, 0.78, 1.4)))
 persistent = 0
 
 [State 1021, Gravity]
 type = VelAdd
 trigger1 = AnimElemNo(0) >= 5
-y = 0.15
+y = 0.26
 
-[State 1021, HitDef]
+[State 1010, hitdef]
 type = HitDef
 trigger1 = !Time
+priority = 6, Hit
 attr = A,SP
 damage = Floor(Parent, FVar(39)*60), 4
 animtype = Hard
 hitflag = MAF
 guardflag = MA
-animtype = Hard
-sparkno = S7000
-damage = 5,0
-sparkxy = -10, 0 
-hitsound = S220,1
+pausetime = 0, 8
+sparkno = -1
 ground.type = High
-ground.slidetime = 5
-ground.hittime = 5
-ground.velocity = 0, 0
-ground.cornerpush.veloff = 0
-givepower = 36, 36
-envshake.time = 14
-envshake.freq = 120
-envshake.ampl = 2
-air.velocity = 0, 0
-numhits = 0
-air.fall = 0
-fall.recover = 1
-fall.recovertime = 30
-yaccel = 0.5
-airguard.ctrltime = 16
-airguard.velocity = -8, -1.5
-forcestand = 1
-getpower = IfElse(Var(21) > 0, 0, ifelse(p2movetype = H, 18, 36)), IfElse(Var(21) > 0, 0, 36)
-givepower = 36, 36
-palfx.add = 128, 100, 7
+ground.slidetime = 20
+ground.hittime = 20
+ground.velocity = -5
+air.velocity  = -3.5,-3.5
+air.fall = 1
+p2facing = 1
+palfx.invertall = 0
+palfx.color = 0
+palfx.add = 144, 64, 7
 palfx.mul = 256,256,256
 palfx.time = 12
-persistent = 0
+guard.dist = 100
+envshake.time = 8
+envshake.freq = 120
+envshake.ampl = 2
+getpower = IfElse(Parent, Var(21) > 0, 0, 20)
 
 [State 1022, Explod]
 type = Explod
@@ -360,84 +363,6 @@ type = DestroySelf
 trigger1 = FrontEdgeDist < -50
 trigger2 = BackEdgeDist < 0
 trigger3 = !AnimTime
-
-;Fire Uppercut Fall
-[Statedef 1011]
-movetype = I
-type = A
-physics = N
-anim = 1011
-sprpriority = 1
-
-[State 1010, Pal]
-type = PalFx
-trigger1 = Time <= 16
-time = 1
-add = 144 - 9 * Time, 64 - 4 * Time, 7 - Time/2
-mul = 256, 256, 256
-ignorehitpause = 1
-
-[State 1011, Gravity]
-type = VelAdd
-trigger1 = 1
-Y = 0.4
-ignorehitpause = 1
-
-[State 1040, End]
-type = ChangeState
-trigger1 = Vel Y > 0
-trigger1 = Pos Y > -Vel Y
-value = 50
-
-;The Fire
-[Statedef 1012]
-movetype = I
-type = A
-anim = 7013
-sprpriority = 4
-
-[State 1012, Pos]
-type = VarSet
-trigger1 = !Time
-v = 0
-value = Parent, Var(0)
-
-[State 1011, AfterImage]
-type = AfterImage
-trigger1 = !Time
-time = 30
-length = 10
-;palcolor = 256
-;palinvertall = 0
-palbright = 0,0,0
-palcontrast = 256,256,256
-;palpostbright = 0,0,0
-paladd = 0,0,0
-palmul = 1,1,1
-timegap = 2
-framegap = 4
-trans = addalpha ;"none","add1","sub"
-alpha = 256, 128
-ignorehitpause = 1
-;persistent =
-
-[State 1012, Pos]
-type = PosSet
-trigger1 = 1
-X = Parent, Pos X - Facing * Cos(pi * time/(IfElse(var(0) = 2, 12.0, IfElse(var(0) = 1, 10.0, 8.0)))) * 15
-
-[State 1012, Vel]
-type = VelSet
-trigger1 = 1
-Y = IfElse(ParentDist Y >= 30, 0, Parent, Vel Y - IfElse(var(0) = 2, 0.5, IfElse(var(0) = 1, 0.7, 0.8)) + 0.4)
-
-[State 1012, Vel]
-type = PosFreeze
-trigger1 = ParentDist Y >= 30
-
-[State 1012, Destroy]
-type = DestroySelf
-trigger1 = Parent, StateNo != 1010
 
 ;---------------------------------------------------------------------------
 ;Fire Uppercut
