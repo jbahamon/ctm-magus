@@ -665,6 +665,7 @@ value = 195
 triggerall = command = "start"
 trigger1 = statetype != A
 trigger1 = ctrl
+trigger2 = StateNo = 195
 
 ;---------------------------------------------------------------------------
 ;Crouching Light

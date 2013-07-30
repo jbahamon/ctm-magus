@@ -522,6 +522,12 @@ movetype = I
 physics = S
 sprpriority = 1
 
+[State 200, Explod]
+type = RemoveExplod
+trigger1 = !Time
+ID = 200
+ignorehitpause = 1
+
 [State 195, Switch Element]
 type = VarSet
 trigger1 = !Time
