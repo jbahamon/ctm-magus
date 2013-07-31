@@ -575,15 +575,7 @@ trigger3 = ( StateNo = [400,499] ) && MoveHit
 ;===========================================================================
 ; Special Moves
 ;===========================================================================
-[State -1, Elemental Magic]
-type = ChangeState
-value = 1000
-triggerall = command = "qcfa" || command = "qcfb" || command = "qcfc"
-triggerall = roundstate = 2 && statetype != A && !numhelper(1000)
-trigger1 = ctrl
-trigger2 = (stateno = [200, 299]) && MoveContact
-;---------------------------------------------------------------------------
-[State -1, Fire Uppercut]
+[State -1, Black Wind Howl]
 type = ChangeState
 value = 1010
 triggerall = command = "dfa" || command = "dfb" || command = "dfc"
@@ -591,6 +583,14 @@ triggerall = roundstate = 2 && statetype != A
 trigger1 = ctrl
 trigger2 = (stateno = [200, 299]) && movecontact
 trigger3 = (stateno = [400, 499]) && movecontact
+;---------------------------------------------------------------------------
+[State -1, Elemental Magic]
+type = ChangeState
+value = 1000
+triggerall = command = "qcfa" || command = "qcfb" || command = "qcfc"
+triggerall = roundstate = 2 && statetype != A && !numhelper(1000)
+trigger1 = ctrl
+trigger2 = (stateno = [200, 299]) && MoveContact
 ;---------------------------------------------------------------------------
 [State -1, Hypno Wave]
 type = ChangeState

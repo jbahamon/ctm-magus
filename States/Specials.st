@@ -366,7 +366,7 @@ trigger2 = BackEdgeDist < 0
 trigger3 = !AnimTime
 
 ;---------------------------------------------------------------------------
-;Fire Uppercut
+;Black Wind
 [Statedef 1010]
 type    = S
 movetype= A
@@ -377,22 +377,6 @@ anim = 1010
 sprpriority = 1
 poweradd = IfElse(Var(21) > 0, 0, 72)
 facep2 = 1
-
-[State 1010, Pal]
-type = PalFx
-trigger1 = Time = [0, 16]
-time = 1
-add = 9 * Time, 4 * Time, Time/2
-mul = 256, 256, 256
-ignorehitpause = 1
-
-[State 1010, Pal]
-type = PalFx
-trigger1 = Time >= 16
-time = 1
-add = 144, 64, 7
-mul = 256, 256, 256
-ignorehitpause = 1
 
 [State 1010, Strength]
 type = VarSet
@@ -414,53 +398,104 @@ ignorehitpause = 1
 
 [State 1010, Jump]
 type = StateTypeSet
-trigger1 = AnimElem = 2
+trigger1 = AnimElem = 3
 statetype = A
 physics = N
+ignorehitpause = 1
 
 [State 1010, Jump]
 type = VelSet
-trigger1 = AnimElem = 2
-y = ifelse(var(0) = 2, -8, ifelse(var(0) = 1, -7, -6))
+trigger1 = AnimElemNo(0) = [3, 14]
+Y = -2.7 - 0.4 * Var(0)
+X = 0.5 + Var(0)
+ignorehitpause = 1
+
+[State 220, Explod]
+type = Explod
+trigger1 = AnimElem = 3
+trigger2 = AnimElem = 7
+trigger3 = AnimElem = 11
+anim = 7014
+ID = 1010
+pos = 3, -10
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+[State 220, Explod]
+type = Explod
+trigger1 = AnimElem = 3
+trigger2 = AnimElem = 7
+trigger3 = AnimElem = 11
+anim = 7014
+ID = 1011
+pos = -3, -20
+postype = p1  ;p2,front,back,left,right
+facing = -1
+vfacing = -1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+scale = 1,1
+sprpriority = -1
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+[State 1010, Jump]
+type = VelSet
+trigger1 = AnimElem = 15
+Y = 0
+X = 0
+ignorehitpause = 1
 
 [State 1010, Gravity]
 type = VelAdd
-trigger1 = AnimElemNo(0) >= 2 || Anim = 1012
-y = .4
-
-[State 1040, End]
-type = ChangeAnim
-trigger1 = MoveContact && Anim != 1012
-value = 1012
-elem = 1
+trigger1 = AnimElemNo(0) >= 15
+y = 0.25
 ignorehitpause = 1
 
 [State 1250, Hit]
 type = HitDef
-trigger1 = animelem = 2 
+trigger1 = Animelem = 3
+trigger2 = Animelem = 7
+trigger3 = Animelem = 11
 attr = A, SA
-damage = IfElse(var(0) = 2, 77, IfElse(var(0) = 1, 67, 57)), 7
+damage = IfElse(var(0) = 2, 47, IfElse(var(0) = 1, 42, 37)), 7
 animtype = Hard
 guardflag = HA
 hitflag = MAF
 priority = 4, Hit
-pausetime = 0, 7
-sparkno = s7001
+pausetime = 7, 7
+sparkno = S7007
 sparkxy = -10, -25
 hitsound = s2, 6
 guardsound = s2, 0
 ground.type = High
 ground.slidetime = 16
 ground.hittime = 16
-ground.velocity = 0, IfElse(var(0) = 2, -7.5, IfElse(var(0) = 1, -6.5, -5))
+ground.velocity = -0.5 - Var(0), -3.5 - 1.2 * Var(0)
 air.type = Low
-air.velocity = 0, IfElse(var(0) = 2, -7.5, IfElse(var(0) = 1, -6.5, -5))
-air.cornerpush.veloff = 0
-ground.cornerpush.veloff = 0
-guard.velocity = -10.52
+air.velocity = -0.5 - Var(0), -3.5 - 1.2 * Var(0)
 guard.cornerpush.veloff = 0;-12.74
-getpower = IfElse(Var(21) > 0, 0, ifelse(p2movetype = H, 72, 144)), IfElse(Var(21) > 0, 0, 36)
-givepower = 36, 36
+getpower = IfElse(Var(21) > 0, 0, ifelse(p2movetype = H, 24, 48)), IfElse(Var(21) > 0, 0, 12)
+givepower = 12, 12
 envshake.time = 16
 envshake.freq = 120
 envshake.ampl = 4
@@ -471,108 +506,74 @@ yaccel = 0.3
 airguard.ctrltime = 16
 airguard.velocity = -8, -1.5
 forcestand = 1
-airguard.cornerpush.veloff = 0
-airguard.cornerpush.veloff = 0
-palfx.add = 128, 100, 7
+palfx.add = 128, 128, 128
 palfx.mul = 256,256,256
 palfx.time = 8
 
-[State 1020, Grenade]
-type = Helper
-trigger1 = !Time || Time = 15
-name = "Fire"
-ID = 1010
-stateno = 1012
-pos = 0, 0
-postype = p1    ;p2,front,back,left,right
-facing = 1
-keyctrl = 0
-ownpal = 1
-persistent = 0
-
-
-[State 1040, End]
-type = ChangeState
-trigger1 = Vel Y > 0
-value = 1011
-
-;Fire Uppercut Fall
-[Statedef 1011]
-movetype = I
-type = A
-physics = N
-anim = 1011
-sprpriority = 1
-
-[State 1010, Pal]
-type = PalFx
-trigger1 = Time <= 16
-time = 1
-add = 144 - 9 * Time, 64 - 4 * Time, 7 - Time/2
-mul = 256, 256, 256
+[State -3: AfterImageTime]
+type = AfterImageTime
+trigger1 = AnimElemNo(0) < 15
+time = 5
 ignorehitpause = 1
 
-[State 1011, Gravity]
-type = VelAdd
-trigger1 = 1
-Y = 0.4
-ignorehitpause = 1
-
-[State 1040, End]
-type = ChangeState
-trigger1 = Vel Y > 0
-trigger1 = Pos Y > -Vel Y
-value = 50
-
-;The Fire
-[Statedef 1012]
-movetype = I
-type = A
-anim = 7013
-sprpriority = 4
-
-[State 1012, Pos]
-type = VarSet
-trigger1 = !Time
-v = 0
-value = Parent, Var(0)
-
-[State 1011, AfterImage]
+[State 1020, Afterimage]
 type = AfterImage
-trigger1 = !Time
-time = 30
-length = 10
-;palcolor = 256
-;palinvertall = 0
-palbright = 0,0,0
-palcontrast = 256,256,256
-;palpostbright = 0,0,0
-paladd = 0,0,0
-palmul = 1,1,1
-timegap = 2
-framegap = 4
-trans = addalpha ;"none","add1","sub"
-alpha = 256, 128
+trigger1 = AnimElem = 3
+length = 8
+palbright = 20, 20, 20
+palcolor = 0
+paladd = 10,10,10
+palmul = 0.65, 0.65, 0.65
+timegap  = 1
+framegap = 1
+trans = add1
+time = 2; only 2 ticks!!!
 ignorehitpause = 1
-;persistent =
 
-[State 1012, Pos]
+[State 1020, Afterimage]
+type = PalFX
+trigger1 = Time = [0, 16]
+add = -2 * Time, -2 * Time, -2 * Time
+color = 16 * (16 - Time )
+time = 1
+ignorehitpause = 1
+
+[State 1020, Afterimage]
+type = PalFX
+trigger1 = Time > 16
+trigger1 = AnimElemTime(15) < 0
+add = -32, -32, -32
+color = 0
+time = 1
+ignorehitpause = 1
+
+[State 1020, Afterimage]
+type = PalFX
+trigger1 = AnimElemTime(15) = [0, 16]
+add = -2 * (16 - AnimElemTime(15)), -2 * (16 - AnimElemTime(15)),-2 * (16 - AnimElemTime(15))
+color = 16 * AnimElemTime(15)
+time = 1
+ignorehitpause = 1
+
+[State 1040, End]
 type = PosSet
-trigger1 = 1
-X = Parent, Pos X - Facing * Cos(pi * time/(IfElse(var(0) = 2, 12.0, IfElse(var(0) = 1, 10.0, 8.0)))) * 15
+trigger1 = Pos Y > - Vel Y && Vel Y > 0
+trigger1 = AnimElemNo(0) >= 15
+Y = 0
 
-[State 1012, Vel]
+[State 1040, End]
 type = VelSet
-trigger1 = 1
-Y = IfElse(ParentDist Y >= 30, 0, Parent, Vel Y - IfElse(var(0) = 2, 0.5, IfElse(var(0) = 1, 0.7, 0.8)) + 0.4)
+trigger1 = Pos Y > - Vel Y && Vel Y > 0
+trigger1 = AnimElemNo(0) >= 15
+Y = 0
 
-[State 1012, Vel]
-type = PosFreeze
-trigger1 = ParentDist Y >= 30
+[State 1040, End]
+type = ChangeState
+trigger1 = Pos Y >= 0 
+trigger1 = AnimElemNo(0) >= 15
+value = 0
+ctrl = 1
 
-[State 1012, Destroy]
-type = DestroySelf
-trigger1 = Parent, StateNo != 1010
 
 ;---------------------------------------------------------------------------
 ; Napalm
