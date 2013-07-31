@@ -594,9 +594,7 @@ trigger2 = (stateno = [200, 299]) && MoveContact
 ;---------------------------------------------------------------------------
 [State -1, Hypno Wave]
 type = ChangeState
-value = 1030
-triggerall = Power >= 500
-triggerall = !NumHelper(1030)
+value = 1020
 triggerall = Command = "qcba" || Command = "qcbb" || Command = "qcbc" 
 trigger1 = statetype != A
 trigger1 = ctrl
