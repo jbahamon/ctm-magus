@@ -81,7 +81,7 @@ movetype = A
 anim = 7100
 ctrl = 0
 velset = 0,0
-sprpriority = 4
+sprpriority = 3
 
 [State 1002, Strength]
 type = VarSet
@@ -92,6 +92,28 @@ var(0) = (root, var(0))
 type = AssertSpecial
 trigger1 = 1
 flag = NoShadow
+ignorehitpause = 1
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 5
+anim = 7105
+ID = 200
+random = 10, 7
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+scale = 1,1
+sprpriority = 4
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
 ignorehitpause = 1
 
 [State 1001, hitdef]
@@ -436,9 +458,9 @@ ignorehitpause = 1
 
 [State 220, Explod]
 type = Explod
-trigger1 = AnimElem = 3
-trigger2 = AnimElem = 7
-trigger3 = AnimElem = 11
+trigger1 = AnimElem = 5
+trigger2 = AnimElem = 9
+trigger3 = AnimElem = 13
 anim = 7014
 ID = 1011
 pos = -3, -20
@@ -579,13 +601,13 @@ ctrl = 1
 ; Dark Mist
 [Statedef 1020]
 type    = S
-movetype= A
+movetype= I
 physics = S
 juggle  = 3
 poweradd= 72
 ctrl = 0
 anim = 1020
-sprpriority = 1
+sprpriority = -1
 facep2 = 1
 velset = 0,0
 
@@ -607,33 +629,58 @@ value = 0
 [State 1020, Strength]
 type = VelSet
 trigger1 = AnimElemNo(0) >= 2
-trigger1 = Anim = 1020
-X = Const(velocity.run.fwd.x)
+trigger1 = Anim = 1020 || Anim = 1022
+X = Const(velocity.run.fwd.x) * 1.2 * Var(1)
 
 [State 1020, Strength]
 type = VarSet
 trigger1 = !Time
 var(0) = ifelse(command = "qcbc", 2, ifelse(command = "qcbb", 1, 0))
 
+[State 1020, Strength]
+type = ChangeAnim
+trigger1 = AnimElemNo(0) = 2
+trigger1 = Var(1) < 0
+value = 1022
+
+[State 1020, Strength]
+type = VarSet
+trigger1 = !Time
+var(1) = ifelse(command = "holdback", -1, 1)
+
 [State 1020, Afterimage]
 type = PalFX
 trigger1 = Time = [0, 16]
-add = -2 * Time, -2 * Time, -2 * Time
+add = -4 * Time, -4 * Time, -4 * Time
 color = 16 * (16 - Time )
 time = 1
 ignorehitpause = 1
 
 [State 1020, Afterimage]
+type = Trans
+trigger1 = Time = [0, 16]
+trans = addalpha
+alpha = 256 - 8 * Time, 4 * Time
+ignorehitpause = 1
+
+[State 1020, Afterimage]
 type = PalFX
 trigger1 = Time > 16
-add = -32, -32, -32
+add = -64, -64, -64
 color = 0
 time = 1
 ignorehitpause = 1
 
+[State 1020, Afterimage]
+type = Trans
+trigger1 = Time > 16
+trans = addalpha
+alpha = 128, 64
+ignorehitpause = 1
+
 [State 1020, End]
 type = ChangeState
-trigger1 = Time > (17 * Var(0) + 20)
+trigger1 = Time > (10 * Var(0) + 15)
 value = 1021
 
 ;Dark Mist End
@@ -648,9 +695,16 @@ sprpriority = 1
 facep2 = 1
 
 [State 1020, Afterimage]
+type = Trans
+trigger1 = Time = [0, 16]
+trans = addalpha
+alpha = 128 + 8 * Time, 64 - 4 * Time
+ignorehitpause = 1
+
+[State 1020, Afterimage]
 type = PalFX
 trigger1 = 1
-add = -2 * (16 - Time), -2 * (16 - Time),-2 * (16 - Time)
+add = -4 * (16 - Time), -4 * (16 - Time),-4 * (16 - Time)
 color = 16 * Time
 time = 1
 ignorehitpause = 1
@@ -662,7 +716,7 @@ value = 0
 ctrl = 1
 
 ;---------------------------------------------------------------------------
-; Hypno Wave
+; Black Hole
 [Statedef 1030]
 type    = S
 movetype= A
@@ -670,7 +724,7 @@ physics = S
 juggle  = 3
 ctrl = 0
 anim = 1030
-sprpriority = 1
+sprpriority = 2
 facep2 = 1
 velset = 0,0
 poweradd = -500
@@ -692,11 +746,11 @@ var(0) = 0
 
 [State 1030, Wave]
 type = Helper
-trigger1 = AnimElem = 2
-name = "Hypno Wave"
+trigger1 = AnimElem = 5
+name = "Black Hole"
 ID = 1030
 stateno = 1031
-pos = 0, -20
+pos = 0, 0
 postype = p1    ;p2,front,back,left,right
 facing = 1
 keyctrl = 0
@@ -724,61 +778,54 @@ nochainID = 1030
 
 [State 1030, End]
 type = ChangeState
-trigger1 = AnimElemNo(0) >= 4 && !NumHelper(1030)
+trigger1 = AnimElemNo(0) >= 5 && !NumHelper(1030)
 value = 0
 ctrl = 1
 
-; The Hypno Wave itself
+; The Black Hole
 [Statedef 1031]
 type    = S
 movetype= I
 physics = S
 juggle  = 3
 ctrl = 0
-anim = 7011
-sprpriority = 4
+anim = 7050
+sprpriority = -1
 
-[State 1031, PosSet]
-type = VarSet
-trigger1 = !Time
-trigger1 = PrevStateNo != 1032
-trigger1 = !(var(1) := 0)
-var(0) = parent, var(0)
-ignorehitpause = 1
+[State 1030, Wave]
+type = Helper
+trigger1 = Time = 35
+name = "Black Hole"
+ID = 1030
+stateno = 1032
+pos = 0, 0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+persistent = 0
 
-[State 1031, PosSet]
-type = VarAdd
-trigger1 = 1
-v = 1
-value = 1
-ignorehitpause = 1
+[State 1031, Scale]
+type = AngleDraw
+trigger1 = Time = [0, 35]
+scale = 0.7 * Time /35.0 , 0.35 * Time /35.0 
+
+[State 1031, Scale]
+type = AngleDraw
+trigger1 = Time > 35
+scale = 0.7 , 0.35
 
 [State 7010, Appear]
 type = trans
-trigger1 = var(1) <= 16
+trigger1 = 1
 trans = addalpha
-alpha = 16 * var(1), 256 - 8 * var(1)
-ignorehitpause = 1
-
-[State 7010, Trans]
-type = trans
-trigger1 = var(1) >= 16
-trans = addalpha
-alpha = 256, 128
+alpha = 128, 128
 ignorehitpause = 1
 
 [State 7010, NoShadow]
 type = AssertSpecial
 trigger1 = 1
 flag = NoShadow
-ignorehitpause = 1
-
-[State 1031, HitOverride]
-type = HitOverride
-trigger1 = 1
-time = -1
-attr = , AA, AP, AT
-stateno = 1032
 ignorehitpause = 1
 
 [State 1031, HB]
@@ -788,47 +835,39 @@ time = -1
 value = , NT, ST, HT
 ignorehitpause = 1
 
-[State 1031, PosSet]
-type = PosSet
-trigger1 = 1
-X = Parent, Pos X
-Y = Parent, Pos Y - 24
-
 [State 1031, End]
-type = ChangeState
-trigger1 = Time = 80 || !(Parent, StateNo = 1030)
-value = 1032
+type = DestroySelf
+trigger1 = Time > 80 || !(Parent, StateNo = 1030)
 
-; Hypno Wave End
+; Black Hole second layer
 [Statedef 1032]
 type    = S
 movetype= I
 physics = N
 ctrl = 0
-anim = 7011
-sprpriority = 4
+anim = 7050
+sprpriority = 0
 
-[State 7010, Trans]
-type = trans
-trigger1 = Time <= 20
-trans = addalpha
-alpha = 256, 128
-ignorehitpause = 1
+[State 1031, Scale]
+type = AngleDraw
+trigger1 = Time = [0, 35]
+scale = 0.7 * Time /35.0 , 0.35 * Time /35.0 
 
+[State 1031, Scale]
+type = AngleDraw
+trigger1 = Time = [36, 70]
+scale = 0.7 , 0.35
 
-[State 7010, Trans]
-type = trans
-trigger1 = Time > 20
-trans = addalpha
-alpha = 256 - 16 * (Time - 20) , 128 + 8 * (Time - 20)
-ignorehitpause = 1
+[State 1031, Scale]
+type = AngleDraw
+trigger1 = Time = [71, 105]
+scale = 0.7 * (105 - Time)/35.0 , 0.35 * (105 - Time)/35.0
 
-[State 1031, PosSet]
-type = PosSet
+[State 1031, Pal]
+type = PalFX
 trigger1 = 1
-X = Parent, Pos X
-Y = Parent, Pos Y - 24
-ignorehitpause = 1
+invertall = 1
+time = 1
 
 [State 7010, NoShadow]
 type = AssertSpecial
@@ -838,68 +877,5 @@ ignorehitpause = 1
 
 [State 1031, End]
 type = DestroySelf
-trigger1 = Time >= 36
+trigger1 = Time >= 105
 ignorehitpause = 1
-
-; Successful Hypno Wave
-[Statedef 1033]
-type = S
-physics = N
-movetype = I
-velset = 0,0
-ctrl = 0
-anim = 1031
-
-[State 1032, Anim]
-type = Explod
-trigger1 = NumTarget(1030) && Target(1030), Anim = 5110
-anim = 7012
-ID = 1030
-postype = p1
-pos = Facing * (Target(1030), Pos X - Pos X) + Target(1030), Const(size.height)/2 , (Target(1030), Pos Y - Pos Y) - 30
-removetime = -1;300
-facing = Facing
-sprpriority = 3
-removeongethit = 0
-ownpal = 1
-persistent = 0
-
-[State 1032, Self]
-type = ChangeState
-trigger1 = Time > 90
-value = 0
-ctrl = 1
-
-; Get Hit - Ground
-[Statedef 1034]
-type = S
-physics = N
-movetype = H
-velset = 0,0
-
-[State 1032, Anim]
-type = PlayerPush
-trigger1 = 1
-value= 0
-
-[State 1032, Anim]
-type = ChangeAnim2
-trigger1 = !Time
-value= 1032
-
-[State 1032, Self]
-type = ChangeAnim
-trigger1 = Anim = 1032 && !AnimTime
-trigger1 = SelfAnimExist(5110)
-value = 5110
-
-[State 1032, Self]
-type = ChangeAnim2
-trigger1 = Anim = 1032 && !AnimTime
-trigger1 = !SelfAnimExist(5110)
-value = 5110
-
-[State 1032, End]
-type = SelfState
-trigger1 = Time > 240
-value = 5120

@@ -404,9 +404,9 @@ value = S7000,1
 [State 420, Explod]
 type = Explod
 trigger1 = AnimElem = 3
-anim = 7005
+anim = 7030 + Var(22)
 ID = 220
-pos = 10, -25
+pos = 20, IfElse(Var(22) = 0, -13, IfElse(Var(22) = 1, -13, -10))
 postype = p1  ;p2,front,back,left,right
 facing = 1
 vfacing = 1
@@ -422,6 +422,97 @@ shadow = 0,0,0
 ownpal = 1
 removeongethit = 1
 ignorehitpause = 1
+
+[State 420, 2]
+type = HitDef
+trigger1 = !Time && Var(22) = 0
+attr = C, NA
+damage    = 53
+animtype  = Hard
+hitflag = MAF
+guardflag = L
+pausetime = 20,20
+sparkno = S7008
+sparkxy = -5,-15
+hitsound   = S7020,4
+fall = 1
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 6
+ground.hittime  = 12
+ground.velocity = -4,-1
+air.velocity = -4,-1
+down.velocity = -5,0
+down.hittime = 22
+getpower = IfElse(Var(21) > 0, 0, ifelse(p2movetype = H, 72, 216)), IfElse(Var(21) > 0, 0, 36)
+givepower = 36, 36
+palfx.add = 200, 200, 200
+palfx.mul = 256, 256, 256
+palfx.time = 12
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+
+[State 420, 2]
+type = HitDef
+trigger1 = !Time && Var(22) = 1
+attr = C, NA
+damage    = 53
+animtype  = Hard
+hitflag = MAF
+guardflag = L
+pausetime = 20,20
+sparkno = S7008
+sparkxy = -5,-15
+hitsound   = S7020,4
+fall = 1
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 6
+ground.hittime  = 12
+ground.velocity = -1,-5
+air.velocity = -2,-5
+down.velocity = -5,0
+down.hittime = 22
+getpower = IfElse(Var(21) > 0, 0, ifelse(p2movetype = H, 72, 216)), IfElse(Var(21) > 0, 0, 36)
+givepower = 36, 36
+palfx.add = 0, 20, 200
+palfx.color = 0
+palfx.mul = 256, 256, 256
+palfx.time = 12
+palfx.invertall = 1
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+
+
+[State 420, 2]
+type = HitDef
+trigger1 = !Time && Var(22) = 2
+attr = C, NA
+damage    = 53
+animtype  = Hard
+hitflag = MAF
+guardflag = L
+pausetime = 20,20
+sparkno = S7008
+sparkxy = -5,-15
+hitsound   = S7020,4
+fall = 1
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 6
+ground.hittime  = 12
+ground.velocity = -3,-3
+air.velocity = -3,-3
+down.velocity = -5,0
+down.hittime = 22
+getpower = IfElse(Var(21) > 0, 0, ifelse(p2movetype = H, 72, 216)), IfElse(Var(21) > 0, 0, 36)
+givepower = 36, 36
+palfx.color = 0
+palfx.add = 144, 64, 7
+palfx.mul = 256,256,256
+palfx.time = 12
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
 
 [State 220, 3]
 type = ChangeState

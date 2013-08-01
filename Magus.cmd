@@ -341,6 +341,36 @@ command = ~F, D, DF, c
 time = 20
 
 [Command]
+name = "dba"
+command = ~B, D, DB, ~a
+time = 20
+
+[Command]
+name = "dba"
+command = ~B, D, DB, a
+time = 20
+
+[Command]
+name = "dbb"
+command = ~B, D, DB, ~b
+time = 20
+
+[Command]
+name = "dbb"
+command = ~B, D, DB, b
+time = 20
+
+[Command]
+name = "dbc"
+command = ~B, D, DB, ~c
+time = 20
+
+[Command]
+name = "dbc"
+command = ~F, D, DB, c
+time = 20
+
+[Command]
 name = "qcfa"
 command = ~D, DF, F, ~a
 time = 15
@@ -575,7 +605,7 @@ trigger3 = ( StateNo = [400,499] ) && MoveHit
 ;===========================================================================
 ; Special Moves
 ;===========================================================================
-[State -1, Black Wind Howl]
+[State -1, Black Wind]
 type = ChangeState
 value = 1010
 triggerall = command = "dfa" || command = "dfb" || command = "dfc"
@@ -591,14 +621,21 @@ triggerall = command = "qcfa" || command = "qcfb" || command = "qcfc"
 triggerall = roundstate = 2 && statetype != A && !numhelper(1000)
 trigger1 = ctrl
 trigger2 = (stateno = [200, 299]) && MoveContact
+;--------------------------------------------------------------------------
+[State -1, Black Hole]
+type = ChangeState
+value = 1030
+triggerall = Command = "dba" || Command = "dbb" || Command = "dbc" 
+trigger1 = statetype != A
+trigger1 = ctrl
 ;---------------------------------------------------------------------------
-[State -1, Hypno Wave]
+[State -1, Black Mist]
 type = ChangeState
 value = 1020
 triggerall = Command = "qcba" || Command = "qcbb" || Command = "qcbc" 
 trigger1 = statetype != A
 trigger1 = ctrl
-;--------------------------------------------------------------------------
+
 
 ;===========================================================================
 ; Throws, Rolls, Etc
