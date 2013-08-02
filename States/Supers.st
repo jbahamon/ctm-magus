@@ -459,10 +459,10 @@ ownpal = 1
 persistent = 0
 supermovetime = 9999
 
-[State 2011, Explosion]
+[State 2011, Dark Matter]
 type = Helper
 trigger1 = !Time
-name = "Flare"
+name = "Dark Matter"
 ID = 2010
 stateno = 2012
 pos = 0, -35
@@ -510,43 +510,15 @@ trigger2 = !NumHelper(2010)
 value = 0
 ctrl = 1
 
-;The Flare (pre-explosion)
+;Black Matter (invisible)
 [Statedef 2012]
 type    = A
 movetype= I
 physics = N
 ctrl = 0
-anim = 7200
+anim = 7300
 sprpriority = 3
 velset = 0,0
-
-[State 2012, VarRandom]
-type = VarRandom
-trigger1 = 1
-v = 0
-range = -50,50
-     
-[State 2012, VarRandom]
-type = VarRandom
-trigger1 = 1
-v = 1
-range = -50,50
-
-[State 2012, Helper]
-type = Helper
-trigger1 = ((GameTime%5) = 0)
-helpertype = Normal
-name = "PerseEffect"
-id = 2014
-pos = var(0),var(1)
-postype = p1
-facing = 1
-stateno = 2014
-keyctrl = 0
-ownpal = 1
-supermovetime = 999999
-pausemovetime = 999999
-ignorehitpause = 1
 
 [State 2012, Boom]
 type = ChangeState
@@ -561,41 +533,21 @@ trigger1 = Parent, StateNo != 2010
 trigger1 = Parent, StateNo != 2011
 ignorehitpause = 1
 
-;The Flare
+;Black Matter
 [Statedef 2013]
 type    = A
 movetype= A
 physics = N
 poweradd= 0
 ctrl = 0
-anim = 7060
+anim = 7200
 sprpriority = 3
-velset = 0.8,0
+velset = 1,0
 
 [State 2013, PosAdd]
 type = Turn
 trigger1 = !Time && PrevStateNo != 2013
 trigger1 = Facing != Parent, Facing
-ignorehitpause = 1
-
-[State 2013, PosAdd]
-type = VelSet
-trigger1 = MoveContact
-X = 0 
-ignorehitpause = 1
-
-[State 2013, PosAdd]
-type = PosAdd
-trigger1 = Parent, Command = "holdup"
-trigger1 = Parent, Command != "holddown"
-Y = -1.4
-ignorehitpause = 1
-
-[State 2013, PosAdd]
-type = PosAdd
-trigger1 = Parent, Command != "holdup"
-trigger1 = Parent, Command = "holddown"
-Y = 1.4
 ignorehitpause = 1
 
 [State 2013, Snd]
@@ -641,50 +593,6 @@ value = , AT
 time = 1
 ignorehitpause = 1
 
-[State 2013, Trans]
-type = VarSet
-trigger1 = 1
-FV = 0
-value = Sin(Pi * Var(0) / 20.0)
-ignorehitpause = 1
-
-[State 2013, Trans]
-type = AngleDraw
-trigger1 = (Var(0) % 4) = 0
-trigger2 = (Var(0) % 4) = 1
-scale = IfElse(FVar(0) > 0, Var(0)/50.0 + 1 * FVar(0), 0.5 + Var(0)/200.0), IfElse(FVar(0) < 0, Var(0)/50.0 + 1 * -FVar(0), 0.5 + Var(0)/200.0)
-ignorehitpause = 1
-
-[State 2013, Scale]
-type = AngleDraw
-triggerall = Var(0) > 40
-trigger1 = (Var(0) % 4) = 2
-trigger2 = (Var(0) % 4) = 3
-scale = (Var(0) - 40) / 33.0, (Var(0) - 40) / 33.0
-ignorehitpause = 1
-
-[State 2013, Trans]
-type = AssertSpecial
-triggerall = Var(0) <= 40
-trigger1 = (Var(0) % 4) = 2
-trigger2 = (Var(0) % 4) = 3
-flag = invisible
-ignorehitpause = 1
-
-[State 2013, Trans]
-type = Trans
-trigger1 = Var(0) = [0, 16]
-trans = addalpha
-alpha = 16 * Var(0), 256 - 8 * Var(0)
-ignorehitpause = 1
-
-[State 2013, Trans]
-type = Trans
-trigger1 = Var(0) = [17, 70]
-trans = addalpha
-alpha = 256, 128
-ignorehitpause = 1
-
 [State 2013, HitDef]
 type = HitDef
 trigger1 = Var(0) % 20 = 0
@@ -728,94 +636,43 @@ palfx.time = 20
 ignorehitpause = 1
 numhits = IfElse(Var(0) > 0, 0, 1)
 
-[State 2013,2]
-type = Explod
-trigger1 = NumExplod(2010) < 9
-trigger1 = Var(0) % 2 = 0
-trigger1 = Var(0) <= 70
-anim = 7003
-ID = 2010
-pos = Random % 50 - 25, Random % 50 - 25
-postype = p1  ;p2,front,back,left,right
-facing = 1
-vfacing = 1
-bindtime = 1
-vel = 0,0
-accel = 0,0
-random = 4,4
-removetime = -2
-scale = 1,1
-sprpriority = 3
-ontop = 0
-shadow = 0,0,0
-ownpal = 1
-removeongethit = 0
-
-;End
-[State 2013, Trans]
-type = Trans
-trigger1 = Var(0) = [70, 86]
-trans = addalpha
-alpha = 256 - 16 * (Var(0) - 70), 128 + 8 * (Var(0) - 70)
-
 [State 2013, End]
-type = DestroySelf
-trigger1 = Var(0) >= 86
-
-;Flare Particle
-[Statedef 2014]
-type    = A
-movetype= I
-physics = N
-ctrl = 0
-anim = 7061
-sprpriority = 3
-velset = 0,0
-
-[State 2014, End]
-type = DestroySelf
-trigger1 = !(Parent, StateNo)
-trigger2 = Parent, StateNo != 2012
-
-[state 2014, dist x]
-type = AssertSpecial
-trigger1 = 1
-flag = noshadow
+type = Trans
+trigger1 = Time = [0, 32]
+trans = addalpha
+alpha = 8 * Time, 256 - 8 * Time
 ignorehitpause = 1
 
-[state 2014, dist x]
-type = VarSet
-trigger1 = 1
-FV = 0
-value = ParentDist X
+[State 2013, End]
+type = VelMul
+trigger1 = AnimElemNo(0) > 50
+X = 0.9
+ignorehitpause = 1
 
-[state 2014, dist x]
-type = VarSet
-trigger1 = 1
-FV = 1
-value = ParentDist Y
+[State 2013, End]
+type = Trans
+trigger1 = AnimElemTime(53) > 0
+trans = addalpha
+alpha = 256 - 8 * AnimElemTime(53), 8 * AnimElemTime(53)
+ignorehitpause = 1
 
-[state 2014, dist x]
-type = VarSet
-trigger1 = 1
-FV = 2
-value = Exp(0.5 * ln(FVar(0)*FVar(0) + FVar(1) * FVar(1)))
-
-[State 2014, vel]
-type = Velset
-trigger1 = 1
-x = Fvar(0)/Fvar(2) * 3.23
-y = FVar(1)/Fvar(2) * 3.23
-
-[State 2014, PosAdd]
+[State 2013, NormalScale]
 type = AngleDraw
-trigger1 = 1
-scale = FVar(2)/60.0, FVar(2)/60.0
+trigger1 = AnimElemTime(53) <= 0
+scale = 0.5, 0.5
+ignorehitpause = 1
 
-[State 2014, DestroySelf]
+[State 2013, End]
+type = AngleDraw
+trigger1 = AnimElemTime(53) > 0
+scale = 0.5 - 0.5 * AnimElemTime(53)/32.0, 0.5 - 0.5 * AnimElemTime(53)/32.0
+ignorehitpause = 1
+
+;End
+[State 2013, End]
 type = DestroySelf
-trigger1 = FVar(2) < 3  || (Time > 10)
-
+trigger1 = AnimElemTime(53) > 32
+ignorehitpause = 1
 
 ;---------------------------------------------------------------------------
 ;Time Egg

@@ -341,6 +341,26 @@ command = ~F, D, DF, c
 time = 20
 
 [Command]
+name = "dfab"
+command = ~F, D, DF, ~a+b
+time = 20
+
+[Command]
+name = "dfab"
+command = ~F, D, DF, a+b
+time = 20
+
+[Command]
+name = "dfbc"
+command = ~F, D, DF, ~b+c
+time = 20
+
+[Command]
+name = "dfbc"
+command = ~F, D, DF, b+c
+time = 20
+
+[Command]
 name = "dba"
 command = ~B, D, DB, ~a
 time = 20
@@ -368,6 +388,26 @@ time = 20
 [Command]
 name = "dbc"
 command = ~F, D, DB, c
+time = 20
+
+[Command]
+name = "dbab"
+command = ~B, D, DB, ~a+b
+time = 20
+
+[Command]
+name = "dbab"
+command = ~B, D, DB, a+b
+time = 20
+
+[Command]
+name = "dbbc"
+command = ~B, D, DB, ~b+c
+time = 20
+
+[Command]
+name = "dbbc"
+command = ~B, D, DB, b+c
 time = 20
 
 [Command]
@@ -605,6 +645,13 @@ trigger3 = ( StateNo = [400,499] ) && MoveHit
 ;===========================================================================
 ; Special Moves
 ;===========================================================================
+[State -1, Black Mist]
+type = ChangeState
+value = 1020
+triggerall =  command = "dfab" || command = "dfbc" || command = "dbab" || command = "dbbc"
+trigger1 = statetype != A
+trigger1 = ctrl
+;---------------------------------------------------------------------------
 [State -1, Black Wind]
 type = ChangeState
 value = 1010
@@ -628,14 +675,6 @@ value = 1030
 triggerall = Command = "dba" || Command = "dbb" || Command = "dbc" 
 trigger1 = statetype != A
 trigger1 = ctrl
-;---------------------------------------------------------------------------
-[State -1, Black Mist]
-type = ChangeState
-value = 1020
-triggerall = Command = "qcba" || Command = "qcbb" || Command = "qcbc" 
-trigger1 = statetype != A
-trigger1 = ctrl
-
 
 ;===========================================================================
 ; Throws, Rolls, Etc

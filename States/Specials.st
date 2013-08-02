@@ -611,6 +611,17 @@ sprpriority = -1
 facep2 = 1
 velset = 0,0
 
+
+[State 1010, Strength]
+type = VarSet
+trigger1 = !Time
+var(0) = Command = "dfbc" || Command = "dbbc"
+
+[State 1010, Direction]
+type = VarSet
+trigger1 = !Time
+var(1) = IfElse(Command = "dfab" || Command = "dfbc", 1, -1)
+
 [State 1020, Strength]
 type = NotHitBy
 trigger1 = AnimElemNo(0) >= 2
@@ -630,23 +641,13 @@ value = 0
 type = VelSet
 trigger1 = AnimElemNo(0) >= 2
 trigger1 = Anim = 1020 || Anim = 1022
-X = Const(velocity.run.fwd.x) * 1.2 * Var(1)
-
-[State 1020, Strength]
-type = VarSet
-trigger1 = !Time
-var(0) = ifelse(command = "qcbc", 2, ifelse(command = "qcbb", 1, 0))
+X = IfElse(Var(1) > 0, Const(velocity.run.fwd.x), Const(velocity.run.back.x) )
 
 [State 1020, Strength]
 type = ChangeAnim
 trigger1 = AnimElemNo(0) = 2
 trigger1 = Var(1) < 0
 value = 1022
-
-[State 1020, Strength]
-type = VarSet
-trigger1 = !Time
-var(1) = ifelse(command = "holdback", -1, 1)
 
 [State 1020, Afterimage]
 type = PalFX
@@ -680,7 +681,7 @@ ignorehitpause = 1
 
 [State 1020, End]
 type = ChangeState
-trigger1 = Time > (10 * Var(0) + 15)
+trigger1 = Time > (15 * Var(0) + 25)
 value = 1021
 
 ;Dark Mist End

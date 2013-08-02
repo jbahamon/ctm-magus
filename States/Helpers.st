@@ -7,7 +7,7 @@
 type = S
 physics = N
 movetype = I
-anim = 7200
+anim = 7300
 
 [State 7000, Var]
 type = VarSet
