@@ -3,13 +3,13 @@
 ;===========================================================================
 
 ;---------------------------------------------------------------------------
-; Gato!
+; Hell's Geyser - HP Down
 [Statedef 2000]
 type    = S
 movetype= A
 physics = S
 ctrl = 0
-anim = 2000
+anim = 2010
 poweradd = -1000
 sprpriority = 2
 
@@ -18,34 +18,6 @@ type = NotHitBy
 trigger1 = 1
 time = 1
 value = SCA
-
-[State 2110, Super Pause]
-type = Explod
-trigger1 = AnimElem = 2
-removetime = -1
-ID = 2000
-anim = 7055
-pos = 5, -25
-ownpal = 1
-sprpriority = 3
-shadow = -1
-removeongethit = 1
-supermovetime = 99999
-ignorehitpause = 1
-
-[State 2000, Explosion]
-type = Helper
-trigger1 = AnimElemTime(2) = 20
-name = "Gato"
-ID = 2000
-stateno = 2001
-pos = 17, -85
-postype = p1    ;p2,front,back,left,right
-facing = 1
-keyctrl = 0
-ownpal = 1
-persistent = 0
-supermovetime = 999999
 
 [State 2000, Super Pause FX]
 type = helper
@@ -70,166 +42,161 @@ sound = S7010,2
 p2defmul = 1
 darken = 0
 
-[State 2000, End]
-type = RemoveExplod
+[State 2000, Geyser]
+type = Helper
 trigger1 = Time > 1 && !NumHelper(7000)
+name = "Hell Geyser"
 ID = 2000
-ignorehitpause = 1
+stateno = 2002
+pos = 50, 0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+persistent = 0
+supermovetime = 9999
 
-[State 2000, End]
+[State 2010, End]
 type = ChangeState
 trigger1 = Time > 1 && !NumHelper(7000)
-value = 0
-ctrl = 1
-
-; Gato
-[Statedef 2001]
-type    = A
-movetype= I
-physics = N
-poweradd= 0
+value = 2001
 ctrl = 0
-anim = 7053
-sprpriority = 2
 
-[State 2001, Trans]
-type = Trans
-trigger1 = Time = [0, 16]
-trans = AddAlpha
-alpha = 16 * Time, 256 - 16 * Time
-ignorehitpause = 1
-
-[State 2002, Fall]
-type = VelSet
-trigger1 = 1
-Y = 3.1
-
-[State 2002, Fall]
-type = NotHitBy
-trigger1 = 1
-value = SCA
-ignorehitpause = 1
-
-[State 2002, Land]
-type = ChangeState
-trigger1 = Vel Y > 0 && Pos Y > - Vel Y
-value = 2002
-
-;Gato - Walking and Punching
-[Statedef 2002]
+;Hell Geyser Summoning
+[Statedef 2001]
 type    = S
 movetype= A
-physics = N
+physics = S
 ctrl = 0
-velset = 0,0
+anim = 2011
 sprpriority = 2
 facep2 = 1
 
-[State 2013, RealTime]
-type = ChangeAnim
-trigger1 = !Time && PrevStateNo != 2003
-value = 7050
+[State 2001, End]
+type = ChangeState
+trigger1 = !AnimTime
+value = 0
+ctrl = 1
+
+;Hell Geyser (invisible)
+[Statedef 2002]
+type    = A
+movetype= I
+physics = N
+ctrl = 0
+anim = 7300
+sprpriority = 3
+velset = 0,0
+
+[State 2012, Boom]
+type = ChangeState
+trigger1 = Parent, StateNo = 2001
+trigger1 = Parent, AnimElem = 2
+value = 2003
 ignorehitpause = 1
 
-[State 2013, RealTime]
-type = ChangeAnim
-trigger1 = !Time && PrevStateNo = 2003
-value = Var(1)
-elem = Var(2)
+[State 2012, Fail]
+type = DestroySelf
+trigger1 = Parent, StateNo != 2000
+trigger1 = Parent, StateNo != 2001
 ignorehitpause = 1
 
-[State 2004, NHB]
-type = HitOverride
+;Hell Geyser 
+[Statedef 2003]
+type    = A
+movetype= A
+physics = N
+poweradd= 0
+ctrl = 0
+anim = 7200
+sprpriority = 3
+velset = 0,0
+
+[State 2003, RealTime]
 trigger1 = 1
-attr = SCA, AA, AP
-stateno = 2003
+type = AngleDraw
+scale = 0.8, 0.8
 ignorehitpause = 1
 
-[State 2004, NHB]
-type = NotHitBy
+[State 2003, RealTime]
 trigger1 = 1
-value = , AT
+type = Trans
+trans = addalpha
+alpha = 128, 256
 ignorehitpause = 1
 
-[State 2013, RealTime]
+[State 1022, Souls]
+type = Helper
+trigger1 = Time % 20 = 0
+trigger1 = AnimElemTime(21) = [-10, 70]
+trigger1 = Anim = 7200
+ID = 2005
+stateno = 2005
+pos = 25 - (Random % 50), - (Random % 50)
+postype = p1 ;p2,front,back,left,right
+facing = 1
+scale = 1 , 1
+sprpriority = 4
+ownpal = 1
+ignorehitpause = 1
+
+[State 1022, Souls]
+type = Helper
+trigger1 = Time % 20 = 4
+trigger1 = AnimElemTime(21) = [-50, 50]
+trigger1 = Anim = 7200
+ID = 2005
+stateno = 2005
+pos = 25 - (Random % 50), - (Random % 50)
+postype = p1 ;p2,front,back,left,right
+facing = 1
+scale = 1 , 1
+sprpriority = 4
+ownpal = 1
+ignorehitpause = 1
+
+[State 2003, RealTime]
 trigger1 = !Time && PrevStateNo != 2003
 type = VarSet
 v = 0
-value = -120
+value = -1
 persistent = 0
 ignorehitpause = 1
 
-[State 2003, Shake]
-type = EnvShake
-trigger1 = !Time && PrevStateNo != 2003
-freq = 120
-time = 12
-ampl = 8
-
-[State 2003, ChangeAnim]
-type = ChangeAnim
-trigger1 = Anim = 7050 && !AnimTime
-value = 7051
-persistent = 0
-
-[State 2003, Walk]
-type = PosSet
-trigger1 = !Var(0)
-Y = 0
-
-[State 2003, Walk]
-type = VelSet
-trigger1 = Anim = 7051
-X = 2.5
-
-[State 2013, HitDef]
-type = HitDef
-trigger1 = Var(0) = -120
-attr = S, HA
-damage = 21,3
-animtype = Hard
-air.type = Low
-guardflag = M
-hitflag = MAF
-priority = 4, Hit
-pausetime = 0,10
-sparkno = -1
-hitsound = S7020,5
-guardsound = 5,0
-ground.type = Low
-ground.velocity = 0, 0
-ground.hittime = 5
-ground.slidetime = 5
-guard.velocity = -1
-air.velocity = 0,0
-airguard.velocity = 0, 0
-air.hittime = 5
-ground.cornerpush.veloff = 0
-air.cornerpush.veloff = 0
-airguard.cornerpush.veloff = 0
-yaccel = 0.4
-air.fall = 1
-snap = 40, 0
-fall = 0
-fall.recover = 0
-fall.recovertime = 120
-fall.animtype = Medium
-getpower = 0, 0
-givepower = 36, 36
-palfx.color = 0
-palfx.add = 144, 64, 7
-palfx.mul = 256, 256, 256
-palfx.time = 20
+[State 2003, Var]
+trigger1 = 1
+type = VarAdd
+v = 0
+value = 1
 ignorehitpause = 1
-numhits = 0
+
+[State 2003, Override]
+type = HitOverride
+trigger1 = 1
+attr = SCA,AA, AP
+slot = 0
+stateno = 2003
+time = 1
+ignorehitpause = 1
+
+[State 2013, Override]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 2013, Override]
+type = NotHitBy
+trigger1 = 1
+value = , AT
+time = 1
+ignorehitpause = 1
 
 [State 2013, HitDef]
 type = HitDef
-trigger1 = Anim = 7052 
-trigger1 = AnimElemTime(3) = 2
-trigger1 = Var(0) <= 80
-attr = S, HA
-damage = 15,3
+trigger1 = Var(0) % 20 = 0
+attr = S, HP
+damage = 31,3
 animtype = Hard
 air.type = Low
 guardflag = M
@@ -252,13 +219,12 @@ air.cornerpush.veloff = 0
 airguard.cornerpush.veloff = 0
 yaccel = 0.4
 air.fall = 1
-snap = 40, 0
 fall = 1
-fall.recover = 1
+fall.recover = 0
 fall.recovertime = 120
 fall.animtype = Medium
 getpower = 0, 0
-givepower = 6, 42
+givepower = 36, 36
 envshake.time = 16
 envshake.freq = 120
 envshake.ampl = 4
@@ -267,170 +233,56 @@ palfx.add = 144, 64, 7
 palfx.mul = 256, 256, 256
 palfx.time = 20
 ignorehitpause = 1
-numhits = 1
+numhits = IfElse(Var(0) > 0, 0, 1)
 
-
-[State 2002, ChangeState]
-type = VarSet
-trigger1 = RoundState = 2
-trigger1 = Win
-V = 0
-value = 10
-ignorehitpause = 1
-
-[State 2002, ChangeState]
-type = ChangeState
-trigger1 = RoundState = 3
-trigger1 = Win
-value = 2004
-ignorehitpause = 1
-
-[State 2013, Pawnch]
+[State 2003, End]
 type = ChangeAnim
-trigger1 = Anim = 7051
-trigger1 = MoveContact
-value = 7052
-
-[State 2013, Pawnch]
-type = VelSet
-trigger1 = Anim = 7052
-X = 0 
-
-[State 2013, Var]
-type = VarAdd
-trigger1 = 1
-v = 0
-value = 1
+trigger1 = !AnimTime && Anim = 7200
+value = 7201
 ignorehitpause = 1
 
-[State 2013, Var]
-type = VarSet
-trigger1 = MoveContact && Var(0) < 0
-v = 0
-value = 0
-ignorehitpause = 1
-
-[State 1022, Explod]
-type = Explod
-trigger1 = NumExplod(1020) < 6
-trigger1 = Var(0) % 4
-trigger1 = Var(0) > 60
-anim = 7002
-ID = 1020
-pos = 25 - (Random % 50), - (Random % 60)
-postype = p1 ;p2,front,back,left,right
-facing = 1
-vfacing = 1
-bindtime = 1
-vel = 0, -1.2
-accel = 0,0
-removetime = -2
-scale = 1 , 1
-sprpriority = 4
-ontop = 0
-shadow = -1
-ownpal = 0
-removeongethit = 0
-
-[State 2013, EndTrans]
-type = Trans
-trigger1 = Var(0) >= 80
-trans = AddAlpha
-alpha = 256 - 16 * (Var(0) - 80), 16 * (Var(0) - 80)
-ignorehitpause = 1
-
-[State 2002, End]
+;End
+[State 2013, End]
 type = DestroySelf
-trigger1 = var(0) >= 96
+trigger1 = !AnimTime && Anim = 7201
 ignorehitpause = 1
 
-;Gato Gethit
-[Statedef 2003]
-type    = S
-movetype= H
-physics = S
-ctrl = 0
-sprpriority = 2
-
-[State 2004, Var]
-type = VarAdd
-trigger1 = 1
-V = 0
-value = 1
-ignorehitpause = 1
-
-[State 2004, Anim]
-type = VarSet
-trigger1 = !Time
-trigger1 = PrevStateNo != 2003
-V = 1
-value = Anim
-ignorehitpause = 1
-
-[State 2004, Anim]
-type = VarSet
-trigger1 = !Time
-trigger1 = PrevStateNo != 2003
-V = 2
-value = AnimElemNo(0)
-ignorehitpause = 1
-
-[State 2004, Anim]
-type = ChangeAnim
-trigger1 = !Time
-value = 7053
-ignorehitpause = 1
-
-[State 2004, NHB]
-type = HitOverride
-trigger1 = 1
-attr = , AA, AP
-stateno = 2003
-ignorehitpause = 1
-
-[State 2004, NHB]
-type = NotHitBy
-trigger1 = 1
-value = , AT
-ignorehitpause = 1
-
-[State 2013, EndTrans]
-type = Trans
-trigger1 = Var(0) >= 80
-trans = AddAlpha
-alpha = 256 - 16 * (Var(0) - 80), 16 * (Var(0) - 80)
-ignorehitpause = 1
-
-[State 2002, End]
-type = DestroySelf
-trigger1 = var(0) >= 96
-ignorehitpause = 1
-
-[State 2004, End]
-type = ChangeState
-trigger1 = Time > GetHitVar(HitTime)
-value = 2002
-ignorehitpause = 1
-
-; Gato Win
-[Statedef 2004]
-type    = S
+;Geyser Soul
+[Statedef 2005]
+type    = A
 movetype= I
 physics = N
-poweradd= 0
 ctrl = 0
-anim = 7050
-sprpriority = 2
+anim = 7205
+sprpriority = 3
+velset = 0, 2
 
-[State 2004, Anim]
-type = ChangeAnim
-trigger1 = Parent, StateNo = 181
-value = 7054
-persistent = 0
+[state 2014, dist x]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+ignorehitpause = 1
+
+[State 2014, Vel]
+type = VelAdd
+trigger1 = Vel Y >= - 4
+Y = -0.2
+
+
+[State 2014, Vel]
+type = Trans
+trigger1 = Time = [36,52]
+trans = addalpha
+alpha = 256 - 16 *(Time - 36), 16 *(Time - 36)
+
+
+[State 2014, DestroySelf]
+type = DestroySelf
+trigger1 = Time >= 52
 
 
 ;---------------------------------------------------------------------------
-;Flare 
+;Dark Matter
 [Statedef 2010]
 type    = S
 movetype= A
@@ -459,20 +311,6 @@ ownpal = 1
 persistent = 0
 supermovetime = 9999
 
-[State 2011, Dark Matter]
-type = Helper
-trigger1 = !Time
-name = "Dark Matter"
-ID = 2010
-stateno = 2012
-pos = 0, -35
-postype = p1    ;p2,front,back,left,right
-facing = 1
-keyctrl = 0
-ownpal = 1
-persistent = 0
-supermovetime = 9999
-
 [State 2010, Super Pause]
 type = superpause
 trigger1 = time = 1
@@ -483,13 +321,27 @@ sound = S7010,2
 p2defmul = 1
 darken = 0
 
+[State 2011, Dark Matter]
+type = Helper
+trigger1 = Time > 1 && !NumHelper(7000)
+name = "Dark Matter"
+ID = 2010
+stateno = 2012
+pos = -10, -35
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+persistent = 0
+supermovetime = 9999
+
 [State 2010, End]
 type = ChangeState
 trigger1 = Time > 1 && !NumHelper(7000)
 value = 2011
 ctrl = 0
 
-;Flare Summoning
+;Dark Matter Summoning
 [Statedef 2011]
 type    = S
 movetype= A
@@ -501,16 +353,11 @@ facep2 = 1
 
 [State 2011, End]
 type = ChangeState
-triggerall = Time > 80
-trigger1 = Command != "holdfwd"
-trigger1 = Command != "holdback"
-trigger1 = Command != "holdup"
-trigger1 = Command != "holddown"
-trigger2 = !NumHelper(2010)
+trigger1 = !AnimTime
 value = 0
 ctrl = 1
 
-;Black Matter (invisible)
+;Dark Matter (invisible)
 [Statedef 2012]
 type    = A
 movetype= I
@@ -523,7 +370,7 @@ velset = 0,0
 [State 2012, Boom]
 type = ChangeState
 trigger1 = Parent, StateNo = 2011
-trigger1 = Parent, AnimElem = 3
+trigger1 = Parent, AnimElem = 2
 value = 2013
 ignorehitpause = 1
 
@@ -533,16 +380,16 @@ trigger1 = Parent, StateNo != 2010
 trigger1 = Parent, StateNo != 2011
 ignorehitpause = 1
 
-;Black Matter
+;Dark Matter
 [Statedef 2013]
 type    = A
 movetype= A
 physics = N
 poweradd= 0
 ctrl = 0
-anim = 7200
+anim = 7210
 sprpriority = 3
-velset = 1,0
+velset = 3,0
 
 [State 2013, PosAdd]
 type = Turn
@@ -645,8 +492,8 @@ ignorehitpause = 1
 
 [State 2013, End]
 type = VelMul
-trigger1 = AnimElemNo(0) > 50
-X = 0.9
+trigger1 = AnimElemNo(0) > 40
+X = 0.95
 ignorehitpause = 1
 
 [State 2013, End]

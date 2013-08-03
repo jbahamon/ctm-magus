@@ -619,23 +619,23 @@ trigger1 = ctrl
 trigger2 = ( StateNo = [200,299] ) && MoveHit
 trigger3 = ( StateNo = [400,499] ) && MoveHit
 ;---------------------------------------------------------------------------
-[State -1, Flare]
-type = ChangeState
-value = 2010
-triggerall = Command = "2qcfa" || Command = "2qcfb" || Command = "2qcfc" 
-triggerall = Power >= 1000
-triggerall = !NumHelper(2010)
-trigger1 = statetype = S
-trigger1 = ctrl
-trigger2 = ( StateNo = [200,299] ) && MoveHit
-trigger3 = ( StateNo = [400,499] ) && MoveHit
-;---------------------------------------------------------------------------
-[State -1, Gato!]
+[State -1, Hell's Geyser]
 type = ChangeState
 value = 2000
 triggerall = Command = "2qcba" || Command = "2qcbb" || Command = "2qcbc" 
 triggerall = Power >= 1000
 triggerall = !NumHelper(2000)
+trigger1 = statetype = S
+trigger1 = ctrl
+trigger2 = ( StateNo = [200,299] ) && MoveHit
+trigger3 = ( StateNo = [400,499] ) && MoveHit
+;---------------------------------------------------------------------------
+[State -1, Dark Matter]
+type = ChangeState
+value = 2010
+triggerall = Command = "2qcfa" || Command = "2qcfb" || Command = "2qcfc" 
+triggerall = Power >= 1000
+triggerall = !NumHelper(2010)
 trigger1 = statetype = S
 trigger1 = ctrl
 trigger2 = ( StateNo = [200,299] ) && MoveHit
