@@ -18,21 +18,21 @@ var(0) = (Parent, StateNo = 2100)
 type = BGPalFX
 trigger1 = time <= 10 ;&& root, var(10) = 5
 time = 1
-mul = 256, 256 -floor(25.6 * time), 256 -floor(25.6 * time)
+mul = 256 - floor(19.2 * time), 256 -floor(25.6 * time), 256
 color = 256 -floor(25.6 * time)
 
 [State 7000, Pal Static]
 type = BGPalFX
 trigger1 = (time = [11, 39]); && root, var(10) = 5
 time = 1
-mul = 256, 0, 0
+mul = 64, 0, 256
 color = 0
 
 [State 7000, Pal Up]
 type = BGPalFX
 trigger1 = time >= 40 
 time = 1
-mul = 256, ceil(51.2 * (time - 40)), ceil(51.2 * (time - 40))
+mul = ceil(38.4 * (time - 40)), ceil(51.2 * (time - 40)), 256
 color = floor(51.2 * (time - 40))
 
 [State 7000, End]
@@ -40,7 +40,6 @@ type = DestroySelf
 trigger1 = Time >= 45
 
 ;Protect Super Armor
-;
 [Statedef 11777]
 Type = A
 MoveType = H

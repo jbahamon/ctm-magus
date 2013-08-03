@@ -673,27 +673,30 @@ Clsn2Default: 1
 
 ; Black Hole
 [Begin Action 1030]
+Clsn2Default: 1
+  Clsn2[0] = -8, -31, 7, 0
 1030,0, 0,0, 8
 1030,1, 0,0, 5
 1030,2, 0,0, 3
 1030,3, 0,0, 6
 LoopStart
 1030,4, 0,0, 7
+Clsn1: 1
+  Clsn1[0] = -32, -9, 32, 0
 1030,5, 0,0, 7
+Clsn1: 1
+  Clsn1[0] = -32, -9, 32, 0
 1030,6, 0,0, 7
 
 
 
-; Hypno Wave Connected
+; Black Hole Success
 [Begin Action 1031]
-5300,0, 0,0, 10
-5300,1, 0,0, 10
-
-; Hypno Wave - Hit
+1030,4, 0,0, 7
+1030,5, 0,0, 7
+1030,6, 0,0, 7; Black Hole - Hit
 [Begin Action 1032]
-5000,10, 0,0, 4
-5020,10, 0,0, 13
-5040,10, 0,0, 4
+5000,10, 0,0, -1
 
 ; Gato!
 [Begin Action 2000]
@@ -1414,6 +1417,10 @@ Clsn2: 1
 
 ; Hell Geyser opening
 [Begin Action 7200]
+Clsn1Default: 1
+  Clsn1[0] = -30, -225, 30, 0
+Clsn2Default: 1
+  Clsn2[0] = -30, -225, 30, 0
 7200,0, 0,0, 1, , AS128D256
 7200,1, 0,0, 1, , AS128D256
 7200,2, 0,0, 1, , AS128D256
@@ -1471,6 +1478,10 @@ Clsn2: 1
 
 ; Dark Matter
 [Begin Action 7210]
+Clsn1Default: 1
+  Clsn1[0] = -12, -14, 14, 12
+Clsn2Default: 1
+  Clsn2[0] = -12, -14, 14, 12
 7210,0, 0,0, 1
 7210,1, 0,0, 1
 7210,2, 0,0, 1

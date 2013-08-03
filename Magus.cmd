@@ -633,7 +633,7 @@ trigger3 = ( StateNo = [400,499] ) && MoveHit
 [State -1, Dark Matter]
 type = ChangeState
 value = 2010
-triggerall = Command = "2qcfa" || Command = "2qcfb" || Command = "2qcfc" 
+triggerall = Command = "x";"2qcfa" || Command = "2qcfb" || Command = "2qcfc" 
 triggerall = Power >= 1000
 triggerall = !NumHelper(2010)
 trigger1 = statetype = S

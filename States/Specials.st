@@ -528,9 +528,11 @@ yaccel = 0.3
 airguard.ctrltime = 16
 airguard.velocity = -8, -1.5
 forcestand = 1
-palfx.add = 128, 128, 128
-palfx.mul = 256,256,256
-palfx.time = 8
+palfx.color = 0
+palfx.invertall = 1
+palfx.add = 140, 120, 180
+palfx.mul = 256, 256, 256
+palfx.time = 10
 
 [State -3: AfterImageTime]
 type = AfterImageTime
@@ -641,7 +643,7 @@ value = 0
 type = VelSet
 trigger1 = AnimElemNo(0) >= 2
 trigger1 = Anim = 1020 || Anim = 1022
-X = IfElse(Var(1) > 0, Const(velocity.run.fwd.x), Const(velocity.run.back.x) )
+X = IfElse(Var(1) > 0, 1.4 * Const(velocity.run.fwd.x), 1.4 * Const(velocity.run.back.x) )
 
 [State 1020, Strength]
 type = ChangeAnim
@@ -766,8 +768,8 @@ hitflag = M-
 priority = 2, Miss
 sparkno = -1
 hitsound = s7010, 0
-p1stateno = 1033
-p2stateno = 1034
+p1stateno = 1034
+p2stateno = 1036
 guard.dist = 0
 ground.velocity = 0,0
 fall = 1
@@ -797,7 +799,7 @@ sprpriority = -1
 type = Helper
 trigger1 = Time = 35
 name = "Black Hole"
-ID = 1030
+ID = 1031
 stateno = 1032
 pos = 0, 0
 postype = p1    ;p2,front,back,left,right
@@ -838,7 +840,7 @@ ignorehitpause = 1
 
 [State 1031, End]
 type = DestroySelf
-trigger1 = Time > 80 || !(Parent, StateNo = 1030)
+trigger1 = Time > 80 || !(Parent, StateNo = 1030 || Parent, StateNo = 1034)
 
 ; Black Hole second layer
 [Statedef 1032]
@@ -850,19 +852,64 @@ anim = 7050
 sprpriority = 0
 
 [State 1031, Scale]
+type = VarSet
+trigger1 = Time <= 35
+V = 0
+value = Time
+ignorehitpause = 1
+
+[State 1031, Scale]
 type = AngleDraw
 trigger1 = Time = [0, 35]
 scale = 0.7 * Time /35.0 , 0.35 * Time /35.0 
 
 [State 1031, Scale]
-type = AngleDraw
-trigger1 = Time = [36, 70]
-scale = 0.7 , 0.35
+type = ChangeState
+trigger1 = Time > 70
+trigger2 = Root, StateNo != 1030 
+trigger2 = Root, StateNo != 1034
+trigger2 = Var(0) > 0 
+value = 1033
 
 [State 1031, Scale]
 type = AngleDraw
-trigger1 = Time = [71, 105]
-scale = 0.7 * (105 - Time)/35.0 , 0.35 * (105 - Time)/35.0
+trigger1 = Time > 35
+scale = 0.7 , 0.35
+
+[State 1031, Pal]
+type = PalFX
+trigger1 = 1
+invertall = 1
+time = 1
+
+[State 7010, NoShadow]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+; Black Hole End
+[Statedef 1033]
+type    = S
+movetype= I
+physics = N
+ctrl = 0
+
+[State 1031, Scale]
+type = AngleDraw
+trigger1 = !Time
+scale = 0.7, 0.35
+
+[State 1031, Scale]
+type = AngleDraw
+trigger1 = Time
+scale = 0.7 * Var(0)/35.0 , 0.35 * Var(0)/35.0
+
+[State 1031, Scale]
+type = VarAdd
+trigger1 = 1
+V = 0
+value = -1
 
 [State 1031, Pal]
 type = PalFX
@@ -878,5 +925,146 @@ ignorehitpause = 1
 
 [State 1031, End]
 type = DestroySelf
-trigger1 = Time >= 105
+trigger1 = !Var(0)
 ignorehitpause = 1
+
+;Black Hole - Success
+[Statedef 1034]
+type    = S
+movetype= A
+physics = N
+ctrl = 0
+anim = 1031
+sprpriority = 2
+poweradd = 0
+velset = 0,0
+
+[State 1034, FollowPlayer]
+type = VarSet
+trigger1 = !Time
+FV = 0
+value = Target, ScreenPos X - ScreenPos X
+ignorehitpause = 1
+
+[State 1034, Life]
+type = TargetLifeAdd
+trigger1 = !NumHelper(1030) && !NumHelper(1031)
+value = -110
+ignorehitpause = 1
+
+[State 1034, Super Pause]
+type = VarSet
+trigger1 = NumHelper(1031)
+trigger1 = Helper(1031), StateNo = 1033
+FV = 0
+value = FVar(0) * 0.95
+ignorehitpause = 1
+
+[State 1034, Super Pause]
+type = TargetState
+trigger1 = NumHelper(1031)
+trigger1 = Helper(1031), StateNo = 1033
+value = 1037
+ignorehitpause = 1
+persistent = 0
+
+[State 1034, Super Pause]
+type = TargetBind
+trigger1 = 1
+pos  = FVar(0), 0
+ignorehitpause = 1
+
+[State 1034, End]
+type = ChangeState
+trigger1 = !NumHelper(1030) && !NumHelper(1031)
+value = 1035
+ctrl = 0
+ignorehitpause = 1
+
+;Black Hole End
+[Statedef 1035]
+type    = S
+movetype= A
+physics = N
+ctrl = 0
+sprpriority = 2
+poweradd = 0
+velset = 0,0
+
+[State 1035, Super Pause]
+type = TargetBind
+trigger1 = 1
+pos  = 50, -40
+ignorehitpause = 1
+
+[State 1035, End]
+type = ChangeState
+trigger1 = Time > 64
+value = 0
+ctrl = 1
+ignorehitpause = 1
+
+; Black Hole - Hit
+[Statedef 1036]
+type = A
+movetype = H
+physics = N
+sprpriority = 1
+
+[State 2023, Anim]
+type = ScreenBound
+trigger1 = 1
+value = 0
+ignorehitpause = 1
+
+[State 802, Exit]
+type = SelfState
+trigger1 = !gethitvar(isbound)
+value = 5050
+
+[State 2023, Anim]
+type = ChangeAnim2
+trigger1 = !Time
+value = 2023
+ignorehitpause = 1
+
+; Black Hole - Dragged
+[Statedef 1037]
+type = A
+movetype = H
+physics = N
+sprpriority = 1
+
+[State 2023, Anim]
+type = ScreenBound
+trigger1 = 1
+value = 0
+ignorehitpause = 1
+
+[State 802, Exit]
+type = SelfState
+trigger1 = !gethitvar(isbound)
+value = 5050
+
+[State 2023, Anim]
+type = ChangeAnim2
+trigger1 = !Time
+value = 2023
+ignorehitpause = 1
+
+[State 802, Exit]
+type = Trans 
+trigger1 = Time = [0, 16]
+trans = addalpha
+alpha = 256 - 16 * Time, 16* Time
+
+[State 802, Exit]
+type = Trans 
+trigger1 = Time > 16
+trans = addalpha
+alpha = 0, 256
+
+[State 802, Exit]
+type = AngleDraw
+trigger1 = Time = [0, 16]
+scale = 1 - Time/16.0, 1 - Time/16.0
