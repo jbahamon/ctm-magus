@@ -387,7 +387,7 @@ time = 20
 
 [Command]
 name = "dbc"
-command = ~F, D, DB, c
+command = ~B, D, DB, c
 time = 20
 
 [Command]
@@ -608,8 +608,8 @@ triggerall = Command = "qcfhcba" || Command = "qcfhcbb" || Command = "qcfhcbc"
 triggerall = Var(21) > 0
 trigger1 = statetype != A
 trigger1 = ctrl || ((stateno = [200, 299]) && time <= 10)
-
-[State -1, Time Egg]
+;---------------------------------------------------------------------------
+[State -1, Black Wind]
 type = ChangeState
 value = 2020
 triggerall = Command = "qcbhcfa" || Command = "qcbhcfb" || Command = "qcbhcfc"
@@ -645,14 +645,14 @@ trigger3 = ( StateNo = [400,499] ) && MoveHit
 ;===========================================================================
 ; Special Moves
 ;===========================================================================
-[State -1, Black Mist]
+[State -1, Shadow Walk]
 type = ChangeState
 value = 1020
 triggerall =  command = "dfab" || command = "dfbc" || command = "dbab" || command = "dbbc"
 trigger1 = statetype != A
 trigger1 = ctrl
 ;---------------------------------------------------------------------------
-[State -1, Black Wind]
+[State -1, Dark Mist]
 type = ChangeState
 value = 1010
 triggerall = command = "dfa" || command = "dfb" || command = "dfc"
@@ -686,7 +686,7 @@ trigger1 = (command = "recovery" || command = "2p") && (command = "holdfwd" || c
 trigger1 = roundstate = 2 && ctrl && statetype = S && stateno != 100
 value = 800
 
-[State -1, Protect]
+[State -1, Magic Wall]
 type = ChangeState
 value = 2110
 triggerall = Command = "a+c" && !(command = "holdfwd" || command = "holdback" || command = "holdup" || command = "holddown")

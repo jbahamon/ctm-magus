@@ -71,6 +71,14 @@ givepower = 36, 36
 ground.cornerpush.veloff = 0
 air.cornerpush.veloff = 0
 
+[State 200, Dampen]
+Type=Varset
+Trigger1 = MoveHit
+fvar(39) = fvar(39)*0.95
+persistent = 0
+ignorehitpause = 1
+
+
 [State 200, 2]
 type = PlaySnd
 trigger1 = AnimElem = 2
@@ -149,6 +157,13 @@ palfx.add = 200, 200, 200
 palfx.mul = 256, 256, 256
 palfx.time = 8
 
+[State 200, Dampen]
+Type=Varset
+Trigger1 = MoveHit
+fvar(39) = fvar(39)*0.85
+persistent = 0
+ignorehitpause = 1
+
 [State 210, 5]
 type = ChangeState
 trigger1 = !AnimTime
@@ -161,7 +176,7 @@ ctrl = 1
 type    = S
 movetype= A
 physics = S
-juggle  = 8
+juggle  = 6
 poweradd= IfElse(Var(21) > 0, 0, 18)
 ctrl = 0
 velset = 0,0
@@ -222,6 +237,13 @@ palfx.mul = 256, 256, 256
 palfx.time = 8
 fall = 1
 fall.recover = 0
+
+[State 200, Dampen]
+Type=Varset
+Trigger1 = MoveHit
+fvar(39) = fvar(39)*0.78
+persistent = 0
+ignorehitpause = 1
 
 [State 220, 3]
 type = ChangeState
@@ -301,6 +323,12 @@ palfx.time = 8
 ground.cornerpush.veloff = -2
 air.cornerpush.veloff = -2
 
+[State 200, Dampen]
+Type=Varset
+Trigger1 = MoveHit
+fvar(39) = fvar(39)*0.95
+persistent = 0
+ignorehitpause = 1
 
 [State 400, 4]
 type = ChangeState
@@ -374,6 +402,13 @@ palfx.mul = 256,256,256
 palfx.time = 8
 ground.cornerpush.veloff = 0
 air.cornerpush.veloff = 0
+
+[State 200, Dampen]
+Type=Varset
+Trigger1 = MoveHit
+fvar(39) = fvar(39)*0.85
+persistent = 0
+ignorehitpause = 1
 
 [State 410, 4]
 type = ChangeState
@@ -483,7 +518,6 @@ palfx.invertall = 1
 ground.cornerpush.veloff = 0
 air.cornerpush.veloff = 0
 
-
 [State 420, 2]
 type = HitDef
 trigger1 = !Time && Var(22) = 2
@@ -513,6 +547,13 @@ palfx.mul = 256,256,256
 palfx.time = 12
 ground.cornerpush.veloff = 0
 air.cornerpush.veloff = 0
+
+[State 200, Dampen]
+Type=Varset
+Trigger1 = MoveHit
+fvar(39) = fvar(39)*0.8
+persistent = 0
+ignorehitpause = 1
 
 [State 220, 3]
 type = ChangeState
@@ -587,6 +628,13 @@ givepower = 36, 36
 palfx.add = 200, 200, 200
 palfx.mul = 256, 256, 256
 palfx.time = 8
+
+[State 200, Dampen]
+Type=Varset
+Trigger1 = MoveHit
+fvar(39) = fvar(39)*0.95
+persistent = 0
+ignorehitpause = 1
 
 [State 600, 3]
 type = CtrlSet
@@ -675,6 +723,13 @@ palfx.add = 128, 100, 7
 palfx.mul = 256,256,256
 palfx.time = 8
 
+[State 200, Dampen]
+Type=Varset
+Trigger1 = MoveHit
+fvar(39) = fvar(39)*0.85
+persistent = 0
+ignorehitpause = 1
+
 [State 610, Fall]
 type = CtrlSet
 trigger1 = Anim = 610
@@ -732,7 +787,7 @@ ctrl = 1
 type    = A
 movetype= A
 physics = N
-juggle  = 5
+juggle  = 7
 poweradd= IfElse(Var(21) > 0, 0, 18)
 ctrl = 0
 anim = 620
@@ -793,6 +848,13 @@ palfx.time = 8
 fall = 1
 fall.recover = 0
 
+[State 200, Dampen]
+Type=Varset
+Trigger1 = MoveHit
+fvar(39) = fvar(39)*0.78
+persistent = 0
+ignorehitpause = 1
+
 [State 610, Fall]
 type = ChangeAnim
 trigger1 = Anim = 620
@@ -814,7 +876,8 @@ trigger1 = Vel Y > 0
 trigger1 = pos y > -vel y
 value = 621
 
-;Jump Mid Landing
+
+;Jump Strong Landing
 [Statedef 621]
 type    = S
 movetype= I

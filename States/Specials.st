@@ -118,7 +118,9 @@ ignorehitpause = 1
 
 [State 1001, hitdef]
 type = HitDef
-trigger1 = !Time
+triggerall = !MoveContact
+triggerall = !MoveReversed
+trigger1 = Time > 0
 priority = 6, Hit
 attr = A,SP
 damage = Floor(Parent, FVar(39)*60), 4
@@ -211,7 +213,9 @@ Y = IfElse(Var(0) = 2, -.84, IfElse(Var(0) = 1, -.45, -.24)) * 30 /(30.0 + Time 
 
 [State 1010, hitdef]
 type = HitDef
-trigger1 = !Time
+triggerall = !MoveContact
+triggerall = !MoveReversed
+trigger1 = Time > 0
 priority = 6, Hit
 attr = A,SP
 damage = Floor(Parent, FVar(39)*60), 4
@@ -241,7 +245,7 @@ getpower = IfElse(Parent, Var(21) > 0, 0, 20)
 [State 200, Dampen]
 Type = ParentVarset
 Trigger1 = MoveHit
-fvar(39) = parent, Fvar(39)*0.86
+fvar(39) = parent, Fvar(39)*0.8
 persistent = 0
 ignorehitpause = 1
 
@@ -303,7 +307,9 @@ y = 0.26
 
 [State 1010, hitdef]
 type = HitDef
-trigger1 = !Time
+triggerall = !MoveContact
+triggerall = !MoveReversed
+trigger1 = Time > 0
 priority = 6, Hit
 attr = A,SP
 damage = Floor(Parent, FVar(39)*60), 4
@@ -388,7 +394,7 @@ trigger2 = BackEdgeDist < 0
 trigger3 = !AnimTime
 
 ;---------------------------------------------------------------------------
-;Black Wind
+; Dark Mist
 [Statedef 1010]
 type    = S
 movetype= A
@@ -600,7 +606,7 @@ ctrl = 1
 
 
 ;---------------------------------------------------------------------------
-; Dark Mist
+; Shadow Walk
 [Statedef 1020]
 type    = S
 movetype= I
@@ -686,7 +692,7 @@ type = ChangeState
 trigger1 = Time > (15 * Var(0) + 25)
 value = 1021
 
-;Dark Mist End
+;Shadow Walk End
 [Statedef 1021]
 type    = S
 movetype= I
@@ -762,7 +768,7 @@ persistent = 0
 
 [State 1030, Hit]
 type = HitDef
-trigger1 = AnimElem = 4
+trigger1 = AnimElem = 5
 attr = A, ST 
 hitflag = M-
 priority = 2, Miss
@@ -781,7 +787,7 @@ nochainID = 1030
 
 [State 1030, End]
 type = ChangeState
-trigger1 = AnimElemNo(0) >= 5 && !NumHelper(1030)
+trigger1 = AnimElemNo(0) >= 5 && !NumHelper(1030) && !NumHelper(1031)
 value = 0
 ctrl = 1
 
@@ -943,13 +949,13 @@ velset = 0,0
 type = VarSet
 trigger1 = !Time
 FV = 0
-value = Target, ScreenPos X - ScreenPos X
+value = Facing * (Target, ScreenPos X - ScreenPos X)
 ignorehitpause = 1
 
 [State 1034, Life]
 type = TargetLifeAdd
 trigger1 = !NumHelper(1030) && !NumHelper(1031)
-value = -110
+value = Floor(-110*FVar(39))
 ignorehitpause = 1
 
 [State 1034, Super Pause]

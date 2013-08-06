@@ -12,6 +12,7 @@ ctrl = 0
 anim = 2010
 poweradd = -1000
 sprpriority = 2
+juggle = 14
 
 [State 2000, NHB]
 type = NotHitBy
@@ -85,9 +86,14 @@ movetype= A
 physics = N
 poweradd= 0
 ctrl = 0
-anim = 7200
 sprpriority = 3
 velset = 0,0
+
+[State 2003, RealTime]
+type = ChangeAnim
+trigger1 = !Time && PrevStateNo != 2003
+value = 7200
+ignorehitpause = 1
 
 [State 2003, RealTime]
 trigger1 = 1
@@ -171,10 +177,10 @@ ignorehitpause = 1
 
 [State 2013, HitDef]
 type = HitDef
-trigger1 = Var(0) % 4 = 0
+trigger1 = Var(0) % 6 = 0
 trigger1 = Var(0) = [10, 110]
 attr = S, HP
-damage = 7,0
+damage = Ceil(5 * Parent, FVar(39)),0
 animtype = Light
 air.type = High
 guardflag = M
@@ -212,6 +218,7 @@ palfx.mul = 256, 256, 256
 palfx.time = 5
 ignorehitpause = 1
 numhits = 0
+air.juggle = 18
 
 [State 2013, HitDef]
 type = HitDef
@@ -257,8 +264,77 @@ persistent = 0
 
 [State 2003, End]
 type = ChangeAnim
-trigger1 = !AnimTime && Anim = 7200
+trigger1 = Anim = 7200 && Var(0) >= 120
 value = 7201
+ignorehitpause = 1
+
+;End
+[State 2013, End]
+type = DestroySelf
+trigger1 = !AnimTime && Anim = 7201
+ignorehitpause = 1
+
+;Hell Geyser GetHit
+[Statedef 2003]
+type    = A
+movetype= H
+physics = N
+poweradd= 0
+ctrl = 0
+sprpriority = 3
+
+[State 2003, RealTime]
+trigger1 = 1
+type = AngleDraw
+scale = 0.8, 0.8
+ignorehitpause = 1
+
+[State 2003, Var]
+trigger1 = 1
+type = VarAdd
+v = 0
+value = 1
+ignorehitpause = 1
+
+[State 2003, RealTime]
+trigger1 = 1
+type = Trans
+trans = addalpha
+alpha = 128, 256
+ignorehitpause = 1
+
+[State 2014, PosFreeze]
+trigger1 = 1
+type = PosFreeze
+value = 1
+ignorehitpause = 1
+
+[State 6965]
+type = ChangeAnim
+trigger1 = 1
+value = Anim
+elem = AnimElemNo(0)
+ignorehitpause=1
+
+[State 2013, Override]
+type = HitOverride
+trigger1 = 1
+attr = SCA,AA, AP
+slot = 0
+stateno = 2003
+time = 1
+ignorehitpause = 1
+
+[State 2013, Override]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 2004, End]
+type = ChangeState
+trigger1 = Time > GetHitVar(HitTime)
+value = 2002
 ignorehitpause = 1
 
 ;End
@@ -311,6 +387,7 @@ ctrl = 0
 anim = 2010
 poweradd = -1000
 sprpriority = 2
+juggle = 14
 
 [State 2010, NHB]
 type = NotHitBy
@@ -407,6 +484,7 @@ physics = N
 poweradd= 0
 ctrl = 0
 sprpriority = 0
+juggle = 14
 
 [State 2013, PosAdd]
 type = ChangeAnim
@@ -453,7 +531,7 @@ type = HitDef
 trigger1 = Time % 10 = 0
 trigger1 = AnimElemNo(0) < 53
 attr = S, HP
-damage = 31,3
+damage = Ceil(26 * Parent, FVar(39)),3
 animtype = Hard
 air.type = Low
 guardflag = M
@@ -505,7 +583,8 @@ ignorehitpause = 1
 type = VelMul
 trigger1 = AnimElemNo(0) > 40
 trigger2 = PrevStateNo = 2014
-trigger3 = MoveContact
+trigger3 = NumTarget
+trigger3 = (Vel X * Facing * (ScreenPos X - Target, ScreenPos X) > 0) ;|| (Vel X < 0 && (ScreenPos X < Target, ScreenPos X))
 X = IfElse(MoveContact, 0, 0.93)
 ignorehitpause = 1
 
@@ -610,7 +689,301 @@ ignorehitpause = 1
 
 ;---------------------------------------------------------------------------
 
- 
+;Black Wind
+[Statedef 2020]
+type=S
+physics=S
+movetype=A
+anim=2020
+ctrl=0
+velset=0,0
+sprpriority=1
+poweradd = -1000
+
+[State 3060, nhb]
+type = NotHitBy
+trigger1 = Time <=45
+value = SCA
+time = 1
+ignorehitpause = 1
+
+[State 2010, Super Pause FX]
+type = helper
+trigger1 = time = 1
+helpertype = normal
+stateno = 7000
+ID = 7000
+name = "Super Charge"
+postype = p1
+pos = 0,0
+ownpal = 1
+persistent = 0
+supermovetime = 9999
+
+[State 2010, Super Pause]
+type = superpause
+trigger1 = time = 1
+time = 45
+movetime = 45
+anim = -1
+sound = S7000,2
+p2defmul = 1
+darken = 0
+
+[State 2020, Attack]
+type = VelSet
+trigger1 = AnimElemNo(0) >= 5
+X = 5.2
+
+[State 3060,Hit]
+type = HitDef
+trigger1 = time = 1
+attr = S,HT
+hitflag = M-
+priority = 1, Miss
+sparkno = -1
+hitsound = S7002,3
+p1sprpriority = 1
+p2sprpriority = 0
+p1facing = 1
+p2facing = 1
+p1stateno = 2022
+p2stateno = 2023
+guard.dist = 0
+fall = 1
+getpower = 0
+
+[State 2020, Attack]
+type = ChangeState
+trigger1 = Time >= 55 && !MoveHit
+value = 2021
+
+;Black Wind Miss
+[Statedef 2021]
+type = C
+physics = C
+movetype = I
+anim = 2021
+ctrl = 0
+sprpriority = 1
+
+[State 2021, End]
+type = ChangeState
+trigger1 = !AnimTime
+value = 0
+ctrl = 1
+
+;Black Wind Success
+[Statedef 2022]
+type = C
+physics = C
+movetype = I
+anim = 2022
+ctrl = 0
+sprpriority = 1
+
+[State 2021, End]
+type = PlayerPush
+trigger1 = 1
+value = 0
+ignorehitpause = 1
+
+[State 2021, End]
+type = VarSet
+trigger1 = !Time
+FV = 0
+value = Facing * (Target, ScreenPos X - ScreenPos X)
+ignorehitpause = 1
+
+[State 2021, End]
+type = VarAdd
+trigger1 = Time <= 16
+FV = 0
+value = - Vel X
+ignorehitpause = 1
+
+[State 2022, Bound]
+type = TargetBind
+trigger1 = Time < 16
+pos = FVar(0), 0
+
+[State 2021, End]
+type = PalFx
+trigger1 = Time = [0, 16]
+time = 1
+add = -8 * Time, -8 * Time, -8 * Time
+color = IfElse(Time <= 8, 256 - Time*32, 0)
+ignorehitpause = 1
+
+[State 2021, End]
+type = Trans
+trigger1 = Time = [0, 16]
+trans = addalpha
+alpha = 256 - 16 * Time , 16 * Time
+ignorehitpause = 1
+
+[State 2021, End]
+type = AssertSpecial
+trigger1 = Time >= 16
+flag = Invisible
+ignorehitpause = 1
+
+[State 2021, End]
+type = VelSet
+trigger1 = Time >= 16
+X = 0
+Y = 0
+ignorehitpause = 1
+
+[State 2021, End]
+type = PosSet
+trigger1 = Time = 16
+X = Target, Pos X - 30 * Facing
+Y = 0
+ignorehitpause = 1
+
+[State 2022, Bound]
+type = TargetBind
+trigger1 = Time >= 16
+pos = 30, 0
+
+[State 200, Explod]
+type = EnvShake
+trigger1 = Time = [16, 120] 
+trigger1 = GameTime % 8 = 7
+freq = 120
+time = 6
+ampl = 4
+ignorehitpause = 1
+
+[State 200, Explod]
+type = Explod
+trigger1 = Time = [16, 120] 
+trigger1 = GameTime % 8 = 7
+anim = 7001
+ID = 2020
+pos = 30 + (0.7 - 1.4 * Random /1000.0) * (Target, Const(size.ground.front) + Target, Const(size.ground.back)) , - (1.2 - Random /1000.0) * (Target, Const(size.height))
+postype = p1  ;p2,front,back,left,right
+facing = 1 - 2 * (Random % 2) 
+vfacing = 1 - 2 * (Random % 2)
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+[State 200, Explod]
+type = TargetLifeAdd
+trigger1 = Time = [16, 120]
+trigger1 = GameTime % 8 = 7
+value = -10
+ignorehitpause = 1
+
+[State 200, Explod]
+type = TargetLifeAdd
+trigger1 = Time > 150
+trigger1 = GameTime % 8 = 7
+value = -30
+ignorehitpause = 1
+persistent = 0
+
+[State 200, Explod]
+type = EnvShake
+trigger1 = Time > 150
+trigger1 = GameTime % 8 = 7
+freq = 120
+time = 30
+ampl = 8
+ignorehitpause = 1
+persistent = 0
+
+[State 200, Explod]
+type = Explod
+trigger1 = Time > 150
+trigger1 = GameTime % 8 = 7
+anim = 7004
+ID = 2020
+pos = 30, - 0.7 * (Target, Const(size.height))
+postype = p1  ;p2,front,back,left,right
+facing =  1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+scale = 2,2
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+
+[State 2021, End]
+type = null;ChangeState
+trigger1 = !AnimTime
+value = 0
+ctrl = 1
+
+
+; Black Wind - Hit
+[Statedef 2023]
+type = A
+movetype = H
+physics = N
+sprpriority = 1
+
+[State 2023, Anim]
+type = ScreenBound
+trigger1 = 1
+value = 0
+ignorehitpause = 1
+
+[State 802, Exit]
+type = SelfState
+trigger1 = !gethitvar(isbound)
+value = 5050
+
+[State 2023, Anim]
+type = ChangeAnim2
+trigger1 = !Time
+value = 2023
+ignorehitpause = 1
+
+; Black Wind - End
+[Statedef 2024]
+type = A
+movetype = H
+physics = N
+sprpriority = 1
+
+[State 2023, Anim]
+type = ScreenBound
+trigger1 = 1
+value = 0
+ignorehitpause = 1
+
+[State 802, Exit]
+type = SelfState
+trigger1 = !gethitvar(isbound)
+value = 5050
+
+[State 2023, Anim]
+type = ChangeAnim2
+trigger1 = !Time
+value = 2023
+ignorehitpause = 1
+
+
 ;---------------------------------------------------------------------------
 
 ;Gate Key Summon
