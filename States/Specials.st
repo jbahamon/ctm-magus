@@ -976,7 +976,7 @@ persistent = 0
 
 [State 1034, Super Pause]
 type = TargetBind
-trigger1 = 1
+trigger1 = NumTarget
 pos  = FVar(0), 0
 ignorehitpause = 1
 

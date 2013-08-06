@@ -1,4 +1,4 @@
- as; Player information
+;Player information
 [Info]
 name = "Magus"        ;Name of character
 displayname = "Magus" ;Name of character to display

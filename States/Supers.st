@@ -186,7 +186,7 @@ air.type = High
 guardflag = M
 hitflag = MAF
 priority = 4, Hit
-pausetime = 0,0
+pausetime = 0,6
 sparkno = -1
 hitsound = -1
 guardsound = 5,0
@@ -197,7 +197,7 @@ ground.slidetime = 5
 guard.velocity = -1
 air.velocity = 0,-1
 airguard.velocity = 0, 0
-air.hittime = 5
+air.hittime = 6
 ground.cornerpush.veloff = 0
 air.cornerpush.veloff = 0
 airguard.cornerpush.veloff = 0
@@ -476,7 +476,7 @@ trigger1 = Parent, StateNo != 2010
 trigger1 = Parent, StateNo != 2011
 ignorehitpause = 1
 
-;Dark Matter
+;Dark Matter Projectile
 [Statedef 2013]
 type    = A
 movetype= A
@@ -791,6 +791,7 @@ ignorehitpause = 1
 [State 2021, End]
 type = VarSet
 trigger1 = !Time
+trigger1 = !(Var(0) := 0)
 FV = 0
 value = Facing * (Target, ScreenPos X - ScreenPos X)
 ignorehitpause = 1
@@ -811,8 +812,8 @@ pos = FVar(0), 0
 type = PalFx
 trigger1 = Time = [0, 16]
 time = 1
-add = -8 * Time, -8 * Time, -8 * Time
-color = IfElse(Time <= 8, 256 - Time*32, 0)
+add = -16 * Time, -16 * Time, -16 * Time
+color = IfElse(Time <= 4, 256 - Time * 64 , 0)
 ignorehitpause = 1
 
 [State 2021, End]
@@ -825,6 +826,7 @@ ignorehitpause = 1
 [State 2021, End]
 type = AssertSpecial
 trigger1 = Time >= 16
+trigger1 = Anim != 0
 flag = Invisible
 ignorehitpause = 1
 
@@ -844,7 +846,7 @@ ignorehitpause = 1
 
 [State 2022, Bound]
 type = TargetBind
-trigger1 = Time >= 16
+trigger1 = Time >= 16 && NumTarget
 pos = 30, 0
 
 [State 200, Explod]
@@ -857,47 +859,42 @@ ampl = 4
 ignorehitpause = 1
 
 [State 200, Explod]
-type = Explod
+type = TargetState
 trigger1 = Time = [16, 120] 
 trigger1 = GameTime % 8 = 7
-anim = 7001
-ID = 2020
-pos = 30 + (0.7 - 1.4 * Random /1000.0) * (Target, Const(size.ground.front) + Target, Const(size.ground.back)) , - (1.2 - Random /1000.0) * (Target, Const(size.height))
+value = 2023
+ignorehitpause = 1
+
+[State 200, Explod]
+type = Helper
+trigger1 = Time = [16, 120] 
+trigger1 = GameTime % 8 = 7
+stateno = 2026
+ID = 2026
+pos = Floor(30 + (0.7 - 1.4 * Random /1000.0) * (Target, Const(size.ground.front) + Target, Const(size.ground.back))) , - Floor((1.2 - Random /1000.0) * (Target, Const(size.height)))
 postype = p1  ;p2,front,back,left,right
 facing = 1 - 2 * (Random % 2) 
-vfacing = 1 - 2 * (Random % 2)
-bindtime = -1
-vel = 0,0
-accel = 0,0
-random = 0,0
-removetime = -2
-scale = 1,1
 sprpriority = 2
-ontop = 0
-shadow = 0,0,0
 ownpal = 1
-removeongethit = 1
 ignorehitpause = 1
 
 [State 200, Explod]
 type = TargetLifeAdd
 trigger1 = Time = [16, 120]
 trigger1 = GameTime % 8 = 7
-value = -10
+value = -12
 ignorehitpause = 1
 
 [State 200, Explod]
 type = TargetLifeAdd
-trigger1 = Time > 150
-trigger1 = GameTime % 8 = 7
-value = -30
+trigger1 = Time = 140
+value = -37
 ignorehitpause = 1
 persistent = 0
 
 [State 200, Explod]
 type = EnvShake
-trigger1 = Time > 150
-trigger1 = GameTime % 8 = 7
+trigger1 = Time = 140
 freq = 120
 time = 30
 ampl = 8
@@ -905,12 +902,27 @@ ignorehitpause = 1
 persistent = 0
 
 [State 200, Explod]
+type = TargetState
+trigger1 = Time = 140
+value = 2023
+ignorehitpause = 1
+
+[State 200, Explod]
+type = TargetState
+trigger1 = Time = 170
+value = 2024
+ignorehitpause = 1
+
+[State 2022, Bound]
+type = TargetDrop
+trigger1 = Time = 170
+
+[State 200, Explod]
 type = Explod
-trigger1 = Time > 150
-trigger1 = GameTime % 8 = 7
-anim = 7004
+trigger1 = Time = 140
+anim = 7008
 ID = 2020
-pos = 30, - 0.7 * (Target, Const(size.height))
+pos = 30, - Floor(0.7 * (Target, Const(size.height)))
 postype = p1  ;p2,front,back,left,right
 facing =  1
 vfacing = 1
@@ -928,9 +940,96 @@ removeongethit = 1
 ignorehitpause = 1
 persistent = 0
 
+
+[State 200, Explod]
+type = Explod
+trigger1 = Time = 140
+anim = 7008
+ID = 2020
+pos = 30, Floor((Target, Const(size.mid.pos.y)))
+postype = p1  ;p2,front,back,left,right
+facing =  1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+scale = 2,2
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+
+[State 2021, Egg]
+type = Helper
+trigger1 = Time = 140
+name = "Fake Magus"
+ID = 2020
+stateno = 2025
+pos = 30, Floor((Target, Const(size.mid.pos.y)))
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+persistent = 0
+supermovetime = 9999
+
+[State 2022, AllFX]
+type = BGPalFX
+trigger1 = Time = [140, 172]
+time = 1
+add = 256 - 8 * (Time - 140), 256 - 8 * (Time - 140), 256 - 8 * (Time - 140)
+color = IfElse(Time < 160, 0, IfElse(Time < 168, 32 * (Time - 160), 256))
+time = 1
+
+[State 2022, AllFX]
+type = AllPalFX
+trigger1 = Time = [140, 160]
+time = 1
+color = 0
+
+[State 2022, AllFX]
+type = AllPalFX
+trigger1 = Time = [160, 168]
+time = 1
+color = 32 * (Time - 160)
+
 [State 2021, End]
-type = null;ChangeState
-trigger1 = !AnimTime
+type = ChangeAnim
+trigger1 = Time > 180 && !NumHelper(2020)
+trigger1 = Anim != 0
+trigger1 = (Var(0) := 1)
+value = 0
+
+[State 2021, End]
+type = PalFx
+trigger1 = Var(0) > 0
+time = 1
+add = -16 * (16 - Var(0)), -16 * (16 - Var(0)), -16 * (16 - Var(0))
+color = IfElse(Var(0) >= 4, 256, 256 - (4 - Var(0)) * 64)
+ignorehitpause = 1
+
+[State 2021, End]
+type = Trans
+trigger1 = Var(0) > 0
+trans = addalpha
+alpha = 16 * Var(0), 256 - 16 * Var(0)
+ignorehitpause = 1
+
+[State 2021, End]
+type = VarAdd
+trigger1 = Var(0) > 0
+V = 0
+value = 1
+ignorehitpause = 1
+
+[State 2021, End]
+type = ChangeState
+trigger1 = Var(0) > 16
 value = 0
 ctrl = 1
 
@@ -941,6 +1040,13 @@ type = A
 movetype = H
 physics = N
 sprpriority = 1
+
+[State 2022, AllFX]
+type = PalFX
+trigger1 = !Time
+time = 8
+sinadd = 64, 64, 64, 16
+mul = 256, 256, 256
 
 [State 2023, Anim]
 type = ScreenBound
@@ -964,25 +1070,110 @@ ignorehitpause = 1
 type = A
 movetype = H
 physics = N
-sprpriority = 1
+ctrl = 0
+sprpriority = 0
 
-[State 2023, Anim]
-type = ScreenBound
+[State 2024, Vel]
+type = VelSet
+trigger1 = !Time
+y = -9
+x = -2
+
+[State 2024, Vel]
+type = VelAdd
 trigger1 = 1
-value = 0
-ignorehitpause = 1
+y = .56
 
-[State 802, Exit]
-type = SelfState
-trigger1 = !gethitvar(isbound)
-value = 5050
-
-[State 2023, Anim]
+[State 2024, Anim]
 type = ChangeAnim2
 trigger1 = !Time
-value = 2023
+value = 2024
+
+[State 2024, Vel]
+type = ChangeAnim2
+trigger1 = Vel Y > 0
+value = 2025
+
+[State 803, Hit Ground]
+type = SelfState
+trigger1 = (Vel y > 0) && (Pos y >= -Vel Y)
+value = 5100
+ctrl = 0
+
+;Fake Magus
+[Statedef 2025]
+type    = A
+movetype= I
+physics = N
+ctrl = 0
+anim = 2022
+sprpriority = 4
+velset = 0.6, -0.6
+
+[State 2025, End]
+type = DestroySelf
+trigger1 = Parent, StateNo != 2022
+
+[State 2025, Darken]
+type = PalFX
+trigger1 = 1
+add = -64, -64, -64
+color = 0
+time = 1
 ignorehitpause = 1
 
+[State 2025, Afterimage]
+type = Trans
+trigger1 = Time < 16
+trans = addalpha
+alpha = 128, 64
+ignorehitpause = 1
+
+
+[State 2025, Afterimage]
+type = Trans
+trigger1 = Time = [16, 32]
+trans = addalpha
+alpha = 128 - 8 * (Time - 16), 64 +  12 * (Time - 16)
+ignorehitpause = 1
+
+
+[State 2014, DestroySelf]
+type = DestroySelf
+trigger1 = Time >= 32
+
+; Black Wind Cuts
+[Statedef 2026]
+type    = A
+movetype= I
+physics = N
+ctrl = 0
+anim = 7008
+sprpriority = 4
+velset = 0,0
+
+[state 2014, dist x]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+ignorehitpause = 1
+
+[State 2025, Afterimage]
+type = PalFX
+trigger1 = 1
+add = -128, -128 , -128
+ignorehitpause = 1
+
+[State 2025, Afterimage]
+type = Trans
+trigger1 = Time = [4, 8]
+trans = addalpha
+alpha = 128- 32 * (Time - 4), 128 + 32* (Time - 4)
+ignorehitpause = 1
+
+[State 2014, DestroySelf]
+type = DestroySelf
+trigger1 = Time >= 8
 
 ;---------------------------------------------------------------------------
 
