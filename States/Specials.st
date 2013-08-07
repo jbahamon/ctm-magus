@@ -281,6 +281,12 @@ ctrl = 0
 anim = 7103
 sprpriority = 2
 
+[State 1002, NoShadow]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
 [State 1021, Strength]
 type = VarSet
 trigger1 = !Time

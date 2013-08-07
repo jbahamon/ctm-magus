@@ -186,7 +186,7 @@ air.type = High
 guardflag = M
 hitflag = MAF
 priority = 4, Hit
-pausetime = 0,6
+pausetime = 0,5
 sparkno = -1
 hitsound = -1
 guardsound = 5,0
@@ -215,7 +215,7 @@ palfx.color = 0
 palfx.invertall = 1
 palfx.add = 140, 120, 180
 palfx.mul = 256, 256, 256
-palfx.time = 5
+palfx.time = 6
 ignorehitpause = 1
 numhits = 0
 air.juggle = 18
@@ -775,8 +775,8 @@ ctrl = 1
 
 ;Black Wind Success
 [Statedef 2022]
-type = C
-physics = C
+type = S
+physics = N
 movetype = I
 anim = 2022
 ctrl = 0
@@ -852,26 +852,26 @@ pos = 30, 0
 [State 200, Explod]
 type = EnvShake
 trigger1 = Time = [16, 120] 
-trigger1 = GameTime % 8 = 7
+trigger1 = GameTime % 4 = 3
 freq = 120
-time = 6
+time = 3
 ampl = 4
 ignorehitpause = 1
 
 [State 200, Explod]
 type = TargetState
 trigger1 = Time = [16, 120] 
-trigger1 = GameTime % 8 = 7
+trigger1 = GameTime % 4 = 3
 value = 2023
 ignorehitpause = 1
 
 [State 200, Explod]
 type = Helper
 trigger1 = Time = [16, 120] 
-trigger1 = GameTime % 8 = 7
+trigger1 = GameTime % 4 = 3
 stateno = 2026
 ID = 2026
-pos = Floor(30 + (0.7 - 1.4 * Random /1000.0) * (Target, Const(size.ground.front) + Target, Const(size.ground.back))) , - Floor((1.2 - Random /1000.0) * (Target, Const(size.height)))
+pos = Floor(30 + (0.7 - 1.4 * Random /1000.0) * (Target, Const(size.ground.front) + Target, Const(size.ground.back))) , - Floor((1.5 - Random /900.0) * (Target, Const(size.height)))
 postype = p1  ;p2,front,back,left,right
 facing = 1 - 2 * (Random % 2) 
 sprpriority = 2
@@ -881,8 +881,8 @@ ignorehitpause = 1
 [State 200, Explod]
 type = TargetLifeAdd
 trigger1 = Time = [16, 120]
-trigger1 = GameTime % 8 = 7
-value = -12
+trigger1 = GameTime % 4 = 3
+value = -6
 ignorehitpause = 1
 
 [State 200, Explod]
@@ -922,9 +922,9 @@ type = Explod
 trigger1 = Time = 140
 anim = 7008
 ID = 2020
-pos = 30, - Floor(0.7 * (Target, Const(size.height)))
+pos = 30, Floor((Target, Const(size.mid.pos.y)))
 postype = p1  ;p2,front,back,left,right
-facing =  1
+facing =  -1
 vfacing = 1
 bindtime = -1
 vel = 0,0
@@ -1177,51 +1177,25 @@ trigger1 = Time >= 8
 
 ;---------------------------------------------------------------------------
 
-;Gate Key Summon
+;Midnight Bliss
 [Statedef 2100]
-type    = S
-movetype= A
-physics = S
-ctrl = 0
-anim = 2000
+type=S
+physics=N
+movetype=A
+anim=2100
+ctrl=0
+velset=0,0
+sprpriority=1
 poweradd = -3000
-sprpriority = 2
 
-[State 2000, NHB]
+[State 3060, nhb]
 type = NotHitBy
-trigger1 = 1
-time = 1
+trigger1 = Time <=45
 value = SCA
-
-[State 2110, Super Pause]
-type = Explod
-trigger1 = AnimElem = 2
-removetime = -1
-ID = 2100
-anim = 7100
-pos = 5, -25
-ownpal = 1
-sprpriority = 3
-shadow = -1
-removeongethit = 1
-supermovetime = 99999
+time = 1
 ignorehitpause = 1
 
-[State 2000, Explosion]
-type = Helper
-trigger1 = AnimElem = 2
-name = "Gate"
-ID = 2100
-stateno = 2101
-pos = Facing * Floor(EnemyNear(IfElse(EnemyNear(0), Alive, 0, 1)), Pos X - Pos X), Floor(EnemyNear(IfElse(EnemyNear(0), Alive, 0, 1)), Pos Y + EnemyNear(IfElse(EnemyNear(0), Alive, 0, 1)), Const(size.head.pos.y) - 70)
-postype = p1    ;p2,front,back,left,right
-facing = 1
-keyctrl = 0
-ownpal = 1
-persistent = 0
-supermovetime = 999999
-
-[State 2000, Super Pause FX]
+[State 2010, Super Pause FX]
 type = helper
 trigger1 = time = 1
 helpertype = normal
@@ -1234,199 +1208,75 @@ ownpal = 1
 persistent = 0
 supermovetime = 9999
 
-[State 2000, Super Pause]
+[State 2010, Super Pause]
 type = superpause
 trigger1 = time = 1
 time = 45
 movetime = 45
 anim = -1
-sound = S7010,2
+sound = S7000,2
 p2defmul = 1
 darken = 0
 
-[State 2000, End]
-type = RemoveExplod
-trigger1 = Time > 1 && !NumHelper(7000)
-ID = 2100
-ignorehitpause = 1
+[State 2020, Attack]
+type = VelSet
+trigger1 = AnimElemNo(0) >= 4
+X = 2.2
 
-[State 2100, End]
+[State 3060,Hit]
+type = HitDef
+trigger1 = time = 1
+attr = S,HT
+hitflag = M-
+priority = 1, Miss
+sparkno = -1
+hitsound = S7002,3
+p1sprpriority = 1
+p2sprpriority = 0
+p1facing = 1
+p2facing = 1
+p1stateno = 2102
+p2stateno = 2103
+guard.dist = 0
+fall = 1
+getpower = 0
+
+[State 2020, Attack]
 type = ChangeState
-trigger1 = Time > 1 && !NumHelper(7000)
+trigger1 = Time >= 85 && !MoveHit
+value = 2101
+
+;Black Wind Miss
+[Statedef 2101]
+type = C
+physics = C
+movetype = I
+anim = 2021
+ctrl = 0
+sprpriority = 1
+
+[State 2021, End]
+type = ChangeState
+trigger1 = !AnimTime
 value = 0
 ctrl = 1
 
-; Gate
-[Statedef 2101]
-type    = A
-movetype= I
-physics = N
-poweradd= 0
-ctrl = 0
-anim = 7101
-sprpriority = -1
-
-[State 2101, Scale]
-type = AngleDraw
-trigger1 = 1
-scale = 2, 1
-
-[State 2000, Explosion]
-type = Helper
-trigger1 = AnimElem = 25
-name = "Tyranno"
-ID = 2102
-stateno = 2102
-postype = p1    ;p2,front,back,left,right
-pos = 0, 0
-facing = 1
-keyctrl = 0
-ownpal = 1
-persistent = 0
-supermovetime = 999999
-
-[State 2101, End]
-type = ChangeAnim
-trigger1 = Anim = 7101
-trigger1 = !NumHelper(2102)
-trigger1 = AnimElem = 26
-value = 7102
-
-[State 2101, End]
-type = DestroySelf
-trigger1 = Anim = 7102
-trigger1 = !AnimTime
-
-; Tyranno
+;Black Wind Success
 [Statedef 2102]
-type    = A
-movetype= A
-physics = N
-poweradd= 0
+type = S
+physics = S
+movetype = I
+anim = 1000
 ctrl = 0
-anim = 7104
-sprpriority = 0
-velset = 0, 2.7
+velset = 0, 0
+sprpriority = 1
 
-[State 2101, Trans]
-type = Trans
-trigger1 = Time = [0, 16]
-trans = addalpha
-alpha = 16 * Time, 256 - 16 * Time
-ignorehitpause = 1
-
-[State 2101, End]
-type = VelSet
-trigger1 = Anim = 7104
-trigger1 = Time > 13
-Y = 0
-
-[State 2101, Bite Down]
-type = HitDef
-trigger1 = NumHelper(2103)
-trigger1 = Helper(2103), AnimElem = 2
-attr = A,SA
-damage = 280
-animtype = Hard
-hitflag = MAF
-hitsound = S7002,3
-guardflag = HA
-pausetime = 14,14
-sparkno = -1
-ground.type = High
-ground.slidetime = 0
-ground.hittime = 7
-ground.velocity = 0
-air.velocity = 0,0
-air.fall = 1
-fall = 1
-palfx.add = 200,200,200
-palfx.mul = 256,256,256
-palfx.time = 12
-
-[State 2000, Explosion]
-type = Helper
-trigger1 = !Time
-name = "Tyranno Head"
-ID = 2103
-stateno = 2103
-postype = p1    ;p2,front,back,left,right
-pos = 0, 0
-facing = 1
-keyctrl = 0
-ownpal = 1
-persistent = 0
-supermovetime = 999999
-
-[State 2101, End]
-type = ChangeAnim
-triggerall = Anim = 7104
-trigger1 = NumHelper(2103)
-trigger1 = Helper(2103), AnimElemTime(3) >= 20
-trigger2 = MoveReversed
-value = 7105
-
-[State 2101, Trans]
-type = Trans
-trigger1 = Anim = 7105
-trigger1 = AnimElemTime(1) = [0, 16]
-trans = addalpha
-alpha = 256 - 16 *  AnimElemTime(1), 16 *  AnimElemTime(1)
-
-[State 2101, up]
-type = VelSet
-trigger1 = Anim = 7105
-Y = -2.7
-
-[State 2101, End]
-type = DestroySelf
-trigger1 = Anim = 7105
-trigger1 = AnimElemTime(1) > 16
-
-;Tyranno Head
-[Statedef 2103]
-type    = A
-movetype= I
-physics = N
-poweradd= 0
-ctrl = 0
-anim = 7103
-sprpriority = 3
-
-[State 2101, Trans]
-type = EnvShake
-trigger1 = AnimElem = 2
-ampl = 6
-freq = 120
-time = 12
-
-[State 2101, Trans]
-type = Trans
-trigger1 = Time = [0, 16]
-trans = addalpha
-alpha = 16 * Time, 256 - 16 * Time
-
-[State 2101, End]
-type = PosSet
+[State 2022, Bound]
+type = TargetBind
 trigger1 = 1
-X = Parent, Pos X
-Y = Parent, Pos Y
+pos = 30, 0
 
-[State 2101, Trans]
-type = Trans
-trigger1 = Parent, Anim = 7105
-trigger1 = Parent, AnimElemTime(1) = [0, 16]
-trans = addalpha
-alpha = 256 - 16 * Parent, AnimElemTime(1), 16 *  Parent, AnimElemTime(1)
-
-[State 2101, End]
-type = DestroySelf
-trigger1 = Parent, Anim = 7105
-trigger1 = Parent, AnimElemTime(1) > 16
-trigger2 = !(Parent, StateNo)
-trigger3 = !(NumHelper(2102))
-
-;Protect Activation
+;Magic Wall Activation
 [Statedef 2110]
 type = S
 movetype = I
