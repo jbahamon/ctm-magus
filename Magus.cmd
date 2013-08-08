@@ -633,7 +633,7 @@ trigger3 = ( StateNo = [400,499] ) && MoveHit
 [State -1, Dark Matter]
 type = ChangeState
 value = 2010
-triggerall = Command = "x";"2qcfa" || Command = "2qcfb" || Command = "2qcfc" 
+triggerall = Command = "2qcfa" || Command = "2qcfb" || Command = "2qcfc" 
 triggerall = Power >= 1000
 triggerall = !NumHelper(2010)
 trigger1 = statetype = S
@@ -688,7 +688,7 @@ value = 800
 
 [State -1, Magic Wall]
 type = ChangeState
-value = 2110
+value = 2200
 triggerall = Command = "a+c" && !(command = "holdfwd" || command = "holdback" || command = "holdup" || command = "holddown")
 triggerall = Power >= 3000
 triggerall = Var(21) = 0
