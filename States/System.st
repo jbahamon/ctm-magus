@@ -512,7 +512,7 @@ trigger2 = RoundState > 1
 
 
 ;---------------------------------------------------------------------------
-; Taunt
+; Taunt - Magic Toggle
 [Statedef 195]
 type = S
 ctrl = 0
@@ -531,11 +531,13 @@ ignorehitpause = 1
 [State 195, Switch Element]
 type = VarSet
 trigger1 = !Time
+trigger1 = !Var(21)
 var(22) = (Var(22) + 1) % 3
 
 [State 200, Explod]
 type = Explod
 trigger1 = !Time
+trigger1 = !Var(21)
 anim = 7020 + Var(22)
 ID = 200
 pos = 0, -40

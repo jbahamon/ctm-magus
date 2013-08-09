@@ -220,7 +220,7 @@ ignorehitpause = 1
 type = trans
 trigger1 = 1
 trans = addalpha
-alpha = 256 - 128 * Cos(Pi * Time/10.0), 128
+alpha = 256 - Floor(128 * Cos(Pi * Time/10.0)), 128
 ignorehitpause = 1
 
 [State 1021, HitOverride]
@@ -259,9 +259,8 @@ hitflag = MAF        ;HLAFD+-
 guardflag = MA         ;HLA
 animtype = Hard
 priority = 4, Hit
-sparkno = S7252
+sparkno = -1
 damage = 15,4
-sparkxy = -15,0
 hitsound = S2,1
 ground.type = Low
 ground.slidetime = 16
@@ -282,18 +281,20 @@ airguard.velocity = -3, -1.5
 forcestand = 1
 getpower = 0, 0
 givepower = 5, 5
-palfx.add= 128, 100, 7
+palfx.add= -128, -100, -7
 palfx.mul=256,256,256
 palfx.time = 8
 
-[State 1001, ChangeState]
-type = DestroySelf
-trigger1 = MoveContact
+[State 1002, Pal]
+type = PalFX
+trigger1 = 1
+invertall = 1
+time = -1
 ignorehitpause = 1
 
 [State 1001, ChangeState]
 type = ChangeState
-trigger1 = Time > 802
+trigger1 = Time > 80 || MoveContact
 value = 11780
 ctrl = 0
 
@@ -305,14 +306,15 @@ movetype= I
 physics = S
 juggle  = 3
 ctrl = 0
-anim = 7253
+anim = 7252
+velset = 0, 0
 sprpriority = 5
 
 [State 1002, DestroySelf]
 type = trans
 trigger1 = 1
 trans = addalpha
-alpha = AnimTime * 16, 256 - AnimTime * 8
+alpha =  256 - Time * 32, Time * 16
 ignorehitpause = 1
 
 [State 11779, NoShadow]
@@ -321,6 +323,13 @@ trigger1 = 1
 flag = NoShadow
 ignorehitpause = 1
 
+[State 1002, Pal]
+type = PalFX
+trigger1 = 1
+invertall = 1
+time = 1
+ignorehitpause = 1
+
 [State 1002, DestroySelf]
 type = DestroySelf
-trigger1 = !AnimTime
+trigger1 = Time >= 8

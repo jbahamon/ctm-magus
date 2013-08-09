@@ -174,7 +174,7 @@ ignorehitpause = 1
 [State -3, SuperArmorDeplete]
 type = PowerAdd
 trigger1 = Var(21) > 0 && StateNo != 2110 && StateNo != [2100, 2102]
-value = IfElse(Power > 5, -5, -Power)
+value = IfElse(Power > 3, -3, -Power)
 ignorehitpause = 1
 
 [State -3: VarSet]

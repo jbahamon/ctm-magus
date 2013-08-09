@@ -896,7 +896,7 @@ value = 0
 ctrl = 1
 
 ;---------------------------------------------------------------------------
-;Boulder Toss
+; Magic Bind
 [Statedef 800]
 type    = S
 movetype= A
@@ -909,10 +909,12 @@ poweradd = IfElse(Var(21) > 0, 0, 18)
 facep2 = 1
 velset = 0,0
 
-[State 800, Direction]
-type = VarSet
-trigger1 = !Time
-var(0) = IfElse(command = "holdback", -1, 1)
+[State 803, Pal]
+type = PalFX
+trigger1 = 1
+add = 64 * Sin(Time * Pi/16.0), 64 * Sin(Time * Pi/16.0), 64 * Sin(Time * Pi/16.0)
+mul = 256, 256, 256
+time = 1
 
 [State 800, Do not guard]
 type = attackdist
@@ -952,74 +954,116 @@ trigger1 = !AnimTime
 value = 0
 ctrl = 1
 
-;Boulder Toss - Throw
+;Magic Bind - Cast
 [Statedef 801]
 type    = S
 movetype= A
 physics = S
 juggle  = 3
-ctrl = 0
 anim = 801
+ctrl = 0
 sprpriority = 1
 poweradd = IfElse(Var(21) > 0, 0, 72)
 velset = 0,0
 
 [State 801, Bind]
 type = TargetBind
-trigger1 = AnimElemTime(5) < 3
+trigger1 = AnimElemNo(0) = [1, 2]
 pos = 15, 0
 
 [State 801, Bind]
 type = TargetBind
-trigger1 = AnimElemTime(5) = [3,5]
-pos = 10, -5
+trigger1 = AnimElemNo(0) = 3
+pos = 15 + 2 * AnimElemTime(3), 0
 
 [State 801, Bind]
 type = TargetBind
-trigger1 = AnimElemTime(5) = [6,8]
-pos = 5, -10
-
-[State 801, Bind]
-type = TargetBind
-trigger1 = AnimElemTime(5) >= 9 && AnimElemTime(6) < 0
-pos = 1, -15
-
-[State 801, Bind]
-type = TargetBind
-trigger1 = AnimElemNo(0) = 6
-pos = 1, -25
-
-[State 801, Bind]
-type = TargetBind
-trigger1 = AnimElemNo(0) = 7
-pos = 1, -30
+trigger1 = AnimElemNo(0) > 3
+pos = 55, 0
 
 [State 801, Throw Enemy]
 type = TargetState
-trigger1 = AnimElem = 8
+trigger1 = Target, StateNo = 802 
+trigger1 = NumTarget
+trigger1 = AnimElem = 6
 value = 803
+persistent = 0
 
-[State 801, Sound]
-type = Turn
-trigger1 = (var(0) < 0) && AnimElem = 6
+[State 1000, Pawnch]
+type = Helper
+trigger1 = Target, StateNo = 803 
+trigger1 = Target, Time = 5 || Target, Time = 15 || Target, Time = 30
+trigger1 = Var(22) = 0
+trigger1 = !Var(21)
+name = "Lightning"
+ID = 800
+stateno = 806
+pos = Floor(Target, ScreenPos X - ScreenPos X) * Facing + (Random % 25) - 12, 0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
 
-[State 801, Sound]
-type = PlaySnd
-trigger1 = AnimElem = 5
-value = S7010,1
+[State 1000, Pawnch]
+type = Helper
+trigger1 = Target, StateNo = 803 
+trigger1 = Target, Time = 5 || Target, Time = 15 || Target, Time = 30
+trigger1 = Var(22) = 1
+trigger1 = !Var(21)
+name = "Water Bubble"
+ID = 800
+stateno = 807
+pos = Floor(Target, ScreenPos X - ScreenPos X) * Facing + (Random % 25) - 12, Floor(Target, Const(size.mid.pos.y) * (0.5 + Random/1000.0))
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
 
-[State 801, Sound]
-type = PlaySnd
-trigger1 = AnimElem = 8
-value = S7000,2
+[State 1000, Pawnch]
+type = Helper
+trigger1 = Target, StateNo = 803 
+trigger1 = Target, Time = 5 || Target, Time = 15 || Target, Time = 30
+trigger1 = Var(22) = 2
+trigger1 = !Var(21)
+name = "Fire"
+ID = 800
+stateno = 808
+pos = Floor(Target, ScreenPos X - ScreenPos X) * Facing + (Random % 25) - 12, Floor(Target, Const(size.mid.pos.y) * (Random/2000.0))
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 1000, Pawnch]
+type = Helper
+trigger1 = Target, StateNo = 803 
+trigger1 = Target, Time = 5 
+trigger1 = Var(21)
+name = "Dark Bomb"
+ID = 800
+stateno = 809
+pos = Floor(Target, ScreenPos X - ScreenPos X) * Facing, 0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+persistent = 0
+
+[State 801, Throw Enemy]
+type = TargetState
+trigger1 = Target, StateNo = 803 
+trigger1 = NumTarget
+trigger1 = Target, Time > 33
+value = 804
+persistent = 0
 
 [State 801, End]
 type = ChangeState
-trigger1 = !AnimTime
+trigger1 = Target, StateNo = 804
 value = 0
 ctrl = 1
 
-;Boulder Toss - Gethit
+;Magic Bind - Bound
 [Statedef 802]
 type = S
 movetype = H
@@ -1042,8 +1086,42 @@ type = SelfState
 trigger1 = !gethitvar(isbound)
 value = 5050
 
-;Boulder Toss - Air
+;Magic Bind - Gethit
 [Statedef 803]
+type = S
+movetype = H
+physics = N
+ctrl = 0
+sprpriority = 0
+
+[State 803, Life]
+type = EnvShake
+trigger1 = Time = 5
+trigger2 = Time = 15
+trigger3 = Time = 30
+time = 5
+freq = 120
+ampl = 4
+
+[State 803, Pal]
+type = LifeAdd
+trigger1 = Time = 5
+trigger2 = Time = 15
+trigger3 = Time = 30
+value = -39
+
+[State 802, Anim]
+type = ChangeAnim2
+trigger1 = !Time
+value = 802
+
+[State 802, Exit]
+type = SelfState
+trigger1 = !gethitvar(isbound)
+value = 5050
+
+;Magic Bind - End
+[Statedef 804]
 type = A
 movetype = H
 physics = N
@@ -1072,25 +1150,6 @@ trigger1 = Vel Y > 0
 value = 804
 
 [State 803, Life]
-type = LifeAdd
-trigger1 = (Vel y > 0) && (Pos y >= 0)
-value = -105
-
-[State 803, Pal]
-type = PalFX
-trigger1 = (Vel y > 0) && (Pos y >= 0)
-add = 200, 200, 200
-mul = 256, 256, 256
-time = 8
-
-[State 803, Life]
-type = EnvShake
-trigger1 = (Vel y > 0) && (Pos y >= 0)
-time = 14
-freq = 120
-ampl = 4
-
-[State 803, Life]
 type = PosSet
 trigger1 = (Vel y > 0) && (Pos y >= 0)
 y = 0
@@ -1101,5 +1160,137 @@ trigger1 = (Vel y > 0) && (Pos y >= 0)
 value = 5100
 ctrl = 0
 
+;Lightning
+[Statedef 806]
+type = A
+physics = N
+movetype= I
+anim = 7040
+ctrl = 0
+velset = 0,0
+sprpriority = 3
+
+[State 1001, NoShadow]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 5
+anim = 7105
+ID = 200
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+scale = 1.2, 0.7
+sprpriority = 0
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+[State 1000, burst]
+type = Trans
+trigger1 = AnimElemTime(6) > 0
+trans = addalpha
+alpha = 256 - 8 * AnimElemTime(6), 256
+ignorehitpause = 1
+
+[State 1001, burst]
+type = DestroySelf
+trigger1 = AnimElemTime(6) > 32
+ignorehitpause = 1
+
+;Water Bubble
+[Statedef 807]
+type = A
+physics = N
+movetype= I
+anim = 7041
+ctrl = 0
+velset = 0,0
+sprpriority = 4
+
+[State 1002, Strength]
+type = VarSet
+trigger1 = !time
+var(0) = (root, var(0))
+
+[State 1002, NoShadow]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 1010, burst]
+type = DestroySelf
+trigger1 = !AnimTime
+
+; Fire
+[Statedef 808]
+type    = A
+movetype= I
+physics = N
+juggle  = 3
+ctrl = 0
+anim = 7042
+sprpriority = 2
+velset = 0, -0.4
+
+[State 1002, NoShadow]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 1015, assert]
+type = Trans
+trigger1 = AnimElemNo(0) < 7
+trans = addalpha
+alpha = 256, 128
+ignorehitpause = 1
+
+[State 1015, assert]
+type = Trans
+trigger1 = AnimElemNo(0) = 7
+trans = addalpha
+alpha = 256 - AnimElemTime(7) * 16, 128 + AnimElemTime(7) * 8
+ignorehitpause = 1
+
+[State 1021, ChangeState]
+type = DestroySelf
+trigger1 = AnimElemTime(7) >= 16
+ignorehitpause = 1
+
+
+; Dark Bomb
+[Statedef 808]
+type    = A
+movetype= I
+physics = N
+juggle  = 3
+ctrl = 0
+anim = 7107
+sprpriority = 2
+velset = 0, -0.4
+
+[State 1002, NoShadow]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 1021, ChangeState]
+type = DestroySelf
+trigger1 = !AnimTime
+ignorehitpause = 1
 
 

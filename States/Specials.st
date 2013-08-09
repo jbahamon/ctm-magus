@@ -29,6 +29,7 @@ ignorehitpause = 1
 type = Helper
 trigger1 = AnimElem = 5
 trigger1 = Var(22) = 0
+trigger1 = !Var(21)
 name = "Lightning"
 ID = 1000
 stateno = 1001
@@ -43,6 +44,7 @@ persistent = 0
 type = Helper
 trigger1 = AnimElem = 5
 trigger1 = Var(22) = 1
+trigger1 = !Var(21)
 name = "Water Bubble"
 ID = 1000
 stateno = 1002
@@ -57,6 +59,7 @@ persistent = 0
 type = Helper
 trigger1 = AnimElem = 5
 trigger1 = Var(22) = 2
+trigger1 = !Var(21)
 name = "Fire"
 ID = 1000
 stateno = 1003
@@ -67,9 +70,25 @@ keyctrl = 0
 ownpal = 1
 persistent = 0
 
+[State 1000, Pawnch]
+type = Helper
+trigger1 = AnimElem = 5
+trigger1 = Var(21)
+name = "Dark Bomb"
+ID = 1000
+stateno = 1007
+pos = 50 + 60 * Var(0), 0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+persistent = 0
+
+
 [State 1040, End]
 type = ChangeState
 trigger1 = Time > (30 + 15 * !Var(22))
+trigger2 = NumHelper(1000) && Var(21)
 value = 0
 ctrl = 1
 
@@ -291,6 +310,14 @@ type = VarSet
 trigger1 = !Time
 var(0) = parent, var(0)
 
+[State 1021, HitOverride]
+type = HitOverride
+trigger1 = 1
+time = -1
+attr = SCA, AA, AP
+stateno = 1004
+ignorehitpause = 1
+
 [State 1021, HB]
 type = NotHitBy
 trigger1 = 1
@@ -369,6 +396,39 @@ trigger2 = Vel Y >= 0 && Pos Y > - Vel Y
 trigger3 = MoveReversed
 ignorehitpause = 1
 
+;Fire Fading
+[Statedef 1004]
+type = A
+physics = N
+movetype = I
+velset = 0,0
+ctrl = 0
+sprpriority = 4
+
+[State 1015, snd]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = -1
+ignorehitpause = 1
+
+[State 1015, assert]
+type = Trans
+trigger1 = 1
+trans = addalpha
+alpha = 256 - Time * 16, Time * 16
+ignorehitpause = 1
+
+[State 1015, assert]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 1015, assert]
+type = DestroySelf
+trigger1 = Time >= 16
+ignorehitpause = 1
 
 ;Bubble Bursting
 [Statedef 1005]
@@ -397,6 +457,131 @@ type = DestroySelf
 trigger1 = FrontEdgeDist < -50
 trigger2 = BackEdgeDist < 0
 trigger3 = !AnimTime
+
+;Dark Bomb
+[Statedef 1007]
+type = S
+physics = N
+movetype = A
+anim = 7106
+ctrl = 0
+velset = 0,0
+sprpriority = 4
+
+[State 1002, Strength]
+type = VarSet
+trigger1 = !time
+var(0) = (root, var(0))
+
+[State 1002, Strength]
+type = Trans
+trigger1 = 1
+trans = addalpha
+alpha = 256, 64
+ignorehitpause = 1
+
+[State 1002, Strength]
+type = AngleDraw
+trigger1 = 1
+scale = 0.5, 0.5
+ignorehitpause = 1
+
+[State 1002, NoShadow]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 1010, hitdef]
+type = HitDef
+triggerall = !MoveContact
+triggerall = !MoveReversed
+trigger1 = Time > 0
+priority = 6, Hit
+attr = A,SP
+damage = Floor(Parent, FVar(39)*120), 4
+animtype = Hard
+hitflag = MAF
+guardflag = MA
+pausetime = 4,30
+sparkno = -1
+ground.type = High
+ground.slidetime = 20
+ground.hittime = 20
+ground.velocity = -3, 0
+air.velocity  = -3, 0
+air.fall = 1
+fall.recover = 1
+p2facing = 1
+palfx.invertall = 1
+palfx.color = 0
+palfx.add = -20, -20, -20
+palfx.time = 50
+guard.dist = 100
+envshake.time = 8
+envshake.freq = 120
+envshake.ampl = 2
+getpower = IfElse(Parent, Var(21) > 0, 0, 20)
+
+[State 200, Dampen]
+Type = ParentVarset
+trigger1 = MoveHit
+fvar(39) = parent, Fvar(39)*0.8
+persistent = 0
+ignorehitpause = 1
+
+[State 1021, HitOverride]
+type = HitOverride
+trigger1 = 1
+time = -1
+attr = SCA, AA, AP
+stateno = 1008
+ignorehitpause = 1
+
+[State 1021, HB]
+type = NotHitBy
+trigger1 = 1
+time = -1
+value = , AT
+ignorehitpause = 1
+
+[State 1010, burst]
+type = DestroySelf
+trigger1 = !AnimTime
+ignorehitpause = 1
+
+;Dark Bomb GetHit
+[Statedef 1008]
+type = S
+physics = N
+movetype = H
+velset = 0,0
+ctrl = 0
+sprpriority = 4
+
+[State 1002, Strength]
+type = AngleDraw
+trigger1 = 1
+scale = 0.5, 0.5
+ignorehitpause = 1
+
+[State 1002, Strength]
+type = Trans
+trigger1 = 1
+trans = addalpha
+alpha = 256 - Time * 16, 64 - Time * 4
+ignorehitpause = 1
+
+[State 1015, assert]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 1015, dieplz]
+type = DestroySelf
+trigger1 = !AnimTime || Time >= 16
+ignorehitpause = 1
 
 ;---------------------------------------------------------------------------
 ; Dark Mist

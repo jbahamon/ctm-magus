@@ -1232,13 +1232,13 @@ ignorehitpause = 1
 [State 1020, Afterimage]
 type = AfterImage
 trigger1 = AnimElem = 4
-length = 8
+length = 10
 palbright = 0, 0, 0
 palcontrast = 128, 128, 256
 paladd = 0,0,0
 palmul = 1, 1, 1
-timegap  = 1
-framegap = 1
+timegap  = 2
+framegap = 2
 trans = add1
 time = 2; only 2 ticks!!!
 ignorehitpause = 1
@@ -1504,6 +1504,28 @@ type = VelSet
 trigger1 = Anim = 2105
 X = -1.2
 
+
+[State -3: AfterImageTime]
+type = AfterImageTime
+trigger1 = Anim = 2105
+time = 5
+ignorehitpause = 1
+
+[State 1020, Afterimage]
+type = AfterImage
+trigger1 = Anim = 2105
+trigger1 = AnimElemTime(1) = 1
+length = 10
+palbright = 0, 0, 0
+palcontrast = 128, 128, 256
+paladd = 0,0,0
+palmul = 1, 1, 1
+timegap  = 2
+framegap = 2
+trans = add1
+time = 2; only 2 ticks!!!
+ignorehitpause = 1
+
 [State 2022, Go Back]
 type = ChangeState
 trigger1 = Anim = 2105
@@ -1582,8 +1604,8 @@ sprpriority = 1
 type = PalFX
 trigger1 = !Time
 time = 60
-add = -64, -64, -64
-sinadd = -64, -64, -64, 128
+add = -32, -32, -32
+sinadd = -32, -32, -32, 32
 mul = 256, 256, 256
 
 [State 2023, Anim]
@@ -1694,6 +1716,30 @@ ctrl = 0
 velset = 0,0
 sprpriority = 1
 facep2 = 1
+
+
+[State 200, Explod]
+type = Explod
+trigger1 = !Time
+anim = 7023
+ID = 200
+pos = 0, -40
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+supermovetime = 9999999
 
 [State 2010, NHB]
 type = NotHitBy
