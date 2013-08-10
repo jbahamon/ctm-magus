@@ -601,7 +601,7 @@ trigger1 = ctrl
 ;===========================================================================
 ; Super Moves
 ;===========================================================================
-[State -1, SGS]
+[State -1, Midnight Blackness]
 type = ChangeState
 value = 2100
 triggerall = Command = "qcfhcba" || Command = "qcfhcbb" || Command = "qcfhcbc"
@@ -614,7 +614,7 @@ type = ChangeState
 value = 2020
 triggerall = Command = "qcbhcfa" || Command = "qcbhcfb" || Command = "qcbhcfc"
 triggerall = Power >= 1000
-trigger1 = statetype = S
+trigger1 = statetype != A
 trigger1 = ctrl
 trigger2 = ( StateNo = [200,299] ) && MoveHit
 trigger3 = ( StateNo = [400,499] ) && MoveHit
@@ -625,7 +625,7 @@ value = 2000
 triggerall = Command = "2qcba" || Command = "2qcbb" || Command = "2qcbc" 
 triggerall = Power >= 1000
 triggerall = !NumHelper(2000)
-trigger1 = statetype = S
+trigger1 = statetype != A
 trigger1 = ctrl
 trigger2 = ( StateNo = [200,299] ) && MoveHit
 trigger3 = ( StateNo = [400,499] ) && MoveHit
@@ -636,7 +636,7 @@ value = 2010
 triggerall = Command = "2qcfa" || Command = "2qcfb" || Command = "2qcfc" 
 triggerall = Power >= 1000
 triggerall = !NumHelper(2010)
-trigger1 = statetype = S
+trigger1 = statetype != A
 trigger1 = ctrl
 trigger2 = ( StateNo = [200,299] ) && MoveHit
 trigger3 = ( StateNo = [400,499] ) && MoveHit
@@ -656,7 +656,7 @@ trigger1 = ctrl
 type = ChangeState
 value = 1010
 triggerall = command = "dfa" || command = "dfb" || command = "dfc"
-triggerall = roundstate = 2 && statetype != A 
+triggerall = statetype != A 
 trigger1 = ctrl
 trigger2 = (stateno = [200, 299]) && movecontact
 trigger3 = (stateno = [400, 499]) && movecontact
@@ -692,7 +692,7 @@ value = 2200
 triggerall = Command = "a+c" && !(command = "holdfwd" || command = "holdback" || command = "holdup" || command = "holddown")
 triggerall = Power >= 3000
 triggerall = Var(21) = 0
-trigger1 = StateType = S
+trigger1 = StateType != A
 trigger1 = ctrl 
 
 ;===========================================================================
@@ -703,7 +703,7 @@ type = ChangeState
 value = 200
 triggerall = command = "a"
 triggerall = command != "holddown"
-trigger1 = statetype != A
+trigger1 = statetype = S
 trigger1 = ctrl
 trigger2 = (StateType != A) && (MoveContact) && (Var(21) > 0)
 ;---------------------------------------------------------------------------
@@ -712,7 +712,7 @@ type = ChangeState
 value = 210
 triggerall = command = "b"
 triggerall = command != "holddown"
-trigger1 = statetype != A
+trigger1 = statetype = S
 trigger1 = ctrl
 trigger2 = (stateno = 200) 
 trigger2 = movecontact
@@ -725,7 +725,7 @@ value = 220
 triggerall = command = "c"
 triggerall = command != "holddown"
 triggerall = !NumProjID(220)
-trigger1 = statetype != A
+trigger1 = statetype = S
 trigger1 = ctrl
 trigger2 = (stateno = 200) || (stateno = 210)
 trigger2 = movecontact
@@ -737,7 +737,7 @@ trigger3 = (StateType != A) && (MoveContact) && (Var(21) > 0)
 type = ChangeState
 value = 195
 triggerall = command = "start"
-trigger1 = statetype != A
+trigger1 = statetype = S
 trigger1 = ctrl
 trigger2 = StateNo = 195
 

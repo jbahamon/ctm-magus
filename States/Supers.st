@@ -858,12 +858,6 @@ time = 3
 ampl = 4
 ignorehitpause = 1
 
-[State 200, Explod]
-type = TargetState
-trigger1 = Time = [16, 120] 
-trigger1 = GameTime % 4 = 3
-value = 2023
-ignorehitpause = 1
 
 [State 200, Explod]
 type = Helper
@@ -900,6 +894,13 @@ time = 30
 ampl = 8
 ignorehitpause = 1
 persistent = 0
+
+[State 200, Explod]
+type = TargetState
+trigger1 = Time < 140 && NumTarget 
+trigger1 = Target, StateNo != [2023, 2024]
+value = 2023
+ignorehitpause = 1
 
 [State 200, Explod]
 type = TargetState
@@ -1041,6 +1042,12 @@ movetype = H
 physics = N
 sprpriority = 1
 
+[State 2023, Anim]
+type = ChangeAnim2
+trigger1 = Anim != 2023
+value = 2023
+ignorehitpause = 1
+
 [State 2022, AllFX]
 type = PalFX
 trigger1 = !Time
@@ -1059,11 +1066,6 @@ type = SelfState
 trigger1 = !gethitvar(isbound)
 value = 5050
 
-[State 2023, Anim]
-type = ChangeAnim2
-trigger1 = !Time
-value = 2023
-ignorehitpause = 1
 
 ; Black Wind - End
 [Statedef 2024]
