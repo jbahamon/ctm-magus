@@ -389,6 +389,13 @@ ontop = 0
 ownpal = 1
 removeongethit = 0
 
+[State 200, Dampen]
+Type = ParentVarset
+Trigger1 = MoveHit
+fvar(39) = parent, Fvar(39)*0.8
+persistent = 0
+ignorehitpause = 1
+
 [State 1021, ChangeState]
 type = DestroySelf
 trigger1 = MoveHit

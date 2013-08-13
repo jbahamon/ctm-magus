@@ -912,7 +912,7 @@ velset = 0,0
 [State 803, Pal]
 type = PalFX
 trigger1 = 1
-add = 64 * Sin(Time * Pi/16.0), 64 * Sin(Time * Pi/16.0), 64 * Sin(Time * Pi/16.0)
+add = Floor(64 * Sin(Time * Pi/16.0)), Floor(64 * Sin(Time * Pi/16.0)), Floor(64 * Sin(Time * Pi/16.0))
 mul = 256, 256, 256
 time = 1
 
@@ -954,7 +954,7 @@ trigger1 = !AnimTime
 value = 0
 ctrl = 1
 
-;Magic Bind - Cast
+;Magic Bind - Casting
 [Statedef 801]
 type    = S
 movetype= A
@@ -1108,7 +1108,8 @@ type = LifeAdd
 trigger1 = Time = 5
 trigger2 = Time = 15
 trigger3 = Time = 30
-value = -39
+value = -27
+kill = Time > 20
 
 [State 802, Anim]
 type = ChangeAnim2
@@ -1272,7 +1273,7 @@ ignorehitpause = 1
 
 
 ; Dark Bomb
-[Statedef 808]
+[Statedef 809]
 type    = A
 movetype= I
 physics = N
@@ -1280,7 +1281,15 @@ juggle  = 3
 ctrl = 0
 anim = 7107
 sprpriority = 2
-velset = 0, -0.4
+velset = 0, 0
+
+[State 1015, assert]
+type = Trans
+trigger1 = 1
+trans = addalpha
+alpha = 256, 128
+ignorehitpause = 1
+
 
 [State 1002, NoShadow]
 type = AssertSpecial

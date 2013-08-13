@@ -89,6 +89,21 @@ ctrl = 0
 sprpriority = 3
 velset = 0,0
 
+[State 2013, Damage Var]
+type = VarSet
+trigger1 = !Time && PrevStateNo != 2003
+V = 1
+value = 0
+
+[State 1001, Dampen]
+Type = ParentVarset
+Trigger1 = MoveHit
+trigger1 = Var(1)
+trigger1 = Var(1) := 1
+fvar(39) = parent, Fvar(39)*0.86
+persistent = 0
+ignorehitpause = 1
+
 [State 2003, RealTime]
 type = ChangeAnim
 trigger1 = !Time && PrevStateNo != 2003
@@ -186,7 +201,7 @@ air.type = High
 guardflag = M
 hitflag = MAF
 priority = 4, Hit
-pausetime = 0,5
+pausetime = 0,6
 sparkno = -1
 hitsound = -1
 guardsound = 5,0
@@ -215,7 +230,7 @@ palfx.color = 0
 palfx.invertall = 1
 palfx.add = 140, 120, 180
 palfx.mul = 256, 256, 256
-palfx.time = 6
+palfx.time = 9
 ignorehitpause = 1
 numhits = 0
 air.juggle = 18
@@ -486,6 +501,21 @@ ctrl = 0
 sprpriority = 0
 juggle = 14
 
+[State 2013, Damage Var]
+type = VarSet
+trigger1 = !Time && PrevStateNo != 2014
+V = 0
+value = 0
+
+[State 1001, Dampen]
+Type = ParentVarset
+Trigger1 = MoveHit
+trigger1 = Var(0)
+trigger1 = Var(0) := 1
+fvar(39) = parent, Fvar(39)*0.86
+persistent = 0
+ignorehitpause = 1
+
 [State 2013, PosAdd]
 type = ChangeAnim
 trigger1 = !Time && PrevStateNo != 2014
@@ -497,12 +527,6 @@ type = VelSet
 trigger1 = !Time && PrevStateNo != 2014
 X = 3
 ignorehitpause = 1
-
-[State 2013, Snd]
-type = PlaySnd
-trigger1 = !Var(0)
-value = S6,0
-channel = 0
 
 [State 2013, Override]
 type = HitOverride
@@ -531,7 +555,7 @@ type = HitDef
 trigger1 = Time % 10 = 0
 trigger1 = AnimElemNo(0) < 53
 attr = S, HP
-damage = Ceil(26 * Parent, FVar(39)),3
+damage = Ceil(22 * Parent, FVar(39)),3
 animtype = Hard
 air.type = Low
 guardflag = M
@@ -877,6 +901,7 @@ type = TargetLifeAdd
 trigger1 = Time = [16, 120]
 trigger1 = GameTime % 4 = 3
 value = -6
+kill = 0
 ignorehitpause = 1
 
 [State 200, Explod]
