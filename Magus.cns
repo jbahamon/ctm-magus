@@ -122,7 +122,7 @@ victory8 = "You got whacked, 'cuz you're weak."
 [Statedef -2]
 
 [State -2, Dampener]
-Type=VarSet
+Type=null;VarSet
 Trigger1=Roundstate<2
 Trigger2=P2Stateno=[120,160]
 Trigger3=enemynear,ctrl
@@ -140,7 +140,7 @@ ignorehitpause=1
 
 
 [State -3, Prevent Undergound Juggles]
-type= targetbind
+type= null;targetbind
 trigger1= movehit=1
 trigger1= numtarget=1 && numenemy
 trigger1= (target,time<=1) && (target,ID=enemynear,ID); this is just to prevent Simul issues as usual

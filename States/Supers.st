@@ -801,7 +801,7 @@ ctrl = 1
 [Statedef 2022]
 type = S
 physics = N
-movetype = I
+movetype = A
 anim = 2022
 ctrl = 0
 sprpriority = 1
@@ -1270,12 +1270,11 @@ trans = add1
 time = 2; only 2 ticks!!!
 ignorehitpause = 1
 
-
 [State 3060,Hit]
 type = HitDef
 trigger1 = time = 1
 attr = S,HT
-hitflag = M
+hitflag = M-
 priority = 1, Miss
 sparkno = -1
 hitsound = S7002,3
@@ -1286,7 +1285,7 @@ p2facing = 1
 p1stateno = 2102
 p2stateno = 2103
 guard.dist = 0
-fall = 1
+fall = 0
 getpower = 0
 
 [State 2020, Attack]
@@ -1313,7 +1312,7 @@ ctrl = 1
 [Statedef 2102]
 type = S
 physics = S
-movetype = I
+movetype = A
 anim = 2102
 ctrl = 0
 velset = 0, 0
@@ -1421,15 +1420,6 @@ keyctrl = 0
 ownpal = 1
 supermovetime = 999999
 
-[State 2002, Transform]
-type = TargetState
-trigger1 = NumTarget
-trigger1 = Anim = 2102
-trigger1 = AnimElemNo(0) = 4 
-trigger1 = NumHelper(2100)
-value = 2104
-persistent = 0
-
 [State 2002, Custom]
 type = Helper
 trigger1 = NumTarget
@@ -1445,6 +1435,15 @@ keyctrl = 0
 ownpal = 1
 persistent = 0
 supermovetime = 999999
+
+[State 2002, Transform]
+type = TargetState
+trigger1 = NumTarget
+trigger1 = Anim = 2102
+trigger1 = AnimElemNo(0) = 4 
+trigger1 = NumHelper(2100)
+value = 2104
+persistent = 0
 
 [State 2002, Transform]
 type = ChangeAnim
@@ -1617,6 +1616,7 @@ ignorehitpause = 1
 
 [State 802, Exit]
 type = SelfState
+trigger1 = Time > 5
 trigger1 = !gethitvar(isbound)
 value = 5050
 
@@ -1651,6 +1651,7 @@ ignorehitpause = 1
 
 [State 802, Exit]
 type = SelfState
+trigger1 = Time > 5
 trigger1 = !gethitvar(isbound)
 value = 5050
 
