@@ -17,12 +17,14 @@ poweradd = 0                     ;Power to add (Def: 0)
 sprpriority = 1                  ;Set p1's sprite layering priority to 2 (in front)
 facep2 = 1
 
+
+
 [State 200, Explod]
 type = Explod
 trigger1 = AnimElem = 3
 anim = 7010
 ID = 200
-pos = -15, -20
+pos = 10, -10
 postype = p1  ;p2,front,back,left,right
 facing = 1
 vfacing = 1
@@ -39,6 +41,52 @@ ownpal = 1
 removeongethit = 1
 ignorehitpause = 1
 
+[State 200, Explod]
+type = Explod
+trigger1 = !Time
+anim = 7015
+ID = 201
+pos = 14, -10
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = -1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 6
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 3
+anim = 7015
+ID = 201
+pos = -15, -21
+postype = p1  ;p2,front,back,left,right
+facing = -1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 7
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+
 [State 200, 1]
 type = HitDef
 trigger1 = !Time
@@ -51,7 +99,7 @@ priority = 4, Hit                ;Attack priority: 0 (least) to 7 (most), 4 defa
 ;Hit/Miss/Dodge type (Def: Hit)
 pausetime = 8, 8                 ;Time attacker pauses, time opponent shakes
 sparkno = S7000                      ;Spark anim no (Def: set above)
-sparkxy = 0, -3              ;X-offset for the "hit spark" rel. to p2,
+sparkxy = 0, -10              ;X-offset for the "hit spark" rel. to p2,
 ;Y-offset for the spark rel. to p1
 hitsound = S7020, 0                  ;Sound to play on hit
 guardsound = 6, 0                ;Sound to play on guard
@@ -114,7 +162,7 @@ type = Explod
 trigger1 = AnimElem = 3
 anim = 7011
 ID = 210
-pos = 0, -15
+pos = 0, -13
 postype = p1  ;p2,front,back,left,right
 facing = 1
 vfacing = 1
@@ -130,6 +178,74 @@ shadow = 0,0,0
 ownpal = 1
 removeongethit = 1
 ignorehitpause = 1
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 4
+anim = 7015
+ID = 201
+pos = -18, -24
+postype = p1  ;p2,front,back,left,right
+facing = -1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 13
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 2
+anim = 7015
+ID = 201
+pos = 12, -8
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = -1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 6
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 6
+anim = 7015
+ID = 201
+pos = 0, -9
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = -1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 7
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
 
 [State 210, Hit1]
 type = HitDef
@@ -191,10 +307,10 @@ value = S7000, 1
 
 [State 220, Explod]
 type = Explod
-trigger1 = AnimElem = 4
+trigger1 = AnimElem = 3
 anim = 7012
 ID = 220
-pos = 7, -5
+pos = -2, -11
 postype = p1  ;p2,front,back,left,right
 facing = 1
 vfacing = 1
@@ -204,12 +320,123 @@ accel = 0,0
 random = 0,0
 removetime = -2
 scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 1
+anim = 7015
+ID = 201
+pos = 5, -7
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = -1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 4
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 2
+anim = 7015
+ID = 201
+pos = 11, -18
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 10
+scale = 1,1
 sprpriority = -1
 ontop = 0
 shadow = 0,0,0
 ownpal = 1
 removeongethit = 1
 ignorehitpause = 1
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 3
+anim = 7015
+ID = 201
+pos = -10, -11
+postype = p1  ;p2,front,back,left,right
+facing = -1
+vfacing = -1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 3
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 4
+anim = 7015
+ID = 201
+pos = 10, -21
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 3
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 6
+anim = 7015
+ID = 201
+pos = 14, -18
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 3
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
 
 [State 620, 3]
 type = HitDef
@@ -288,6 +515,28 @@ vel = 0,0
 accel = 0,0
 random = 0,0
 removetime = -2
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 3
+anim = 7015
+ID = 201
+pos = 10, -5
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = -1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 8
 scale = 1,1
 sprpriority = 2
 ontop = 0
@@ -376,6 +625,50 @@ ownpal = 1
 removeongethit = 1
 ignorehitpause = 1
 
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 2
+anim = 7015
+ID = 201
+pos = -8, -5
+postype = p1  ;p2,front,back,left,right
+facing = -1
+vfacing = -1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 6
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 3
+anim = 7015
+ID = 201
+pos = 20, -18
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 12
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
 
 [State 410, 2]
 type = HitDef
@@ -575,17 +868,40 @@ anim = 600
 sprpriority = 1
 facep2 = 1
 
+[State 200, Explod]
+type = Explod
+trigger1 = !Time
+anim = 7015
+ID = 201
+pos = 14, -16
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = -1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 3
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+
 [State 600, 1]
 type = PlaySnd
 trigger1 = Time = 1
 value = 7000, 0
 
-[State 600, Explod]
+[State 200, Explod]
 type = Explod
-trigger1 = AnimElem = 2
+trigger1 = AnimElem = 3
 anim = 7010
-ID = 600
-pos = -10, -15 
+ID = 200
+pos = 10, -16
 postype = p1  ;p2,front,back,left,right
 facing = 1
 vfacing = 1
@@ -594,6 +910,29 @@ vel = 0,0
 accel = 0,0
 random = 0,0
 removetime = -2
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 3
+anim = 7015
+ID = 201
+pos = -15, -27
+postype = p1  ;p2,front,back,left,right
+facing = -1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 5
 scale = 1,1
 sprpriority = 2
 ontop = 0
@@ -611,7 +950,7 @@ guardflag = HA
 priority = 3
 pausetime = 7,8
 sparkno = S7000
-sparkxy = 0, -3
+sparkxy = 0, -16
 hitsound   =  S7020,0
 guardsound = 6,0
 ground.type = High
@@ -684,6 +1023,74 @@ shadow = 0,0,0
 ownpal = 1
 removeongethit = 1
 ignorehitpause = 1
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 4
+anim = 7015
+ID = 411
+pos = 18, -30
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 8
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 2
+anim = 7015
+ID = 411
+pos = -12, -14
+postype = p1  ;p2,front,back,left,right
+facing = -1
+vfacing = -1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 3
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 6
+anim = 7015
+ID = 411
+pos = 0, -15
+postype = p1  ;p2,front,back,left,right
+facing = -1
+vfacing = -1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 6
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
 
 [State 610, Boom]
 type = VelSet
@@ -766,6 +1173,12 @@ anim = 131
 sprpriority = 1
 velset = 0,0
 
+
+[State 611, Pos]
+type = RemoveExplod
+trigger1 = !Time
+ID = 411
+
 [State 611, Pos]
 type = PosSet
 trigger1 = !Time
@@ -802,7 +1215,74 @@ type = Explod
 trigger1 = AnimElem = 3
 anim = 7012
 ID = 220
-pos = 4, -30
+pos = 4, -15
+postype = p1  ;p2,front,back,left,right
+facing = -1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 1
+anim = 7015
+ID = 421
+pos = -5, -13
+postype = p1  ;p2,front,back,left,right
+facing = -1
+vfacing = -1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 2
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 2
+anim = 7015
+ID = 421
+pos = -11, -24
+postype = p1  ;p2,front,back,left,right
+facing = -1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 3
+scale = 1,1
+sprpriority = -1
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 3
+anim = 7015
+ID = 421
+pos = 10, -17
 postype = p1  ;p2,front,back,left,right
 facing = 1
 vfacing = -1
@@ -810,7 +1290,51 @@ bindtime = -1
 vel = 0,0
 accel = 0,0
 random = 0,0
-removetime = -2
+removetime = 2
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 4
+anim = 7015
+ID = 421
+pos = -10, -25
+postype = p1  ;p2,front,back,left,right
+facing = -1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 6
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+[State 200, Explod]
+type = Explod
+trigger1 = AnimElem = 6
+anim = 7015
+ID = 421
+pos = -14, -24
+postype = p1  ;p2,front,back,left,right
+facing = -1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = 3
 scale = 1,1
 sprpriority = 2
 ontop = 0
@@ -883,6 +1407,11 @@ ctrl = 0
 anim = 131
 sprpriority = 1
 velset = 0,0
+
+[State 611, Pos]
+type = RemoveExplod
+trigger1 = !Time
+ID = 421
 
 [State 611, Pos]
 type = PosSet
