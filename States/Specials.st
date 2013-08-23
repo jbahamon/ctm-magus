@@ -702,7 +702,7 @@ trigger1 = Animelem = 3
 trigger2 = Animelem = 7
 trigger3 = Animelem = 11
 attr = A, SA
-damage = IfElse(var(0) = 2, 47, IfElse(var(0) = 1, 42, 37)), 7
+damage = IfElse(var(0) = 2, 35, IfElse(var(0) = 1, 31, 25)), 7
 animtype = Hard
 guardflag = HA
 hitflag = MAF
@@ -809,7 +809,7 @@ type    = S
 movetype= I
 physics = S
 juggle  = 3
-poweradd= 72
+poweradd= 0
 ctrl = 0
 anim = 1020
 sprpriority = -1
@@ -934,11 +934,6 @@ sprpriority = 2
 facep2 = 1
 velset = 0,0
 poweradd = -500
-
-[State 1030, Strength]
-type = VarSet
-trigger1 = !Time
-var(0) = ifelse(command = "qcbc", 2, ifelse(command = "qcbb", 1, 0))
 
 [State 1030, Jump]
 type = PlaySnd

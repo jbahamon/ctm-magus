@@ -562,7 +562,7 @@ Clsn2Default: 1
 LoopStart
 1000,4, 0,0, 5
 1000,5, 0,0, 5
-; Black Wind
+; Dark mist
 [Begin Action 1010]
 Clsn2: 1
   Clsn2[0] = -7, -28, 8, 0
@@ -645,7 +645,7 @@ Clsn2: 1
 
 
 
-; Dark Mist
+; Shadow Walk
 [Begin Action 1020]
 Clsn2: 1
   Clsn2[0] = -7, -27, 9, 0
@@ -658,13 +658,13 @@ Clsn2Default: 1
 100,2, 0,0, 6
 100,3, 0,0, 6
 
-; Dark Mist End
+; Shadow Walk End
 [Begin Action 1021]
 Clsn2: 1
   Clsn2[0] = -7, -27, 9, 0
 5000,0, 0,0, 16
 
-; Dark Mist Back
+; Shadow Walk Back
 [Begin Action 1022]
 Clsn2Default: 1
   Clsn2[0] = -7, -34, 8, -1
@@ -684,10 +684,10 @@ Clsn2Default: 1
 LoopStart
 1030,4, 0,0, 7
 Clsn1: 1
-  Clsn1[0] = -32, -9, 32, 0
+  Clsn1[0] = -26, -9, 27, 0
 1030,5, 0,0, 7
 Clsn1: 1
-  Clsn1[0] = -32, -9, 32, 0
+  Clsn1[0] = -26, -9, 27, 0
 1030,6, 0,0, 7
 
 

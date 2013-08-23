@@ -680,7 +680,7 @@ trigger1 = ctrl
 ; Throws, Rolls, Etc
 ;===========================================================================
 
-[State -1, Napalm]
+[State -1, Magic Bind]
 type = ChangeState
 trigger1 = (command = "recovery" || command = "2p") && (command = "holdfwd" || command = "holdback")
 trigger1 = roundstate = 2 && ctrl && statetype = S && stateno != 100
