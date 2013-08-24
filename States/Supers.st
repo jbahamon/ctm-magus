@@ -507,6 +507,15 @@ trigger1 = !Time && PrevStateNo != 2014
 V = 0
 value = 0
 
+[State 2013, Prevent Undergound Juggles]
+type= targetbind
+trigger1= movehit=1
+trigger1= numtarget=1 && numenemy
+trigger1= (target,time<=1) && (target,ID=enemynear,ID); this is just to prevent Simul issues as usual
+trigger1= !(target,hitshakeover) && (target, hitfall) && (target, pos y>0)
+pos= ceil(p2dist x), ceil(-pos y); keeps P2 at the same horizontal distance, but resets his Y position
+ignorehitpause= 1
+
 [State 1001, Dampen]
 Type = ParentVarset
 Trigger1 = MoveHit
