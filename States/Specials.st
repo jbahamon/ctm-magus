@@ -28,7 +28,7 @@ ignorehitpause = 1
 [State 1000, Pawnch]
 type = Helper
 trigger1 = AnimElem = 5
-trigger1 = Var(22) = 0
+trigger1 = Var(59) = 0
 trigger1 = !Var(21)
 name = "Lightning"
 ID = 1000
@@ -43,7 +43,7 @@ persistent = 0
 [State 1000, Pawnch]
 type = Helper
 trigger1 = AnimElem = 5
-trigger1 = Var(22) = 1
+trigger1 = Var(59) = 1
 trigger1 = !Var(21)
 name = "Water Bubble"
 ID = 1000
@@ -58,7 +58,7 @@ persistent = 0
 [State 1000, Pawnch]
 type = Helper
 trigger1 = AnimElem = 5
-trigger1 = Var(22) = 2
+trigger1 = Var(59) = 2
 trigger1 = !Var(21)
 name = "Fire"
 ID = 1000
@@ -87,7 +87,7 @@ persistent = 0
 
 [State 1040, End]
 type = ChangeState
-trigger1 = Time > (30 + 15 * !Var(22))
+trigger1 = Time > (30 + 15 * !Var(59))
 trigger2 = NumHelper(1000) && Var(21)
 value = 0
 ctrl = 1

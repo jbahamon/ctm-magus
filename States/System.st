@@ -347,13 +347,14 @@ ignorehitpause = 1
 type = VarSet
 trigger1 = !Time
 trigger1 = !Var(21)
-var(22) = (Var(22) + 1) % 3
+V = 59
+value = (Var(59) + 1) % 3
 
 [State 200, Explod]
 type = Explod
 trigger1 = !Time
 trigger1 = !Var(21)
-anim = 7020 + Var(22)
+anim = 7020 + Var(59)
 ID = 200
 pos = 0, -40
 postype = p1  ;p2,front,back,left,right

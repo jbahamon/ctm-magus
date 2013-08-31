@@ -19,7 +19,7 @@ volume = 0
 ;variables repectively, meaning that none are persistent, i.e. all
 ;are reset. If you want your variables to persist between matches,
 ;you need to override state 5900 from common1.cns.
-IntPersistIndex = 60
+IntPersistIndex = 59
 FloatPersistIndex = 40
 
 [Size]
@@ -104,7 +104,7 @@ victory8 = "You got whacked, 'cuz you're weak."
 ; Variables 0-20 are temporary and should be reset before use.
 
 ; Var(21): Protect Timer
-; Var(22): Element (0 = Light, 1 = Water, 2 = Fire)
+; Var(59): Element (0 = Light, 1 = Water, 2 = Fire) Persists!
 
 
 ;FVar(29): Protect Damage

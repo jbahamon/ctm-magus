@@ -732,9 +732,9 @@ value = S7000,1
 [State 420, Explod]
 type = Explod
 trigger1 = AnimElem = 3
-anim = 7030 + Var(22)
+anim = 7030 + Var(59)
 ID = 220
-pos = 20, IfElse(Var(22) = 0, -13, IfElse(Var(22) = 1, -13, -10))
+pos = 20, IfElse(Var(59) = 0, -13, IfElse(Var(59) = 1, -13, -10))
 postype = p1  ;p2,front,back,left,right
 facing = 1
 vfacing = 1
@@ -753,7 +753,7 @@ ignorehitpause = 1
 
 [State 420, 2]
 type = HitDef
-trigger1 = !Time && Var(22) = 0
+trigger1 = !Time && Var(59) = 0
 attr = C, NA
 damage    = 53
 animtype  = Hard
@@ -781,7 +781,7 @@ air.cornerpush.veloff = 0
 
 [State 420, 2]
 type = HitDef
-trigger1 = !Time && Var(22) = 1
+trigger1 = !Time && Var(59) = 1
 attr = C, NA
 damage    = 53
 animtype  = Hard
@@ -811,7 +811,7 @@ air.cornerpush.veloff = 0
 
 [State 420, 2]
 type = HitDef
-trigger1 = !Time && Var(22) = 2
+trigger1 = !Time && Var(59) = 2
 attr = C, NA
 damage    = 53
 animtype  = Hard
@@ -1522,7 +1522,7 @@ persistent = 0
 type = Helper
 trigger1 = Target, StateNo = 803 
 trigger1 = Target, Time = 5 || Target, Time = 15 || Target, Time = 30
-trigger1 = Var(22) = 0
+trigger1 = Var(59) = 0
 trigger1 = !Var(21)
 name = "Lightning"
 ID = 800
@@ -1537,7 +1537,7 @@ ownpal = 1
 type = Helper
 trigger1 = Target, StateNo = 803 
 trigger1 = Target, Time = 5 || Target, Time = 15 || Target, Time = 30
-trigger1 = Var(22) = 1
+trigger1 = Var(59) = 1
 trigger1 = !Var(21)
 name = "Water Bubble"
 ID = 800
@@ -1552,7 +1552,7 @@ ownpal = 1
 type = Helper
 trigger1 = Target, StateNo = 803 
 trigger1 = Target, Time = 5 || Target, Time = 15 || Target, Time = 30
-trigger1 = Var(22) = 2
+trigger1 = Var(59) = 2
 trigger1 = !Var(21)
 name = "Fire"
 ID = 800
