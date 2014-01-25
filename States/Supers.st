@@ -562,9 +562,9 @@ ignorehitpause = 1
 [State 2013, HitDef]
 type = HitDef
 trigger1 = Time % 10 = 0
-trigger1 = AnimElemNo(0) < 53
+trigger1 = AnimElemNo(0) < 30
 attr = S, HP
-damage = Ceil(22 * Parent, FVar(39)),3
+damage = Ceil(25 * Parent, FVar(39)),3
 animtype = Hard
 air.type = Low
 guardflag = M

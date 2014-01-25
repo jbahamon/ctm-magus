@@ -47,6 +47,30 @@ Physics = N
 ctrl=0
 sprpriority = 3
 
+[State 11777]
+Type=StateTypeSet ; You want to mimic the statetype of the player, to let the correct types of attacks hit only
+Trigger1 = root,statetype = A
+Trigger1 = statetype != A
+Statetype = A
+
+[State 11777]
+Type=StateTypeSet
+Trigger1 = root,statetype = C
+trigger1 = statetype != C
+Statetype = C
+
+[State 11777]
+Type = StateTypeSet
+Trigger1 = root,statetype = S
+trigger1 = statetype != S
+Statetype=S
+
+[State 11777]
+Type = StateTypeSet
+Trigger1 = root,statetype = L
+trigger1 = statetype != L
+Statetype =L
+
 [State 11777: Pal]
 type = RemapPal
 trigger1 = !Time
