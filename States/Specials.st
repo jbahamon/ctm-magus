@@ -94,7 +94,7 @@ ctrl = 1
 
 ;Lightning
 [Statedef 1001]
-type = A
+type = S
 physics = N
 movetype = A
 anim = 7100
@@ -140,7 +140,7 @@ triggerall = !MoveContact
 triggerall = !MoveReversed
 trigger1 = Time > 0
 priority = 6, Hit
-attr = A,SP
+attr = S,SP
 damage = Floor(Parent, FVar(39)*60), 4
 animtype = Hard
 hitflag = MAF
@@ -193,7 +193,7 @@ ignorehitpause = 1
 
 ;Water Bubble
 [Statedef 1002]
-type = A
+type = S
 physics = N
 movetype = A
 anim = 7101
@@ -235,7 +235,7 @@ triggerall = !MoveContact
 triggerall = !MoveReversed
 trigger1 = Time > 0
 priority = 6, Hit
-attr = A,SP
+attr = S,SP
 damage = Floor(Parent, FVar(39)*60), 4
 animtype = Hard
 hitflag = MAF
@@ -291,7 +291,7 @@ ignorehitpause = 1
 
 ; Fire
 [Statedef 1003]
-type    = A
+type    = S
 movetype= A
 physics = N
 juggle  = 3
@@ -343,7 +343,7 @@ triggerall = !MoveContact
 triggerall = !MoveReversed
 trigger1 = Time > 0
 priority = 6, Hit
-attr = A,SP
+attr = S,SP
 damage = Floor(Parent, FVar(39)*60), 4
 animtype = Hard
 hitflag = MAF
@@ -505,7 +505,7 @@ triggerall = !MoveContact
 triggerall = !MoveReversed
 trigger1 = Time > 0
 priority = 6, Hit
-attr = A,SP
+attr = S,SP
 damage = Floor(Parent, FVar(39)*120), 4
 animtype = Hard
 hitflag = MAF
@@ -704,7 +704,7 @@ trigger3 = Animelem = 11
 attr = A, SA
 damage = IfElse(var(0) = 2, 35, IfElse(var(0) = 1, 31, 25)), 7
 animtype = Hard
-guardflag = HA
+guardflag = MA
 hitflag = MAF
 priority = 4, Hit
 pausetime = 7, 7

@@ -1172,14 +1172,14 @@ Clsn2Default:1
 
 ; Hitspark - Big Upwards slash
 [Begin Action 7002]
-7000,5, 5,-17, 3, V
+7000,5, 7,-20, 3, V
 7000,7, 6,-25, 3, V
 7000,22, -4,-8, 3, V
 
 
 ; Hitspark - Big downwards slash
 [Begin Action 7003]
-7000,5, 5,17, 4
+7000,5, 7,16, 4
 7000,7, 6,14, 3
 7000,22, -9,-1, 3
 

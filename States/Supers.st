@@ -81,7 +81,7 @@ ctrl = 1
 
 ;Hell Geyser 
 [Statedef 2002]
-type    = A
+type    = S
 movetype= A
 physics = N
 poweradd= 0
@@ -97,11 +97,9 @@ value = 0
 
 [State 1001, Dampen]
 Type = ParentVarset
-Trigger1 = MoveHit
-trigger1 = Var(1)
-trigger1 = Var(1) := 1
-fvar(39) = parent, Fvar(39)*0.86
-persistent = 0
+Triggerall = MoveHit
+trigger1 = Parent, FVar(39) > 0.86
+fvar(39) = Parent, Fvar(39)*0.86
 ignorehitpause = 1
 
 [State 2003, RealTime]
@@ -291,7 +289,7 @@ ignorehitpause = 1
 
 ;Hell Geyser GetHit
 [Statedef 2003]
-type    = A
+type    = S
 movetype= H
 physics = N
 poweradd= 0
@@ -470,7 +468,7 @@ ctrl = 1
 
 ;Dark Matter (invisible)
 [Statedef 2012]
-type    = A
+type    = S
 movetype= I
 physics = N
 ctrl = 0
@@ -493,7 +491,7 @@ ignorehitpause = 1
 
 ;Dark Matter Projectile
 [Statedef 2013]
-type    = A
+type    = S
 movetype= A
 physics = N
 poweradd= 0
@@ -564,7 +562,7 @@ type = HitDef
 trigger1 = Time % 10 = 0
 trigger1 = AnimElemNo(0) < 30
 attr = S, HP
-damage = Ceil(25 * Parent, FVar(39)),3
+damage = Ceil(55 * Parent, FVar(39)),3
 animtype = Hard
 air.type = Low
 guardflag = M
@@ -648,7 +646,7 @@ ignorehitpause = 1
 
 ;Dark Matter GetHit
 [Statedef 2014]
-type    = A
+type    = S
 movetype= H
 physics = N
 poweradd= 0
@@ -909,14 +907,14 @@ ignorehitpause = 1
 type = TargetLifeAdd
 trigger1 = Time = [16, 120]
 trigger1 = GameTime % 4 = 3
-value = -6
+value = -4
 kill = 0
 ignorehitpause = 1
 
 [State 200, Explod]
 type = TargetLifeAdd
 trigger1 = Time = 140
-value = -37
+value = -31
 ignorehitpause = 1
 persistent = 0
 
