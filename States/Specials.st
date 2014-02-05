@@ -21,8 +21,19 @@ var(0) = IfElse(command = "qcfc", 2, IfElse(command = "qcfb", 1, 0))
 
 [State 1100, JumpSnd]
 type = PlaySnd
-trigger1 = AnimElem = 3
-value = S7000,1
+trigger1 = !Time
+trigger1 = !Var(21)
+value = S7100,Var(59)
+channel = 0
+ignorehitpause = 1
+
+
+[State 1100, JumpSnd]
+type = PlaySnd
+trigger1 = !Time
+trigger1 = Var(21)
+value = S7100,3
+channel = 0
 ignorehitpause = 1
 
 [State 1000, Pawnch]
@@ -84,11 +95,10 @@ keyctrl = 0
 ownpal = 1
 persistent = 0
 
-
 [State 1040, End]
 type = ChangeState
 trigger1 = Time > (30 + 15 * !Var(59))
-trigger2 = NumHelper(1000) && Var(21)
+trigger2 = NumHelper(1000) && Helper, Time > 20 && Var(21)
 value = 0
 ctrl = 1
 
@@ -101,6 +111,13 @@ anim = 7100
 ctrl = 0
 velset = 0,0
 sprpriority = 3
+
+[State 1001, Snd]
+type = PlaySnd
+trigger1 = !Time
+channel = 0
+value = S7101,0
+ignorehitpause = 1
 
 [State 1002, Strength]
 type = VarSet
@@ -349,6 +366,7 @@ animtype = Hard
 hitflag = MAF
 guardflag = MA
 pausetime = 0, 8
+hitsound = S7101,2
 sparkno = -1
 ground.type = High
 ground.slidetime = 20
@@ -450,8 +468,10 @@ sprpriority = 4
 [State 1015, snd]
 type = PlaySnd
 trigger1 = !Time
-value = S7010,4
+value = S7101,1
 channel = 1
+ignorehitpause = 1
+persistent = 0
 
 [State 1015, assert]
 type = AssertSpecial
@@ -474,6 +494,12 @@ anim = 7106
 ctrl = 0
 velset = 0,0
 sprpriority = 4
+
+[State 1002, Strength]
+type = PlaySnd
+trigger1 = !time && PrevStateNo != 1008
+value = S7110,0
+
 
 [State 1002, Strength]
 type = VarSet
@@ -617,7 +643,9 @@ ignorehitpause = 1
 
 [State 1100, JumpSnd]
 type = PlaySnd
-trigger1 = AnimElem = 3
+trigger1 = Animelem = 3
+trigger2 = Animelem = 7
+trigger3 = Animelem = 11
 value = S7000,1
 ignorehitpause = 1
 
@@ -710,7 +738,7 @@ priority = 4, Hit
 pausetime = 7, 7
 sparkno = S7007
 sparkxy = -10, -25
-hitsound = s2, 6
+hitsound = S7040,1
 guardsound = s2, 0
 ground.type = High
 ground.slidetime = 16
@@ -816,7 +844,6 @@ sprpriority = -1
 facep2 = 1
 velset = 0,0
 
-
 [State 1010, Strength]
 type = VarSet
 trigger1 = !Time
@@ -841,6 +868,12 @@ value = , AA, AP
 type = PlayerPush
 trigger1 = AnimElemNo(0) >= 2
 value = 0
+
+[State 1020, Strength]
+type = PlaySnd
+trigger1 = AnimElem = 2
+value = s7000,1
+persistent = 0
 
 [State 1020, Strength]
 type = VelSet

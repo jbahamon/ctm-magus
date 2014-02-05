@@ -18,7 +18,6 @@ sprpriority = 1                  ;Set p1's sprite layering priority to 2 (in fro
 facep2 = 1
 
 
-
 [State 200, Explod]
 type = Explod
 trigger1 = AnimElem = 3
@@ -101,7 +100,7 @@ pausetime = 8, 8                 ;Time attacker pauses, time opponent shakes
 sparkno = S7000                      ;Spark anim no (Def: set above)
 sparkxy = 0, -10              ;X-offset for the "hit spark" rel. to p2,
 ;Y-offset for the spark rel. to p1
-hitsound = S7020, 0                  ;Sound to play on hit
+hitsound = S7040, 0                  ;Sound to play on hit
 guardsound = 6, 0                ;Sound to play on guard
 ground.type = High               ;Type: High, Low, Trip (def: Normal)
 ground.slidetime = 3             ;Time that the opponent slides back
@@ -154,7 +153,7 @@ facep2 = 1
 
 [State 210, 1]
 type = PlaySnd
-trigger1 = AnimElem = 2
+trigger1 = AnimElem = 3
 value = S7000, 0
 
 [State 210, Explod]
@@ -448,7 +447,7 @@ priority = 4
 pausetime = 12, 12
 sparkno = S7002
 sparkxy = -5, -20
-hitsound   = S7020,2
+hitsound   = S7040,2
 guardsound = 6,0
 animtype = DiagUp
 ground.type = High
@@ -724,11 +723,6 @@ anim = 420
 sprpriority = 1
 facep2 = 1
 
-[State 420, 1]
-type = PlaySnd
-trigger1 = AnimElem = 4
-value = S7000,1
-
 [State 420, Explod]
 type = Explod
 trigger1 = AnimElem = 3
@@ -761,7 +755,7 @@ hitflag = MAF
 guardflag = LA
 pausetime = 20,20
 sparkno = -1
-hitsound   = S7020,4
+hitsound   = S7101,0
 fall = 1
 guardsound = 6,0
 ground.type = Low
@@ -789,7 +783,7 @@ hitflag = MAF
 guardflag = L
 pausetime = 20,20
 sparkno = -1
-hitsound   = S7020,4
+hitsound   = -1
 fall = 1
 guardsound = 6,0
 ground.type = Low
@@ -809,6 +803,20 @@ palfx.invertall = 1
 ground.cornerpush.veloff = 0
 air.cornerpush.veloff = 0
 
+[State 420, snd]
+type = PlaySnd
+trigger1 = AnimElem = 3
+trigger1 = Var(59) > 0
+value = S7101,Var(59)
+persistent = 0
+
+[State 420, snd]
+type = PlaySnd
+trigger1 = AnimElem = 3
+trigger1 = Var(59) = 0
+value = S7000,1
+persistent = 0
+
 [State 420, 2]
 type = HitDef
 trigger1 = !Time && Var(59) = 2
@@ -819,7 +827,7 @@ hitflag = MAF
 guardflag = L
 pausetime = 20,20
 sparkno = -1
-hitsound   = S7020,4
+hitsound   = -1
 fall = 1
 guardsound = 6,0
 ground.type = Low
@@ -952,7 +960,7 @@ priority = 3
 pausetime = 7,8
 sparkno = S7000
 sparkxy = 0, -16
-hitsound   =  S7020,0
+hitsound   =  S7040,0
 guardsound = 6,0
 ground.type = High
 ground.slidetime = 5
@@ -1116,7 +1124,7 @@ priority = 3
 pausetime = 8,8
 sparkno = S7007
 sparkxy = -10, -25
-hitsound   = S7020,3
+hitsound   = S7040,1
 guardsound = 6,0
 ground.type = High
 ground.slidetime = 6
@@ -1356,7 +1364,7 @@ priority = 4
 pausetime = 12,12
 sparkno = S7003
 sparkxy = 0,-10
-hitsound   = S7020,2
+hitsound   = S7040,2
 guardsound = 6,0
 animtype = Med
 ground.type = High

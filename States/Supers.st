@@ -39,7 +39,7 @@ trigger1 = time = 1
 time = 45
 movetime = 45
 anim = -1
-sound = S7010,2
+sound = S7100,3
 p2defmul = 1
 darken = 0
 
@@ -400,7 +400,7 @@ ctrl = 0
 anim = 2010
 poweradd = -1000
 sprpriority = 2
-juggle = 14
+juggle = 8
 
 [State 2010, NHB]
 type = NotHitBy
@@ -427,7 +427,7 @@ trigger1 = time = 1
 time = 45
 movetime = 45
 anim = -1
-sound = S7010,2
+sound = S7100,3
 p2defmul = 1
 darken = 0
 
@@ -498,6 +498,11 @@ poweradd= 0
 ctrl = 0
 sprpriority = 0
 juggle = 14
+
+[State 2013, Snd]
+type = PlaySnd
+trigger1 = !Time && PrevStateNo != 2014
+value = S7200,0
 
 [State 2013, Damage Var]
 type = VarSet
@@ -757,7 +762,7 @@ trigger1 = time = 1
 time = 45
 movetime = 45
 anim = -1
-sound = S7000,2
+sound = S7010,6
 p2defmul = 1
 darken = 0
 
@@ -926,6 +931,12 @@ time = 30
 ampl = 8
 ignorehitpause = 1
 persistent = 0
+
+[State 2022, Snd]
+type = PlaySnd
+trigger1 = Time = 140
+value = S7040,3
+
 
 [State 200, Explod]
 type = TargetState
@@ -1185,6 +1196,11 @@ ctrl = 0
 anim = 7008
 sprpriority = 4
 velset = 0,0
+
+[State 2026, Snd]
+type = PlaySnd
+trigger1 = !Time
+value = S7040,1
 
 [state 2014, dist x]
 type = AssertSpecial
@@ -1752,7 +1768,6 @@ velset = 0,0
 sprpriority = 1
 facep2 = 1
 
-
 [State 200, Explod]
 type = Explod
 trigger1 = !Time
@@ -1802,7 +1817,7 @@ time = 60
 movetime = 60
 anim = -1
 pos = 0, -20
-sound = S7010,2
+sound = S7100,3
 p2defmul = 1
 darken = 0
 
