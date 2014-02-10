@@ -1452,7 +1452,7 @@ velset = 0,0
 [State 803, Pal]
 type = PalFX
 trigger1 = 1
-add = Floor(64 * Sin(Time * Pi/16.0)), Floor(64 * Sin(Time * Pi/16.0)), Floor(64 * Sin(Time * Pi/16.0))
+add = Floor(32 * Sin(Time * Pi/16.0)) + 32, 32 + Floor(32 * Sin(Time * Pi/16.0)), 32 + Floor(32 * Sin(Time * Pi/16.0))
 mul = 256, 256, 256
 time = 1
 
@@ -1505,6 +1505,11 @@ ctrl = 0
 sprpriority = 1
 poweradd = IfElse(Var(21) > 0, 0, 72)
 velset = 0,0
+
+[State 800, Sound]
+type = PlaySnd
+trigger1 = AnimElem = 3
+value = S7000,1
 
 [State 801, Bind]
 type = TargetBind
@@ -1635,6 +1640,15 @@ ctrl = 0
 sprpriority = 0
 
 [State 803, Life]
+type = PalFx
+trigger1 = Time = 5
+trigger2 = Time = 15
+trigger3 = Time = 30
+add = 200, 200, 200
+mul = 256, 256, 256
+time = 5
+
+[State 803, Life]
 type = EnvShake
 trigger1 = Time = 5
 trigger2 = Time = 15
@@ -1711,6 +1725,13 @@ ctrl = 0
 velset = 0,0
 sprpriority = 3
 
+[State 1001, Snd]
+type = PlaySnd
+trigger1 = !Time
+channel = 0
+value = S7101,0
+ignorehitpause = 1
+
 [State 1001, NoShadow]
 type = AssertSpecial
 trigger1 = 1
@@ -1760,6 +1781,14 @@ ctrl = 0
 velset = 0,0
 sprpriority = 4
 
+[State 1015, snd]
+type = PlaySnd
+trigger1 = !Time
+value = S7101,1
+channel = 1
+ignorehitpause = 1
+persistent = 0
+
 [State 1002, Strength]
 type = VarSet
 trigger1 = !time
@@ -1785,6 +1814,14 @@ ctrl = 0
 anim = 7042
 sprpriority = 2
 velset = 0, -0.4
+
+[State 1015, snd]
+type = PlaySnd
+trigger1 = !Time
+value = S7101,2
+channel = 1
+ignorehitpause = 1
+persistent = 0
 
 [State 1002, NoShadow]
 type = AssertSpecial
@@ -1822,6 +1859,11 @@ ctrl = 0
 anim = 7107
 sprpriority = 2
 velset = 0, 0
+
+[State 1002, Strength]
+type = PlaySnd
+trigger1 = !Time
+value = S7110,0
 
 [State 1015, assert]
 type = Trans

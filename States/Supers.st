@@ -90,6 +90,12 @@ sprpriority = 3
 velset = 0,0
 
 [State 2013, Damage Var]
+type = PlaySnd
+trigger1 = !Time && PrevStateNo != 2003
+value = S7120,0
+ignorehitpause = 1
+
+[State 2013, Damage Var]
 type = VarSet
 trigger1 = !Time && PrevStateNo != 2003
 V = 1
@@ -1264,9 +1270,16 @@ trigger1 = time = 1
 time = 45
 movetime = 45
 anim = -1
-sound = S7000,2
+sound = S7000,1
 p2defmul = 1
 darken = 0
+
+[State 2020, Attack]
+type = PlaySnd
+trigger1 = AnimElem = 4
+value = S7010,5
+channel = 0
+persistent = 0
 
 [State 2020, Attack]
 type = VelSet
@@ -1394,6 +1407,23 @@ ownpal = 1
 removeongethit = 1
 ignorehitpause = 1
 persistent = 0
+
+[State 2002, BoomSnd]
+type = PlaySnd
+triggerall = NumTarget
+trigger1 = Anim = 2102
+trigger1 = AnimElemTime(3) = 20
+trigger2 = Anim = 2104 && AnimElemTime(3) = 60
+value = S7101,0
+channel = 0
+
+[State 2002, BoomSnd]
+type = PlaySnd
+triggerall = NumTarget
+trigger1 = Anim = 2104
+trigger1 = AnimElem = 3
+value = S7120,0
+channel = 0
 
 [State 2002, Custom]
 type = Helper

@@ -27,15 +27,6 @@ value = S7100,Var(59)
 channel = 0
 ignorehitpause = 1
 
-
-[State 1100, JumpSnd]
-type = PlaySnd
-trigger1 = !Time
-trigger1 = Var(21)
-value = S7100,3
-channel = 0
-ignorehitpause = 1
-
 [State 1000, Pawnch]
 type = Helper
 trigger1 = AnimElem = 5
@@ -98,7 +89,8 @@ persistent = 0
 [State 1040, End]
 type = ChangeState
 trigger1 = Time > (30 + 15 * !Var(59))
-trigger2 = NumHelper(1000) && Helper, Time > 20 && Var(21)
+trigger2 = NumHelper(1000)
+trigger2 = (Helper(1000), Time > 20 && Var(21))
 value = 0
 ctrl = 1
 
@@ -158,7 +150,7 @@ triggerall = !MoveReversed
 trigger1 = Time > 0
 priority = 6, Hit
 attr = S,SP
-damage = Floor(Parent, FVar(39)*60), 4
+damage = Floor(Parent, FVar(39)*40), 4
 animtype = Hard
 hitflag = MAF
 guardflag = MA
@@ -253,7 +245,7 @@ triggerall = !MoveReversed
 trigger1 = Time > 0
 priority = 6, Hit
 attr = S,SP
-damage = Floor(Parent, FVar(39)*60), 4
+damage = Floor(Parent, FVar(39)*50), 4
 animtype = Hard
 hitflag = MAF
 guardflag = MA
@@ -500,7 +492,6 @@ type = PlaySnd
 trigger1 = !time && PrevStateNo != 1008
 value = S7110,0
 
-
 [State 1002, Strength]
 type = VarSet
 trigger1 = !time
@@ -555,6 +546,8 @@ envshake.time = 8
 envshake.freq = 120
 envshake.ampl = 2
 getpower = IfElse(Parent, Var(21) > 0, 0, 20)
+ID=1010
+nochainid=1010
 
 [State 200, Dampen]
 Type = ParentVarset
@@ -971,7 +964,8 @@ poweradd = -500
 [State 1030, Jump]
 type = PlaySnd
 trigger1 = !Time
-value = 7010,1
+value = 7100,3
+channel = 0
 
 [State 1030, Jump]
 type = VarSet
@@ -998,7 +992,7 @@ attr = A, ST
 hitflag = M-
 priority = 2, Miss
 sparkno = -1
-hitsound = s7010, 0
+hitsound = -1
 p1stateno = 1034
 p2stateno = 1036
 guard.dist = 0
@@ -1025,6 +1019,13 @@ juggle  = 3
 ctrl = 0
 anim = 7050
 sprpriority = -1
+
+
+[State 1031, Scale]
+type = PlaySnd
+trigger1 = !Time
+value = S7120,0
+ignorehitpause = 1
 
 [State 1030, Wave]
 type = Helper
@@ -1125,6 +1126,7 @@ type    = S
 movetype= I
 physics = N
 ctrl = 0
+
 
 [State 1031, Scale]
 type = AngleDraw

@@ -230,6 +230,12 @@ ownpal = 1
 removeongethit = 1
 ignorehitpause = 1
 
+[State 195, Snd]
+trigger1 = !Time
+type = PlaySNd
+channel = 0
+value = S7100,3
+
 [State 195, 2]
 type = ChangeState
 trigger1 = AnimTime = 0
@@ -240,31 +246,6 @@ ctrl = 1
 ; WinPoses
 ;===========================================================================
 
-;SGS
-[Statedef 300]
-type = S
-sprpriority = -1
-
-[State 362, Anim]
-type = ChangeAnim
-trigger1 = PrevStateNo = 2102 && !AnimTime
-value = 2104
-
-[State 362, Kanji]
-type = helper
-trigger1 = !time && PrevStateNo = 2102 && !numhelper(2103)
-helpertype = normal
-stateno = 2103
-ID = 2103
-postype = left
-ownpal = 1
-persistent = 0
-
-[State 362, win]
-type = changestate
-trigger1 = time >= 120 && roundstate = 3
-value = ifelse(roundstate = 3, 180, 0)
-ctrl = 1
 
 ;---------------------------------------------------------------------------
 ; Override common states (use same number to override) :
