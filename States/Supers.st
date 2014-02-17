@@ -1843,8 +1843,8 @@ supermovetime = 9999
 [State 2110, Super Pause]
 type = SuperPause
 trigger1 = Time = 1
-time = 60
-movetime = 60
+time = 45
+movetime = 45
 anim = -1
 pos = 0, -20
 sound = S7100,3
