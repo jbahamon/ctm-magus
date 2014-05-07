@@ -242,6 +242,90 @@ trigger1 = AnimTime = 0
 value = 0
 ctrl = 1
 
+;---------------------------------------------------------------------------
+; Taunt - Magic Toggle
+[Statedef 196]
+type = A
+ctrl = 0
+anim = 195
+movetype = I
+physics = N
+sprpriority = 1
+
+[State 200, Explod]
+type = VelMul
+trigger1 = !time
+X = 0.5
+Y = 0
+ignorehitpause = 1
+
+[State 200, Explod]
+type = VelAdd
+trigger1 = 1
+Y = 0.01
+ignorehitpause = 1
+
+[State 200, Explod]
+type = PosSet
+trigger1 = Vel Y > 0 && Vel Y >= - Pos Y
+Y = 0
+ignorehitpause = 1
+
+[State 200, Explod]
+type = ChangeState
+trigger1 = Pos Y >= 0
+value = 52
+ctrl = 0
+ignorehitpause = 1
+
+[State 200, Explod]
+type = RemoveExplod
+trigger1 = !Time
+ID = 200
+ignorehitpause = 1
+
+[State 195, Switch Element]
+type = VarSet
+trigger1 = !Time
+trigger1 = !Var(21)
+V = 59
+value = (Var(59) + 1) % 3
+
+[State 200, Explod]
+type = Explod
+trigger1 = !Time
+trigger1 = !Var(21)
+anim = 7020 + Var(59)
+ID = 200
+pos = 0, -40
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+scale = 1,1
+sprpriority = 2
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+
+[State 195, Snd]
+trigger1 = !Time
+type = PlaySNd
+channel = 0
+value = S7100,3
+
+[State 195, 2]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 50
+ctrl = 1
+
 ;===========================================================================
 ; WinPoses
 ;===========================================================================

@@ -138,7 +138,6 @@ ignorehitpause=1
 
 [Statedef -3]
 
-
 [State -3, Prevent Undergound Juggles]
 type= targetbind
 trigger1= movehit=1

@@ -1306,6 +1306,12 @@ trans = add1
 time = 2; only 2 ticks!!!
 ignorehitpause = 1
 
+[State 1020, Width]
+type = PlayerPush
+trigger1 = 1
+value = 0
+ignorehitpause = 1
+
 [State 3060,Hit]
 type = HitDef
 trigger1 = time = 1

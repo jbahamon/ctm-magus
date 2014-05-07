@@ -672,8 +672,8 @@ trigger2 = (stateno = [200, 299]) && MoveContact
 [State -1, Black Hole]
 type = ChangeState
 value = 1030
+triggerall = StateType != A && Power >=500
 triggerall = Command = "dba" || Command = "dbb" || Command = "dbc" 
-trigger1 = statetype != A
 trigger1 = ctrl
 
 ;===========================================================================
@@ -737,6 +737,14 @@ triggerall = command = "start"
 trigger1 = statetype = S
 trigger1 = ctrl
 trigger2 = StateNo = 195
+
+;Taunt (Air)
+[State -1, Taunt]
+type = ChangeState
+value = 196
+triggerall = command = "start"
+trigger1 = statetype = A
+trigger1 = ctrl
 
 ;---------------------------------------------------------------------------
 ;Crouching Light
