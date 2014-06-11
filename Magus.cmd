@@ -673,7 +673,7 @@ trigger2 = (stateno = [200, 299]) && MoveContact
 type = ChangeState
 value = 1030
 triggerall = StateType != A && Power >=500
-triggerall = Command = "dba" || Command = "dbb" || Command = "dbc" 
+triggerall = Command = "qcba" || Command = "qcbb" || Command = "qcbc" 
 trigger1 = ctrl
 
 ;===========================================================================

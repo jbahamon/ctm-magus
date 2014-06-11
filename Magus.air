@@ -22,6 +22,11 @@ Clsn2:1
 0,0, 0,0, 12
 
 
+; Head
+[Begin Action 14500]
+-1,0, 0,0, 10
+14500,0, 0,0, -1
+
 ; Turning
 [Begin Action 5]
 Clsn2:1
