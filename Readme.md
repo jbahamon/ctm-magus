@@ -38,7 +38,7 @@ This attack's angle and speed depend on the button used.
 
 Magus casts a basic spell using his current magic mode. 
 
-Light summons a lightning that falls at a distance that depends on 
+Light summons lightning that falls at a distance that depends on 
 the button pressed.
 
 Water creates a small bubble that travels a short distance and stays 
